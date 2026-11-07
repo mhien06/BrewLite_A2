@@ -2,7 +2,7 @@
 
 ## 1. Yêu cầu chức năng
 
-Các yêu cầu được ưu tiên theo MoSCoW: **Must** (bắt buộc), **Should** (nên có), **Could** (có thể có), **Won't** (không thuộc MVP). BrewLite phục vụ một cửa hàng, cho phép đặt đồ uống trực tuyến và nhận tại quầy. Thanh toán sử dụng **VNPay Sandbox**, không phát sinh giao dịch tiền thật.
+Các yêu cầu được ưu tiên theo MoSCoW: **Must** (bắt buộc), **Should** (nên có), **Could** (có thể có), **Won't** (không thuộc MVP). BrewLite phục vụ một cửa hàng, cho phép đặt đồ uống trực tuyến và nhận tại quầy. **VNPay Sandbox đóng vai trò Payment Service mô phỏng bên ngoài**; hệ thống chỉ xử lý giao dịch thử nghiệm, không phát sinh tiền thật và không vận hành thanh toán production.
 
 ### 1.1. Menu và sản phẩm
 
@@ -183,7 +183,7 @@ Ranh giới sơ đồ: **HỆ THỐNG BREWLITE**.
 | ACT-01 | Khách hàng | Xem menu, giỏ hàng, tài khoản, đặt và thanh toán đơn, xem đơn của mình. |
 | ACT-02 | Nhân viên quầy | Đăng nhập, đăng xuất, xem đơn cửa hàng và cập nhật trạng thái xử lý. |
 | ACT-03 | Quản lý cửa hàng | Đăng nhập, đăng xuất, xem đơn cửa hàng và cập nhật trạng thái xử lý. |
-| ACT-04 | VNPay Sandbox | Dịch vụ thanh toán bên ngoài BrewLite, tương tác với UC-08. |
+| ACT-04 | VNPay Sandbox | Payment Service mô phỏng bên ngoài BrewLite, tương tác với UC-08 và không xử lý tiền thật. |
 
 ### 3.2. Các Use Case
 

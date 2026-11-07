@@ -2,12 +2,12 @@
 
 ## 1. Actor và các Use Case
 
-**Ranh giới hệ thống:** HỆ THỐNG BREWLITE. Hệ thống phục vụ một cửa hàng; khách đặt đồ uống trực tuyến, thanh toán thử nghiệm qua VNPay Sandbox và nhận tại quầy. VNPay Sandbox là dịch vụ bên ngoài, không xử lý tiền thật.
+**Ranh giới hệ thống:** HỆ THỐNG BREWLITE. Hệ thống phục vụ một cửa hàng; khách đặt đồ uống trực tuyến, thanh toán thử nghiệm qua VNPay Sandbox và nhận tại quầy. VNPay Sandbox đóng vai trò **Payment Service mô phỏng bên ngoài**, không xử lý tiền thật và không thuộc phạm vi triển khai của BrewLite.
 
 | Mã | Actor | Vai trò |
 |---|---|---|
 | ACT-01 | Khách hàng | Đặt đơn từ giỏ hàng, khởi tạo thanh toán, xem kết quả và trạng thái đơn của mình. |
-| ACT-04 | VNPay Sandbox | Cung cấp trang thanh toán thử nghiệm, chuyển khách về BrewLite và gửi thông báo kết quả thanh toán cho backend. |
+| ACT-04 | VNPay Sandbox | Payment Service mô phỏng cung cấp trang thanh toán thử nghiệm, chuyển khách về BrewLite và gửi thông báo kết quả thanh toán cho backend. |
 
 Nhân viên quầy và quản lý cửa hàng chỉ xử lý đơn sau khi hệ thống đã xác nhận thanh toán; không trực tiếp tham gia hai Use Case này.
 

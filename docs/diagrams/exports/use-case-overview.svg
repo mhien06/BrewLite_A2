@@ -33,6 +33,7 @@
 <circle cx="1775" cy="203" r="12" fill="#ffffff" stroke="#000000" stroke-width="2.2"/>
 <path d="M 1775 215 L 1775 259 M 1751 233 L 1799 233 M 1775 259 L 1753 291 M 1775 259 L 1797 291" fill="none" stroke="#000000" stroke-width="2.2"/>
 <text x="1775" y="317" text-anchor="middle" font-family="Arial,sans-serif" font-size="17" fill="#000000">VNPay Sandbox</text>
+<text x="1775" y="339" text-anchor="middle" font-family="Arial,sans-serif" font-size="15" fill="#000000">«Payment Service»</text>
 <ellipse cx="880" cy="142" rx="230" ry="47" fill="#ffffff" stroke="#000000" stroke-width="1.6"/>
 <text x="880" y="148" text-anchor="middle" font-family="Arial,sans-serif" font-size="17" fill="#000000">Xem menu</text>
 <ellipse cx="880" cy="264" rx="230" ry="47" fill="#ffffff" stroke="#000000" stroke-width="1.6"/>
