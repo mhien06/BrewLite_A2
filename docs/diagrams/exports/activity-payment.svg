@@ -1,105 +1,119 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2720" height="2950" viewBox="0 0 2720 2950" style="background:#ffffff;color-scheme:light">
+<svg xmlns="http://www.w3.org/2000/svg" width="2720" height="3200" viewBox="0 0 2720 3200" style="background:#ffffff;color-scheme:light">
 <defs><marker id="arr" markerWidth="12" markerHeight="10" refX="11" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L11,5 L1,9 Z" fill="#111111"/></marker></defs>
-<rect width="2720" height="2950" fill="#ffffff"/>
-<text x="1360.0" y="48" fill="#111111" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle">2. Chi tiết xử lý thanh toán VNPay Sandbox (Activity Payment)</text>
-<rect x="20" y="80" width="420" height="2840" fill="none" stroke="#777777" stroke-width="1.5"/>
+<rect width="2720" height="3200" fill="#ffffff"/>
+<text x="1360.0" y="48" fill="#111111" font-family="Arial" font-size="26" font-weight="700" text-anchor="middle">2. Khởi tạo thanh toán VNPay Sandbox, Idempotency &amp; xử lý IPN (Activity Payment)</text>
+<rect x="20" y="80" width="420" height="3090" fill="none" stroke="#777777" stroke-width="1.5"/>
 <line x1="20" y1="135" x2="440" y2="135" stroke="#777777" stroke-width="1.5"/>
 <text x="230.0" y="116" fill="#111111" font-family="Arial" font-size="20" font-weight="700" text-anchor="middle">Khách hàng</text>
-<rect x="440" y="80" width="480" height="2840" fill="none" stroke="#777777" stroke-width="1.5"/>
+<rect x="440" y="80" width="480" height="3090" fill="none" stroke="#777777" stroke-width="1.5"/>
 <line x1="440" y1="135" x2="920" y2="135" stroke="#777777" stroke-width="1.5"/>
 <text x="680.0" y="116" fill="#111111" font-family="Arial" font-size="20" font-weight="700" text-anchor="middle">Next.js UI</text>
-<rect x="920" y="80" width="720" height="2840" fill="none" stroke="#777777" stroke-width="1.5"/>
+<rect x="920" y="80" width="720" height="3090" fill="none" stroke="#777777" stroke-width="1.5"/>
 <line x1="920" y1="135" x2="1640" y2="135" stroke="#777777" stroke-width="1.5"/>
 <text x="1280.0" y="116" fill="#111111" font-family="Arial" font-size="20" font-weight="700" text-anchor="middle">NestJS API</text>
-<rect x="1640" y="80" width="540" height="2840" fill="none" stroke="#777777" stroke-width="1.5"/>
+<rect x="1640" y="80" width="540" height="3090" fill="none" stroke="#777777" stroke-width="1.5"/>
 <line x1="1640" y1="135" x2="2180" y2="135" stroke="#777777" stroke-width="1.5"/>
 <text x="1910.0" y="116" fill="#111111" font-family="Arial" font-size="20" font-weight="700" text-anchor="middle">Database</text>
-<rect x="2180" y="80" width="520" height="2840" fill="none" stroke="#777777" stroke-width="1.5"/>
+<rect x="2180" y="80" width="520" height="3090" fill="none" stroke="#777777" stroke-width="1.5"/>
 <line x1="2180" y1="135" x2="2700" y2="135" stroke="#777777" stroke-width="1.5"/>
 <text x="2440.0" y="116" fill="#111111" font-family="Arial" font-size="20" font-weight="700" text-anchor="middle">VNPay Sandbox «Payment Service»</text>
 <polyline points="230.0,194.0 230.0,230.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
 <polyline points="410.0,267.5 480.0,267.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="880.0,267.5 900.0,267.0 900.0,310.0 1420.0,310.0 1420.0,335.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1420.0,420.0 1420.0,445.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<rect x="1430.0" y="419.5" width="71.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
-<text x="1465.5" y="437.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Hợp lệ</text>
-<polyline points="1270.0,377.5 1200.0,377.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<rect x="1203.75" y="346.25" width="62.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
-<text x="1235.0" y="364.25" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Không</text>
-<polyline points="950.0,377.0 930.0,377.0 930.0,960.0 995.0,960.0 995.0,977.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1420.0,515.0 1420.0,540.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1270.0,582.5 1185.0,582.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<rect x="1196.25" y="551.5" width="62.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
-<text x="1227.5" y="569.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Đã có</text>
-<polyline points="1075.0,625.0 1075.0,650.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<rect x="1085.0" y="624.5" width="122.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
-<text x="1146.0" y="642.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Cùng payload</text>
-<polyline points="965.0,582.5 945.0,582.0 945.0,780.0 950.0,780.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<rect x="928.0" y="551.25" width="54.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
-<text x="955.0" y="569.25" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Khác</text>
-<polyline points="950.0,780.0 945.0,780.0 945.0,1020.0 995.0,1020.0 995.0,1007.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="950.0,685.0 910.0,685.0 910.0,1100.0 680.0,1100.0 680.0,1115.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1420.0,625.0 1420.0,650.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<rect x="1430.0" y="624.5" width="79.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
-<text x="1469.75" y="642.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Key mới</text>
-<polyline points="1420.0,720.0 1420.0,745.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1420.0,830.0 1420.0,855.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<rect x="1430.0" y="829.5" width="71.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
-<text x="1465.5" y="847.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Hợp lệ</text>
-<polyline points="1270.0,787.5 1200.0,787.5 1200.0,890.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<rect x="1203.75" y="756.5" width="62.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
-<text x="1235.0" y="774.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Không</text>
-<polyline points="1075.0,925.0 1075.0,992.0 1010.0,992.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="980.0,992.0 880.0,992.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="680.0,1030.0 680.0,1055.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1600.0,890.0 1710.0,890.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1920.0,925.0 1920.0,940.0 1630.0,940.0 1630.0,992.0 1600.0,992.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1240.0,992.5 1100.0,992.0 1100.0,1130.0 695.0,1130.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="680.0,1145.0 680.0,1170.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="880.0,1207.5 2240.0,1207.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="2440.0,1245.0 2440.0,1260.0 230.0,1260.0 230.0,1275.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="230.0,1350.0 230.0,1360.0 2200.0,1360.0 2200.0,1312.0 2240.0,1312.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="2440.0,1350.0 2430.0,1360.0 2440.0,1385.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="2240.0,1422.5 880.0,1422.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="680.0,1460.0 680.0,1465.0 1320.0,1465.0 1320.0,1490.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1120.0,1527.5 880.0,1527.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="480.0,1527.5 410.0,1527.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="230.0,1565.0 230.0,1595.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="2640.0,1312.5 2670.0,1312.0 2670.0,1742.0 2640.0,1742.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="2240.0,1742.5 1520.0,1742.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1320.0,1780.0 1320.0,1810.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1320.0,1895.0 1320.0,1925.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<rect x="1330.0" y="1897.0" width="71.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
-<text x="1365.5" y="1915.0" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Hợp lệ</text>
-<polyline points="1160.0,1852.5 940.0,1852.0 940.0,2270.0 1660.0,2270.0 1660.0,2330.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<rect x="884.0" y="1839.25" width="156.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
-<text x="962.0" y="1857.25" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Sai chữ ký / lỗi</text>
-<polyline points="1480.0,1967.5 1700.0,1967.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<rect x="1567.25" y="1936.5" width="45.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
-<text x="1590.0" y="1954.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Lặp</text>
-<polyline points="2120.0,1967.5 2670.0,1967.0 2670.0,2600.0 2455.0,2600.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1320.0,2010.0 1320.0,2045.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<rect x="1330.0" y="2014.5" width="45.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
-<text x="1352.75" y="2032.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Mới</text>
-<polyline points="1320.0,2120.0 1320.0,2155.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1480.0,2197.5 1550.0,2197.0 1550.0,2122.0 1680.0,2122.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<rect x="1462.5" y="2166.25" width="105.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
-<text x="1515.0" y="2184.25" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Thành công</text>
-<polyline points="1320.0,2240.0 1320.0,2216.0 1630.0,2216.0 1680.0,2216.2" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<rect x="1276.0" y="2197.0" width="88.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
-<text x="1320.0" y="2215.0" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Thất bại</text>
-<polyline points="1160.0,2197.5 1100.0,2197.0 1100.0,2345.0 1645.0,2345.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<rect x="1040.5" y="2184.25" width="79.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
-<text x="1080.25" y="2202.25" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Chưa rõ</text>
-<polyline points="1675.0,2345.0 1680.0,2345.0 1680.0,2347.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="2140.0,2122.5 2160.0,2122.0 2160.0,2440.0 1925.0,2440.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1680.0,2258.8 1630.0,2258.0 1630.0,2440.0 1895.0,2440.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1910.0,2390.0 1910.0,2425.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1910.0,2455.0 1910.0,2480.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1680.0,2517.5 1520.0,2517.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="1320.0,2555.0 1320.0,2565.0 2200.0,2565.0 2200.0,2517.0 2240.0,2517.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="2440.0,2555.0 2440.0,2565.0 2440.0,2585.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
-<polyline points="2440.0,2615.0 2440.0,2645.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="880.0,267.5 900.0,267.0 900.0,310.0 1485.0,310.0 1485.0,335.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1485.0,420.0 1485.0,440.0 1480.0,440.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="1495.0" y="417.0" width="71.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1530.5" y="435.0" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Hợp lệ</text>
+<polyline points="1350.0,377.5 1210.0,377.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="1248.75" y="346.25" width="62.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1280.0" y="364.25" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Không</text>
+<polyline points="950.0,377.0 885.0,377.0 885.0,720.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1480.0,510.0 1480.0,535.0 1485.0,535.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1350.0,577.5 1240.0,577.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="1263.75" y="546.5" width="62.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1295.0" y="564.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Đã có</text>
+<polyline points="1020.0,577.5 1010.0,577.0 1010.0,645.0 1030.0,645.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="988.0" y="546.25" width="54.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1015.0" y="564.25" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Khác</text>
+<polyline points="935.0,685.0 910.0,682.0 910.0,735.0 900.0,735.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="885.0,750.0 885.0,1092.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1240.0,577.5 1245.0,577.0 1245.0,645.0 1235.0,645.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="1215.5" y="546.25" width="54.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1242.5" y="564.25" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Cùng</text>
+<polyline points="1235.0,730.0 1235.0,755.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1145.0,795.0 860.0,795.0 860.0,1260.0 680.0,1260.0 680.0,1275.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="962.75" y="764.0" width="79.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1002.5" y="782.0" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Còn hạn</text>
+<polyline points="1235.0,835.0 1235.0,845.0 460.0,845.0 460.0,1687.0 665.0,1687.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="1152.75" y="809.0" width="164.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1235.0" y="827.0" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Đã xong / Hết hạn</text>
+<polyline points="1485.0,620.0 1485.0,860.0 1490.0,860.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="1495.0" y="727.0" width="79.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1534.75" y="745.0" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Key mới</text>
+<polyline points="1490.0,930.0 1490.0,955.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1490.0,1040.0 1490.0,1065.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="1500.0" y="1039.5" width="54.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1527.0" y="1057.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Đúng</text>
+<polyline points="1355.0,997.5 1210.0,997.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="1259.75" y="966.5" width="45.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1282.5" y="984.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Sai</text>
+<polyline points="950.0,997.5 925.0,997.0 925.0,1107.0 900.0,1107.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1630.0,1107.5 1650.0,1107.0 1650.0,1215.0 1680.0,1215.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="1600.25" y="1076.25" width="79.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1640.0" y="1094.25" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Chưa có</text>
+<polyline points="1350.0,1107.5 1210.0,1107.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="1248.75" y="1076.5" width="62.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1280.0" y="1094.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Đã có</text>
+<polyline points="1080.0,1145.0 1080.0,1155.0 885.0,1155.0 885.0,1122.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="870.0,1107.0 840.0,1107.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="660.0,1145.0 660.0,1175.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1910.0,1255.0 1910.0,1265.0 1480.0,1265.0 1490.0,1258.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1350.0,1218.0 1100.0,1215.0 1100.0,1290.0 695.0,1290.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="680.0,1305.0 680.0,1330.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="880.0,1367.5 2240.0,1367.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="2440.0,1405.0 2440.0,1410.0 230.0,1410.0 230.0,1435.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="230.0,1510.0 230.0,1515.0 2200.0,1515.0 2200.0,1472.0 2240.0,1472.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="2440.0,1510.0 2430.0,1515.0 2440.0,1545.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="2240.0,1582.5 880.0,1582.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="680.0,1620.0 680.0,1625.0 1320.0,1625.0 1320.0,1650.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1120.0,1687.5 695.0,1687.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="680.0,1702.0 680.0,1725.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="480.0,1762.5 410.0,1762.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="230.0,1800.0 230.0,1830.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="2640.0,1472.5 2670.0,1472.0 2670.0,1977.0 2640.0,1977.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="2240.0,1977.5 1520.0,1977.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1320.0,2015.0 1320.0,2045.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1320.0,2130.0 1320.0,2160.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="1330.0" y="2132.0" width="71.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1365.5" y="2150.0" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Hợp lệ</text>
+<polyline points="1160.0,2087.5 940.0,2087.0 940.0,2635.0 1660.0,2635.0 1660.0,2665.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="884.0" y="2074.25" width="156.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="962.0" y="2092.25" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Sai chữ ký / lỗi</text>
+<polyline points="1480.0,2202.5 1430.0,2202.0 1430.0,2270.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="1465.0" y="2189.25" width="45.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1487.75" y="2207.25" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Lặp</text>
+<polyline points="1620.0,2310.0 2670.0,2310.0 2670.0,2935.0 2455.0,2935.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1320.0,2245.0 1320.0,2380.0 1240.0,2380.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="1264.5" y="2299.5" width="45.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1287.25" y="2317.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Mới</text>
+<polyline points="1240.0,2455.0 1240.0,2490.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1400.0,2532.5 1550.0,2532.0 1550.0,2457.0 1680.0,2457.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="1422.5" y="2501.25" width="105.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1475.0" y="2519.25" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Thành công</text>
+<polyline points="1240.0,2575.0 1240.0,2551.0 1630.0,2551.0 1680.0,2551.2" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="1196.0" y="2532.0" width="88.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1240.0" y="2550.0" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Thất bại</text>
+<polyline points="1080.0,2532.5 1020.0,2532.0 1020.0,2680.0 1645.0,2680.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<rect x="960.5" y="2519.25" width="79.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
+<text x="1000.25" y="2537.25" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Chưa rõ</text>
+<polyline points="1675.0,2680.0 1680.0,2680.0 1680.0,2682.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="2140.0,2457.5 2160.0,2457.0 2160.0,2775.0 1925.0,2775.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1680.0,2593.8 1630.0,2593.0 1630.0,2775.0 1895.0,2775.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1910.0,2725.0 1910.0,2760.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1910.0,2790.0 1910.0,2815.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1680.0,2852.5 1520.0,2852.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1320.0,2890.0 1320.0,2900.0 2200.0,2900.0 2200.0,2852.0 2240.0,2852.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="2440.0,2890.0 2440.0,2900.0 2440.0,2920.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="2440.0,2950.0 2440.0,2980.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
 <circle cx="230.0" cy="180.0" r="14" fill="#111111" stroke="#111111" stroke-width="2"/>
 <rect x="50" y="230" width="360" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="230.0" y="256.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Chọn phương thức VNPay Sandbox; bấm</text>
@@ -107,114 +121,127 @@
 <rect x="480" y="230" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="680.0" y="256.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Sinh Idempotency-Key (UUIDv4); gửi POST</text>
 <text x="680.0" y="278.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">/orders/:id/payments kèm JWT</text>
-<polygon points="1420.0,335 1570,377.5 1420.0,420 1270,377.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1420.0" y="367.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Xác thực JWT &amp; quyền sở hữu</text>
-<text x="1420.0" y="387.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Order?</text>
-<rect x="1240" y="445" width="360" height="70" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1420.0" y="469.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Kiểm tra Idempotency-Key trong DB</text>
-<text x="1420.0" y="491.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Cache/Table</text>
-<polygon points="1420.0,540 1570,582.5 1420.0,625 1270,582.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1420.0" y="582.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Key đã tồn tại?</text>
-<rect x="1240" y="650" width="360" height="70" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1420.0" y="674.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Truy vấn Order và kiểm tra trạng thái</text>
-<text x="1420.0" y="696.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">thanh toán</text>
-<polygon points="1420.0,745 1570,787.5 1420.0,830 1270,787.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1420.0" y="787.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Order 'Chờ thanh toán'?</text>
-<rect x="1240" y="855" width="360" height="70" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1420.0" y="879.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Kiểm tra giữ tồn kho; chuẩn bị khởi</text>
-<text x="1420.0" y="901.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">tạo giao dịch</text>
-<rect x="1710" y="855" width="420" height="70" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1920.0" y="879.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Tạo bản ghi Payment (Chờ xử lý, hạn 15 phút,</text>
-<text x="1920.0" y="901.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">lưu Idempotency-Key)</text>
-<rect x="1240" y="955" width="360" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1420.0" y="981.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Tạo URL VNPay Sandbox có thời hạn 15</text>
-<text x="1420.0" y="1003.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">phút kèm chữ ký SHA512</text>
-<rect x="950" y="342" width="250" height="70" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1075.0" y="377.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Từ chối yêu cầu (401/403)</text>
-<polygon points="1075.0,540 1185,582.5 1075.0,625 965,582.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1075.0" y="582.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Cùng Payload?</text>
-<rect x="950" y="650" width="250" height="70" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1075.0" y="674.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Lấy URL thanh toán hiện có</text>
-<text x="1075.0" y="696.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">và trả về cho client</text>
-<rect x="950" y="745" width="250" height="70" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1075.0" y="769.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Báo lỗi 409 Conflict:</text>
-<text x="1075.0" y="791.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">trùng Key khác payload</text>
-<rect x="950" y="855" width="250" height="70" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1075.0" y="879.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Từ chối tạo URL: đơn sai</text>
-<text x="1075.0" y="901.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">trạng thái/đã trả</text>
-<polygon points="995.0,977 1010,992.0 995.0,1007 980,992.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<rect x="480" y="955" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="680.0" y="981.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Hiển thị thông báo lỗi thanh toán trên</text>
-<text x="680.0" y="1003.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">giao diện</text>
-<circle cx="680.0" cy="1069.0" r="14" fill="#ffffff" stroke="#111111" stroke-width="2"/>
-<circle cx="680.0" cy="1069.0" r="8" fill="#111111"/>
-<polygon points="680.0,1115 695,1130.0 680.0,1145 665,1130.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<rect x="480" y="1170" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="680.0" y="1196.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Chuyển hướng trình duyệt sang cổng thanh</text>
-<text x="680.0" y="1218.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">toán VNPay Sandbox</text>
-<rect x="2240" y="1170" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="2440.0" y="1196.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Hiển thị giao diện thanh toán Sandbox (môi</text>
-<text x="2440.0" y="1218.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">trường thử nghiệm)</text>
-<rect x="50" y="1275" width="360" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="230.0" y="1301.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Khách hàng nhập thông tin thẻ test và</text>
-<text x="230.0" y="1323.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">xác nhận OTP Sandbox</text>
-<rect x="2240" y="1275" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="2440.0" y="1301.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Xử lý giao dịch thử nghiệm; ghi nhận kết</text>
-<text x="2440.0" y="1323.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">quả tại cổng Sandbox</text>
-<rect x="2240" y="1385" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="2440.0" y="1411.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Chuyển hướng trình duyệt về Return URL kèm</text>
-<text x="2440.0" y="1433.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">tham số kết quả</text>
-<rect x="480" y="1385" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="680.0" y="1411.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Tiếp nhận Return URL; gọi GET</text>
-<text x="680.0" y="1433.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">/orders/:id/payment-status</text>
-<rect x="1120" y="1490" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1320.0" y="1516.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Đọc trạng thái Payment và Order từ</text>
-<text x="1320.0" y="1538.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Database; trả về cho client</text>
-<rect x="480" y="1490" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="680.0" y="1516.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Hiển thị màn hình kết quả thanh toán cho</text>
-<text x="680.0" y="1538.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">khách hàng</text>
-<rect x="50" y="1490" width="360" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="230.0" y="1516.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Khách hàng xem kết quả giao dịch và</text>
-<text x="230.0" y="1538.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">mã đơn hàng</text>
-<circle cx="230.0" cy="1609.0" r="14" fill="#ffffff" stroke="#111111" stroke-width="2"/>
-<circle cx="230.0" cy="1609.0" r="8" fill="#111111"/>
-<rect x="2240" y="1705" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="2440.0" y="1731.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Gửi Webhook IPN bất đồng bộ</text>
-<text x="2440.0" y="1753.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">(Server-to-Server) đến NestJS API</text>
-<rect x="1120" y="1705" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1320.0" y="1731.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Tiếp nhận request IPN tại POST</text>
-<text x="1320.0" y="1753.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">/payments/vnpay-ipn</text>
-<polygon points="1320.0,1810 1480,1852.5 1320.0,1895 1160,1852.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1320.0" y="1852.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Chữ ký và dữ liệu IPN hợp lệ?</text>
-<polygon points="1320.0,1925 1480,1967.5 1320.0,2010 1160,1967.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1320.0" y="1967.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">IPN lặp (đã có kết quả cuối)?</text>
-<rect x="1700" y="1925" width="420" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1910.0" y="1956.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Phản hồi RspCode 02 (Order already</text>
-<text x="1910.0" y="1978.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">confirmed); không cập nhật DB</text>
-<rect x="1120" y="2045" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1320.0" y="2071.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Mở DB Transaction; khóa Order và Payment</text>
-<text x="1320.0" y="2093.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">để ghi nhận kết quả</text>
-<polygon points="1320.0,2155 1480,2197.5 1320.0,2240 1160,2197.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1320.0" y="2197.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Kết quả giao dịch VNPay?</text>
-<rect x="1680" y="2080" width="460" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1910.0" y="2111.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Cập nhật Payment = Thành công; Order = Đã thanh</text>
-<text x="1910.0" y="2133.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">toán; giữ nguyên tồn kho đã trừ</text>
-<rect x="1680" y="2195" width="460" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1910.0" y="2226.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Cập nhật Payment = Thất bại; hoàn tồn đúng một</text>
-<text x="1910.0" y="2248.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">lần theo Product; giữ Order Chờ thanh toán</text>
-<polygon points="1660.0,2330 1675,2345.0 1660.0,2360 1645,2345.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<rect x="1680" y="2305" width="460" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1910.0" y="2336.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Giữ Payment = Chờ xử lý; không hoàn tồn, không</text>
-<text x="1910.0" y="2358.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">cho thanh toán lại; ghi nhận chờ đối soát</text>
-<polygon points="1910.0,2425 1925,2440.0 1910.0,2455 1895,2440.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<rect x="1680" y="2480" width="460" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1910.0" y="2517.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">COMMIT Transaction cập nhật trạng thái</text>
-<rect x="1120" y="2480" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1320.0" y="2506.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Phản hồi mã RspCode ('00' thành công /</text>
-<text x="1320.0" y="2528.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">'97' lỗi) về cho VNPay Sandbox</text>
-<rect x="2240" y="2480" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="2440.0" y="2517.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">VNPay Sandbox tiếp nhận phản hồi RspCode</text>
-<polygon points="2440.0,2585 2455,2600.0 2440.0,2615 2425,2600.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<circle cx="2440.0" cy="2659.0" r="14" fill="#ffffff" stroke="#111111" stroke-width="2"/>
-<circle cx="2440.0" cy="2659.0" r="8" fill="#111111"/>
+<polygon points="1485.0,335 1620,377.5 1485.0,420 1350,377.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1485.0" y="367.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Xác thực JWT &amp; quyền sở hữu</text>
+<text x="1485.0" y="387.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Order?</text>
+<rect x="950" y="342" width="260" height="70" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1080.0" y="377.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Từ chối yêu cầu (401/403)</text>
+<rect x="1340" y="440" width="280" height="70" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1480.0" y="464.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Kiểm tra Idempotency-Key</text>
+<text x="1480.0" y="486.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">trong DB Cache/Table</text>
+<polygon points="1485.0,535 1620,577.5 1485.0,620 1350,577.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1485.0" y="577.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Key đã tồn tại?</text>
+<polygon points="1130.0,535 1240,577.5 1130.0,620 1020,577.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1130.0" y="577.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Cùng Payload?</text>
+<rect x="935" y="645" width="190" height="80" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1030.0" y="663.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Báo lỗi 409</text>
+<text x="1030.0" y="685.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Conflict: trùng Key</text>
+<text x="1030.0" y="707.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">khác payload</text>
+<rect x="1130" y="645" width="210" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1235.0" y="643.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Trả lại dữ liệu đã lưu</text>
+<text x="1235.0" y="665.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">theo trạng thái giao</text>
+<text x="1235.0" y="687.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">dịch: URL còn hạn /</text>
+<text x="1235.0" y="709.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">đang xử lý / kết quả</text>
+<text x="1235.0" y="731.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">cuối</text>
+<polygon points="1235.0,755 1325,795.0 1235.0,835 1145,795.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1235.0" y="785.0" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">URL thanh toán còn</text>
+<text x="1235.0" y="805.0" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">hạn?</text>
+<rect x="1350" y="860" width="280" height="70" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1490.0" y="884.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Truy vấn Order và kiểm tra</text>
+<text x="1490.0" y="906.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">trạng thái thanh toán</text>
+<polygon points="1490.0,955 1625,997.5 1490.0,1040 1355,997.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1490.0" y="997.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Order 'Chờ thanh toán'?</text>
+<rect x="950" y="960" width="260" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1080.0" y="975.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Từ chối tạo URL: đơn sai</text>
+<text x="1080.0" y="997.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">trạng thái hoặc đã thanh</text>
+<text x="1080.0" y="1019.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">toán</text>
+<polygon points="1490.0,1065 1630,1107.5 1490.0,1150 1350,1107.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1490.0" y="1097.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Chưa có Payment Chờ xử lý /</text>
+<text x="1490.0" y="1117.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Chờ xác minh?</text>
+<rect x="950" y="1070" width="260" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1080.0" y="1096.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Từ chối tạo thêm: đơn đang</text>
+<text x="1080.0" y="1118.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">có giao dịch chờ xử lý</text>
+<rect x="1680" y="1175" width="460" height="80" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1910.0" y="1204.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Tạo bản ghi Payment (Chờ xử lý, hạn 15 phút, lưu</text>
+<text x="1910.0" y="1226.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Idempotency-Key); không trừ tồn kho lần 2</text>
+<rect x="1350" y="1178" width="280" height="80" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1490.0" y="1207.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Tạo URL VNPay Sandbox có thời</text>
+<text x="1490.0" y="1229.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">hạn 15 phút kèm chữ ký SHA512</text>
+<polygon points="885.0,720 900,735.0 885.0,750 870,735.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<polygon points="885.0,1092 900,1107.0 885.0,1122 870,1107.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<rect x="480" y="1070" width="360" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="660.0" y="1096.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Hiển thị thông báo lỗi thanh toán</text>
+<text x="660.0" y="1118.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">trên giao diện</text>
+<circle cx="660.0" cy="1189.0" r="14" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<circle cx="660.0" cy="1189.0" r="8" fill="#111111"/>
+<polygon points="680.0,1275 695,1290.0 680.0,1305 665,1290.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<rect x="480" y="1330" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="680.0" y="1356.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Chuyển hướng trình duyệt sang cổng thanh</text>
+<text x="680.0" y="1378.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">toán VNPay Sandbox</text>
+<rect x="2240" y="1330" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="2440.0" y="1356.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Hiển thị giao diện thanh toán Sandbox (môi</text>
+<text x="2440.0" y="1378.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">trường thử nghiệm)</text>
+<rect x="50" y="1435" width="360" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="230.0" y="1461.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Khách hàng nhập thông tin thẻ test và</text>
+<text x="230.0" y="1483.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">xác nhận OTP Sandbox</text>
+<rect x="2240" y="1435" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="2440.0" y="1461.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Xử lý giao dịch thử nghiệm; ghi nhận kết</text>
+<text x="2440.0" y="1483.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">quả tại cổng Sandbox</text>
+<rect x="2240" y="1545" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="2440.0" y="1571.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Chuyển hướng trình duyệt về Return URL kèm</text>
+<text x="2440.0" y="1593.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">tham số kết quả</text>
+<rect x="480" y="1545" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="680.0" y="1571.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Tiếp nhận Return URL; gọi GET</text>
+<text x="680.0" y="1593.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">/orders/:id/payment-status</text>
+<rect x="1120" y="1650" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1320.0" y="1676.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Đọc trạng thái Payment và Order từ</text>
+<text x="1320.0" y="1698.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Database; trả về cho client</text>
+<polygon points="680.0,1672 695,1687.0 680.0,1702 665,1687.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<rect x="480" y="1725" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="680.0" y="1751.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Hiển thị màn hình kết quả thanh toán cho</text>
+<text x="680.0" y="1773.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">khách hàng</text>
+<rect x="50" y="1725" width="360" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="230.0" y="1751.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Khách hàng xem kết quả giao dịch và</text>
+<text x="230.0" y="1773.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">mã đơn hàng</text>
+<circle cx="230.0" cy="1844.0" r="14" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<circle cx="230.0" cy="1844.0" r="8" fill="#111111"/>
+<rect x="2240" y="1940" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="2440.0" y="1966.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Gửi Webhook IPN bất đồng bộ</text>
+<text x="2440.0" y="1988.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">(Server-to-Server) đến NestJS API</text>
+<rect x="1120" y="1940" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1320.0" y="1966.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Tiếp nhận request IPN tại POST</text>
+<text x="1320.0" y="1988.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">/payments/vnpay-ipn</text>
+<polygon points="1320.0,2045 1480,2087.5 1320.0,2130 1160,2087.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1320.0" y="2087.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Chữ ký và dữ liệu IPN hợp lệ?</text>
+<polygon points="1320.0,2160 1480,2202.5 1320.0,2245 1160,2202.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1320.0" y="2202.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">IPN lặp (đã có kết quả cuối)?</text>
+<rect x="1240" y="2270" width="380" height="80" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1430.0" y="2299.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Phản hồi RspCode 02 (Order already</text>
+<text x="1430.0" y="2321.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">confirmed); không cập nhật DB</text>
+<rect x="1040" y="2380" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1240.0" y="2406.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Mở DB Transaction; khóa Order và Payment</text>
+<text x="1240.0" y="2428.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">để ghi nhận kết quả</text>
+<polygon points="1240.0,2490 1400,2532.5 1240.0,2575 1080,2532.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1240.0" y="2532.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Kết quả giao dịch VNPay?</text>
+<rect x="1680" y="2415" width="460" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1910.0" y="2446.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Cập nhật Payment = Thành công; Order = Đã thanh</text>
+<text x="1910.0" y="2468.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">toán; giữ nguyên tồn kho đã trừ</text>
+<rect x="1680" y="2530" width="460" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1910.0" y="2561.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Cập nhật Payment = Thất bại; hoàn tồn đúng một</text>
+<text x="1910.0" y="2583.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">lần theo Product; giữ Order Chờ thanh toán</text>
+<polygon points="1660.0,2665 1675,2680.0 1660.0,2695 1645,2680.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<rect x="1680" y="2640" width="460" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1910.0" y="2671.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Giữ Payment = Chờ xử lý; không hoàn tồn; ghi</text>
+<text x="1910.0" y="2693.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">nhận chờ đối soát</text>
+<polygon points="1910.0,2760 1925,2775.0 1910.0,2790 1895,2775.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<rect x="1680" y="2815" width="460" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1910.0" y="2852.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">COMMIT Transaction cập nhật trạng thái dữ liệu</text>
+<rect x="1120" y="2815" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1320.0" y="2841.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Phản hồi mã RspCode ('00' thành công /</text>
+<text x="1320.0" y="2863.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">'97' lỗi) về cho VNPay Sandbox</text>
+<rect x="2240" y="2815" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="2440.0" y="2852.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">VNPay Sandbox tiếp nhận phản hồi RspCode</text>
+<polygon points="2440.0,2920 2455,2935.0 2440.0,2950 2425,2935.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<circle cx="2440.0" cy="2994.0" r="14" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+<circle cx="2440.0" cy="2994.0" r="8" fill="#111111"/>
 </svg>

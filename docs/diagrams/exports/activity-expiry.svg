@@ -69,7 +69,7 @@
 <polyline points="1260.0,1730.0 1260.0,1755.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
 <rect x="1270.0" y="1729.5" width="96.5" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
 <text x="1318.25" y="1747.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Thiếu tồn</text>
-<polyline points="1040.0,1795.0 860.0,1795.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="1040.0,1797.5 860.0,1797.5 860.0,1795.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
 <polyline points="670.0,1835.0 670.0,1865.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
 <polyline points="1410.0,1687.5 1660.0,1687.5 1660.0,1690.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
 <rect x="1499.5" y="1656.5" width="71.0" height="24" fill="#ffffff" stroke="#999999" stroke-width="0.8" rx="4"/>
@@ -134,34 +134,34 @@
 <polygon points="955.0,747 970,762.0 955.0,777 940,762.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <circle cx="230.0" cy="1459.0" r="14" fill="#111111" stroke="#111111" stroke-width="2"/>
 <rect x="50" y="1530" width="360" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="230.0" y="1550.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Khách hàng thấy đơn vẫn ở trạng thái</text>
-<text x="230.0" y="1572.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Chờ thanh toán (sau khi hoàn tồn);</text>
-<text x="230.0" y="1594.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">bấm Thanh toán lại</text>
+<text x="230.0" y="1550.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Khách hàng thấy đơn cũ vẫn ở trạng</text>
+<text x="230.0" y="1572.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">thái Chờ thanh toán (sau khi hoàn</text>
+<text x="230.0" y="1594.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">tồn); bấm Thanh toán lại</text>
 <rect x="480" y="1530" width="380" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="670.0" y="1550.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Sinh Idempotency-Key mới; gửi POST</text>
-<text x="670.0" y="1572.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">/orders/:id/payments (thanh toán lại)</text>
-<text x="670.0" y="1594.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">kèm JWT</text>
+<text x="670.0" y="1572.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">/orders/:id/payments (thanh toán lại đơn</text>
+<text x="670.0" y="1594.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">cũ) kèm JWT</text>
 <rect x="1040" y="1530" width="440" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="1260.0" y="1561.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Tính lại tổng tiền từ bảng giá hiện hành; mở</text>
 <text x="1260.0" y="1583.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">DB Transaction kiểm tra tồn kho Product</text>
 <polygon points="1260.0,1645 1410,1687.5 1260.0,1730 1110,1687.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="1260.0" y="1677.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Đủ tồn kho cho đơn thanh toán</text>
 <text x="1260.0" y="1697.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">lại?</text>
-<rect x="1040" y="1755" width="440" height="80" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1260.0" y="1784.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Từ chối thanh toán lại; ROLLBACK tx; thông báo</text>
-<text x="1260.0" y="1806.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">món đồ uống đã hết hàng</text>
+<rect x="1040" y="1755" width="440" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<text x="1260.0" y="1786.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Từ chối thanh toán lại; ROLLBACK tx; không tạo</text>
+<text x="1260.0" y="1808.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Payment; thông báo món đồ uống đã hết hàng</text>
 <rect x="480" y="1755" width="380" height="80" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="670.0" y="1784.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Hiển thị thông báo hết hàng; yêu cầu</text>
 <text x="670.0" y="1806.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">khách chọn món khác</text>
 <circle cx="670.0" cy="1879.0" r="14" fill="#ffffff" stroke="#111111" stroke-width="2"/>
 <circle cx="670.0" cy="1879.0" r="8" fill="#111111"/>
 <rect x="1660" y="1645" width="480" height="90" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1900.0" y="1668.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Giữ/trừ lại tồn kho theo Product; tạo bản ghi</text>
-<text x="1900.0" y="1690.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Payment MỚI (mã tham chiếu mới, key mới, hạn 15</text>
-<text x="1900.0" y="1712.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">phút mới); COMMIT tx</text>
+<text x="1900.0" y="1668.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Trừ tồn kho theo Product; tạo bản ghi Payment MỚI</text>
+<text x="1900.0" y="1690.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">(mã tham chiếu mới, key mới, hạn 15 phút mới);</text>
+<text x="1900.0" y="1712.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">COMMIT tx</text>
 <rect x="1040" y="1945" width="440" height="80" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="1260.0" y="1974.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Tạo URL VNPay Sandbox mới có chữ ký bảo mật;</text>
-<text x="1260.0" y="1996.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">đóng DB connection</text>
+<text x="1260.0" y="1974.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Tạo URL VNPay Sandbox mới có thời hạn 15 phút</text>
+<text x="1260.0" y="1996.0" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">kèm chữ ký bảo mật; đóng DB connection</text>
 <rect x="480" y="2060" width="380" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="670.0" y="2091.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Chuyển hướng trình duyệt khách hàng sang</text>
 <text x="670.0" y="2113.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">cổng VNPay Sandbox để thanh toán lại</text>
