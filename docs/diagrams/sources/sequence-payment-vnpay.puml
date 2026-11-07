@@ -1,0 +1,77 @@
+@startuml
+title Sequence Diagram - Thanh toán VNPay Sandbox
+hide footbox
+skinparam monochrome true
+skinparam sequenceMessageAlign center
+
+actor Customer
+participant "Next.js UI" as UI
+participant "NestJS API" as API
+database Database as DB
+participant "Payment Service\n(VNPay Sandbox)" as VNPay
+
+Customer -> UI: Chọn Thanh toán đơn
+UI -> API: POST /orders/{id}/payments\nJWT, idempotency key
+activate API
+API -> API: Kiểm tra JWT, quyền sở hữu\nvà validate dữ liệu
+API -> DB: Tra Order, Payment đang chờ\nvà idempotency key
+activate DB
+DB --> API: Trạng thái Order, Payment\nvà dữ liệu của key
+deactivate DB
+
+alt Key đã có và cùng nội dung
+  API --> UI: URL, trạng thái đang xử lý\nhoặc kết quả đã lưu
+  UI --> Customer: Hiển thị lại đúng lần xử lý
+else Key đã có nhưng khác nội dung
+  API --> UI: 409 Conflict
+  UI --> Customer: Thông báo xung đột thanh toán
+else Key mới và Order đủ điều kiện
+  API -> DB: BEGIN; khóa Order\nvà kiểm tra điều kiện thanh toán
+  activate DB
+  opt Thanh toán lại sau Thất bại/Hết hạn
+    API -> DB: Tính lại giá và kiểm tra tồn kho
+    DB --> API: Kết quả kiểm tra tồn kho
+    break Thiếu tồn kho
+      API -> DB: ROLLBACK
+      deactivate DB
+      API --> UI: 409 Conflict; không tạo Payment
+      UI --> Customer: Thông báo hết hàng
+    end
+    API -> DB: Trừ lại tồn kho theo Product
+  end
+  API -> DB: Tạo Payment Chờ xử lý,\nmã tham chiếu, hạn 15 phút
+  API -> DB: COMMIT
+  DB --> API: Payment và dữ liệu tạo URL
+  deactivate DB
+  API -> API: Tạo URL VNPay có chữ ký
+  API --> UI: 200 OK và URL thanh toán
+  UI -> VNPay: Chuyển hướng trình duyệt
+  VNPay --> Customer: Hiển thị trang thanh toán thử nghiệm
+  Customer -> VNPay: Xác nhận giao dịch thử nghiệm
+
+  par Return URL không quyết định kết quả
+    VNPay -> UI: Chuyển trình duyệt về Return URL
+    UI -> API: GET /orders/{id}/payment-status
+    API -> DB: Đọc trạng thái Order và Payment
+    DB --> API: Trạng thái đã xác minh\nhoặc Chờ xác minh
+    API --> UI: Trạng thái backend
+    UI --> Customer: Hiển thị kết quả hoặc Đang xác minh
+  else IPN là căn cứ xử lý kết quả
+    VNPay -> API: POST IPN\ntham chiếu, số tiền, kết quả, chữ ký
+    API -> API: Xác minh chữ ký, tham chiếu,\nsố tiền và kết quả
+    alt IPN hợp lệ và thành công
+      API -> DB: BEGIN; khóa Order và Payment
+      API -> DB: Payment Thành công; Order Đã thanh toán
+      API -> DB: COMMIT; không hoàn tồn kho
+    else IPN hợp lệ nhưng thất bại
+      API -> DB: BEGIN; Payment Thất bại
+      API -> DB: Hoàn tồn đúng một lần;\nOrder vẫn Chờ thanh toán; COMMIT
+    else IPN sai hoặc kết quả chưa xác định
+      API -> DB: Giữ Chờ xử lý/Chờ xác minh;\nkhông hoàn tồn và không đánh dấu thành công
+    end
+    API --> VNPay: RspCode theo quy ước VNPay
+  end
+end
+
+deactivate API
+@enduml

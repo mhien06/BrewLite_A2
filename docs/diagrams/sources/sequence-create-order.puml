@@ -1,0 +1,43 @@
+@startuml
+title Sequence Diagram - Tạo đơn hàng
+hide footbox
+skinparam monochrome true
+skinparam sequenceMessageAlign center
+
+actor Customer
+participant "Next.js UI" as UI
+participant "NestJS API" as API
+database Database as DB
+participant "Payment Service\n(VNPay Sandbox)" as VNPay
+
+Customer -> UI: Chọn Tiến hành đặt đơn
+UI -> API: POST /orders\ncartItems, options, JWT
+activate API
+API -> API: Kiểm tra JWT, quyền và validate dữ liệu
+
+alt JWT, quyền và dữ liệu hợp lệ
+  API -> DB: BEGIN; khóa/đọc Product
+  activate DB
+  DB --> API: Giá hiện hành và tồn kho
+  API -> API: Tính lại giá, gộp số lượng\nvà kiểm tra tùy chọn
+
+  alt Đủ tồn kho
+    API -> DB: Lưu Order Chờ thanh toán\nOrderItem snapshot; trừ tồn kho
+    DB --> API: Ghi dữ liệu thành công
+    API -> DB: COMMIT
+    deactivate DB
+    API --> UI: 201 Created\nOrder và tổng tiền
+    UI --> Customer: Hiển thị mã đơn\nvà nút Thanh toán
+  else Thiếu tồn hoặc transaction lỗi
+    API -> DB: ROLLBACK
+    deactivate DB
+    API --> UI: 409 Conflict hoặc lỗi tạo đơn
+    UI --> Customer: Thông báo hết hàng\nhoặc tạo đơn thất bại
+  end
+else JWT, quyền hoặc dữ liệu không hợp lệ
+  API --> UI: 401 / 403 / 400\nkhông truy cập Database
+  UI --> Customer: Hiển thị lỗi và yêu cầu điều chỉnh
+end
+
+deactivate API
+@enduml

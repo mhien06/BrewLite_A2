@@ -1,0 +1,209 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="3919" viewBox="0 0 1680 3919" style="color-scheme:light;background:#ffffff"><defs><marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L9,4 L1,7" fill="none" stroke="#111" stroke-width="1.4"/></marker><marker id="call" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M1,1 L9,4 L1,7 Z" fill="#111" stroke="#111"/></marker></defs><rect width="100%" height="100%" fill="#fff"/><rect x="550.5" y="25" width="579.0" height="28" fill="#fff"/>
+<text x="840.0" y="48" text-anchor="middle" font-family="Arial, sans-serif" font-size="23" font-weight="700" fill="#111"><tspan x="840.0" dy="0">2. Sequence Diagram — Thanh toán VNPay Sandbox</tspan></text>
+<rect x="585.5078125" y="64" width="508.984375" height="21" fill="#fff"/>
+<text x="840.0" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="840.0" dy="0">Idempotency, Return URL và IPN; hạn 15 phút bắt đầu khi tạo Payment</tspan></text>
+<ellipse cx="140.0" cy="108.0" rx="11.0" ry="11.0" fill="#fff" stroke="#111"/>
+<polyline points="140,119 140,149" fill="none" stroke="#111" stroke-width="1.4"/>
+<polyline points="118,132 162,132" fill="none" stroke="#111" stroke-width="1.4"/>
+<polyline points="140,149 121,172" fill="none" stroke="#111" stroke-width="1.4"/>
+<polyline points="140,149 159,172" fill="none" stroke="#111" stroke-width="1.4"/>
+<rect x="99.5" y="179" width="81.0" height="21" fill="#fff"/>
+<text x="140" y="195" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#111"><tspan x="140" dy="0">Customer</tspan></text>
+<polyline points="140,204 140,3899" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5"/>
+<rect x="315" y="112" width="270" height="64" fill="#fff" stroke="#111"/>
+<rect x="411.0" y="134" width="78.0" height="21" fill="#fff"/>
+<text x="450" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#111"><tspan x="450" dy="0">Next.js UI</tspan></text>
+<polyline points="414.0,153 486.0,153" fill="none" stroke="#111" stroke-width="1.4"/>
+<polyline points="450,176 450,3899" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5"/>
+<rect x="645" y="112" width="270" height="64" fill="#fff" stroke="#111"/>
+<rect x="734.0" y="134" width="92.0" height="21" fill="#fff"/>
+<text x="780" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#111"><tspan x="780" dy="0">NestJS API</tspan></text>
+<polyline points="737.0,153 823.0,153" fill="none" stroke="#111" stroke-width="1.4"/>
+<polyline points="780,176 780,3899" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5"/>
+<rect x="975" y="112" width="270" height="64" fill="#fff" stroke="#111"/>
+<rect x="1071.0" y="134" width="78.0" height="21" fill="#fff"/>
+<text x="1110" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#111"><tspan x="1110" dy="0">Database</tspan></text>
+<polyline points="1074.0,153 1146.0,153" fill="none" stroke="#111" stroke-width="1.4"/>
+<polyline points="1110,176 1110,3899" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5"/>
+<rect x="1345" y="112" width="270" height="64" fill="#fff" stroke="#111"/>
+<rect x="1409.5" y="123" width="141.0" height="42" fill="#fff"/>
+<text x="1480" y="139" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#111"><tspan x="1480" dy="0">Payment Service</tspan><tspan x="1480" dy="21">(VNPay Sandbox)</tspan></text>
+<polyline points="1416.0,142 1544.0,142" fill="none" stroke="#111" stroke-width="1.4"/>
+<polyline points="1412.5,163 1547.5,163" fill="none" stroke="#111" stroke-width="1.4"/>
+<polyline points="1480,176 1480,3899" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5"/>
+<rect x="442" y="238" width="16" height="2602" fill="#fff" stroke="#111"/>
+<rect x="772" y="320" width="16" height="3439" fill="#fff" stroke="#111"/>
+<rect x="1102" y="493" width="16" height="82" fill="#fff" stroke="#111"/>
+<rect x="1102" y="1145" width="16" height="24" fill="#fff" stroke="#111"/>
+<rect x="1102" y="1292" width="16" height="61" fill="#fff" stroke="#111"/>
+<rect x="1102" y="1500" width="16" height="24" fill="#fff" stroke="#111"/>
+<rect x="1102" y="1782" width="16" height="24" fill="#fff" stroke="#111"/>
+<rect x="1102" y="1900" width="16" height="24" fill="#fff" stroke="#111"/>
+<rect x="1102" y="1961" width="16" height="61" fill="#fff" stroke="#111"/>
+<rect x="1472" y="2235" width="16" height="24" fill="#fff" stroke="#111"/>
+<rect x="1472" y="2357" width="16" height="24" fill="#fff" stroke="#111"/>
+<rect x="1102" y="2605" width="16" height="82" fill="#fff" stroke="#111"/>
+<rect x="1102" y="3208" width="16" height="24" fill="#fff" stroke="#111"/>
+<rect x="1102" y="3269" width="16" height="24" fill="#fff" stroke="#111"/>
+<rect x="1102" y="3430" width="16" height="24" fill="#fff" stroke="#111"/>
+<rect x="1102" y="3491" width="16" height="24" fill="#fff" stroke="#111"/>
+<rect x="1102" y="3652" width="16" height="24" fill="#fff" stroke="#111"/>
+<rect x="205.0" y="210" width="180.0" height="21" fill="#fff"/>
+<text x="295.0" y="226" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="295.0" dy="0">1. Chọn Thanh toán đơn</tspan></text>
+<polyline points="140,238 442,238" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="484.5" y="271" width="261.0" height="42" fill="#fff"/>
+<text x="615.0" y="287" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="615.0" dy="0">2. POST /orders/{id}/payments: JWT</tspan><tspan x="615.0" dy="21">và idempotency key</tspan></text>
+<polyline points="458,320 772,320" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="807" y="353" width="247.984375" height="42" fill="#fff"/>
+<text x="810" y="369" text-anchor="start" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="810" dy="0">3. Kiểm tra JWT, quyền sở hữu và</tspan><tspan x="810" dy="21">validate dữ liệu</tspan></text>
+<polyline points="788,401 816,401 816,424 788,424" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="817.5078125" y="444" width="254.984375" height="42" fill="#fff"/>
+<text x="945.0" y="460" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">4. Tra Order, Payment đang chờ và</tspan><tspan x="945.0" dy="21">idempotency key</tspan></text>
+<polyline points="788,493 1102,493" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="817.5078125" y="526" width="254.984375" height="42" fill="#fff"/>
+<text x="945.0" y="542" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">5. Trạng thái Order, Payment và dữ</tspan><tspan x="945.0" dy="21">liệu của key</tspan></text>
+<polyline points="1102,575 788,575" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="35" y="608" width="1610" height="3218" fill="none" stroke="#111"/>
+<rect x="35" y="608" width="70" height="28" fill="#fff" stroke="#111"/>
+<rect x="58.0" y="611" width="24.0" height="21" fill="#fff"/>
+<text x="70" y="627" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#111"><tspan x="70" dy="0">alt</tspan></text>
+<rect x="112" y="612" width="211.0" height="21" fill="#fff"/>
+<text x="115" y="628" text-anchor="start" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="115" dy="0">[Key đã có và cùng nội dung]</tspan></text>
+<rect x="477.0" y="673" width="276.0" height="42" fill="#fff"/>
+<text x="615.0" y="689" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="615.0" dy="0">6. Trả URL, trạng thái đang xử lý hoặc</tspan><tspan x="615.0" dy="21">kết quả đã lưu</tspan></text>
+<polyline points="772,722 458,722" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="167.0" y="755" width="256.0" height="42" fill="#fff"/>
+<text x="295.0" y="771" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="295.0" dy="0">7. Hiển thị lại đúng lần xử lý; không</tspan><tspan x="295.0" dy="21">tạo Payment mới</tspan></text>
+<polyline points="442,804 140,804" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<polyline points="35,837 1645,837" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5"/>
+<rect x="112" y="845" width="240.0" height="21" fill="#fff"/>
+<text x="115" y="861" text-anchor="start" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="115" dy="0">[Key đã có nhưng khác nội dung]</tspan></text>
+<rect x="478.0" y="895" width="274.0" height="21" fill="#fff"/>
+<text x="615.0" y="911" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="615.0" dy="0">8. 409 Conflict; không thay đổi dữ liệu</tspan></text>
+<polyline points="772,923 458,923" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="167.0" y="956" width="256.0" height="42" fill="#fff"/>
+<text x="295.0" y="972" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="295.0" dy="0">9. Thông báo yêu cầu thanh toán bị</tspan><tspan x="295.0" dy="21">xung đột</tspan></text>
+<polyline points="442,1005 140,1005" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<polyline points="35,1038 1645,1038" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5"/>
+<rect x="112" y="1046" width="230.0" height="21" fill="#fff"/>
+<text x="115" y="1062" text-anchor="start" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="115" dy="0">[Key mới và Order đủ điều kiện]</tspan></text>
+<rect x="809.5" y="1096" width="271.0" height="42" fill="#fff"/>
+<text x="945.0" y="1112" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">10. BEGIN; khóa Order và kiểm tra lại</tspan><tspan x="945.0" dy="21">điều kiện thanh toán</tspan></text>
+<polyline points="788,1145 1102,1145" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="50" y="1178" width="1580" height="645" fill="none" stroke="#111"/>
+<rect x="50" y="1178" width="70" height="28" fill="#fff" stroke="#111"/>
+<rect x="69.5" y="1181" width="31.0" height="21" fill="#fff"/>
+<text x="85" y="1197" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#111"><tspan x="85" dy="0">opt</tspan></text>
+<rect x="127" y="1182" width="268.0" height="21" fill="#fff"/>
+<text x="130" y="1198" text-anchor="start" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="130" dy="0">[Thanh toán lại sau Thất bại/Hết hạn]</tspan></text>
+<rect x="821.0078125" y="1243" width="247.984375" height="42" fill="#fff"/>
+<text x="945.0" y="1259" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">11. Tính lại giá và kiểm tra tồn kho</tspan><tspan x="945.0" dy="21">hiện tại</tspan></text>
+<polyline points="788,1292 1102,1292" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="843.5" y="1325" width="203.0" height="21" fill="#fff"/>
+<text x="945.0" y="1341" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">12. Kết quả kiểm tra tồn kho</tspan></text>
+<polyline points="1102,1353 788,1353" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="65" y="1386" width="1550" height="319" fill="none" stroke="#111"/>
+<rect x="65" y="1386" width="70" height="28" fill="#fff" stroke="#111"/>
+<rect x="75.5" y="1389" width="49.0" height="21" fill="#fff"/>
+<text x="100" y="1405" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#111"><tspan x="100" dy="0">break</tspan></text>
+<rect x="142" y="1390" width="111.0" height="21" fill="#fff"/>
+<text x="145" y="1406" text-anchor="start" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="145" dy="0">[Thiếu tồn kho]</tspan></text>
+<rect x="813.0" y="1451" width="264.0" height="42" fill="#fff"/>
+<text x="945.0" y="1467" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">13. ROLLBACK; không tạo Payment</tspan><tspan x="945.0" dy="21">và không trừ tồn</tspan></text>
+<polyline points="788,1500 1102,1500" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="480.5" y="1533" width="269.0" height="42" fill="#fff"/>
+<text x="615.0" y="1549" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="615.0" dy="0">14. 409 Conflict: không đủ tồn kho để</tspan><tspan x="615.0" dy="21">thanh toán lại</tspan></text>
+<polyline points="772,1582 458,1582" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="175.5" y="1615" width="239.0" height="42" fill="#fff"/>
+<text x="295.0" y="1631" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="295.0" dy="0">15. Thông báo hết hàng; yêu cầu</tspan><tspan x="295.0" dy="21">khách điều chỉnh</tspan></text>
+<polyline points="442,1664 140,1664" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="810.5" y="1733" width="269.0" height="42" fill="#fff"/>
+<text x="945.0" y="1749" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">16. Trừ lại tồn kho theo Product trong</tspan><tspan x="945.0" dy="21">transaction</tspan></text>
+<polyline points="788,1782 1102,1782" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="809.5" y="1851" width="271.0" height="42" fill="#fff"/>
+<text x="945.0" y="1867" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">17. Tạo Payment Chờ xử lý, mã tham</tspan><tspan x="945.0" dy="21">chiếu và hạn 15 phút</tspan></text>
+<polyline points="788,1900 1102,1900" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="856.0" y="1933" width="178.0" height="21" fill="#fff"/>
+<text x="945.0" y="1949" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">18. COMMIT transaction</tspan></text>
+<polyline points="788,1961 1102,1961" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="823.0" y="1994" width="244.0" height="21" fill="#fff"/>
+<text x="945.0" y="2010" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">19. Payment và thông tin tạo URL</tspan></text>
+<polyline points="1102,2022 788,2022" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="807" y="2055" width="273.0" height="42" fill="#fff"/>
+<text x="810" y="2071" text-anchor="start" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="810" dy="0">20. Tạo URL VNPay Sandbox có chữ</tspan><tspan x="810" dy="21">ký</tspan></text>
+<polyline points="788,2103 816,2103 816,2126 788,2126" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="512.0" y="2146" width="206.0" height="21" fill="#fff"/>
+<text x="615.0" y="2162" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="615.0" dy="0">21. 200 OK: URL thanh toán</tspan></text>
+<polyline points="772,2174 458,2174" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="778.5" y="2207" width="373.0" height="21" fill="#fff"/>
+<text x="965.0" y="2223" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="965.0" dy="0">22. Chuyển hướng trình duyệt đến VNPay Sandbox</tspan></text>
+<polyline points="458,2235 1472,2235" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="664.5" y="2268" width="291.0" height="21" fill="#fff"/>
+<text x="810.0" y="2284" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="810.0" dy="0">23. Hiển thị trang thanh toán thử nghiệm</tspan></text>
+<polyline points="1472,2296 140,2296" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="683.0" y="2329" width="254.0" height="21" fill="#fff"/>
+<text x="810.0" y="2345" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="810.0" dy="0">24. Xác nhận giao dịch thử nghiệm</tspan></text>
+<polyline points="140,2357 1472,2357" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="50" y="2390" width="1580" height="1400" fill="none" stroke="#111"/>
+<rect x="50" y="2390" width="70" height="28" fill="#fff" stroke="#111"/>
+<rect x="69.5" y="2393" width="31.0" height="21" fill="#fff"/>
+<text x="85" y="2409" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#111"><tspan x="85" dy="0">par</tspan></text>
+<rect x="127" y="2394" width="301.0" height="21" fill="#fff"/>
+<text x="130" y="2410" text-anchor="start" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="130" dy="0">[Return URL — không quyết định kết quả]</tspan></text>
+<rect x="827.0" y="2455" width="276.0" height="21" fill="#fff"/>
+<text x="965.0" y="2471" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="965.0" dy="0">25. Chuyển trình duyệt về Return URL</tspan></text>
+<polyline points="1472,2483 458,2483" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="486.5" y="2516" width="257.0" height="21" fill="#fff"/>
+<text x="615.0" y="2532" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="615.0" dy="0">26. GET /orders/{id}/payment-status</tspan></text>
+<polyline points="458,2544 772,2544" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="813.5" y="2577" width="263.0" height="21" fill="#fff"/>
+<text x="945.0" y="2593" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">27. Đọc trạng thái Order và Payment</tspan></text>
+<polyline points="788,2605 1102,2605" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="810.5" y="2638" width="269.0" height="42" fill="#fff"/>
+<text x="945.0" y="2654" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">28. Trạng thái đã xác minh hoặc Chờ</tspan><tspan x="945.0" dy="21">xác minh</tspan></text>
+<polyline points="1102,2687 788,2687" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="519.5" y="2720" width="191.0" height="21" fill="#fff"/>
+<text x="615.0" y="2736" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="615.0" dy="0">29. Trả trạng thái backend</tspan></text>
+<polyline points="772,2748 458,2748" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="168.0" y="2781" width="254.0" height="42" fill="#fff"/>
+<text x="295.0" y="2797" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="295.0" dy="0">30. Hiển thị kết quả hoặc Đang xác</tspan><tspan x="295.0" dy="21">minh</tspan></text>
+<polyline points="442,2830 140,2830" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<polyline points="50,2863 1630,2863" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5"/>
+<rect x="127" y="2871" width="209.0" height="21" fill="#fff"/>
+<text x="130" y="2887" text-anchor="start" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="130" dy="0">[IPN — căn cứ xử lý kết quả]</tspan></text>
+<rect x="913.5" y="2921" width="433.0" height="21" fill="#fff"/>
+<text x="1130.0" y="2937" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="1130.0" dy="0">31. POST IPN: mã tham chiếu, số tiền, mã kết quả và chữ ký</tspan></text>
+<polyline points="1472,2949 788,2949" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="807" y="2982" width="262.0" height="42" fill="#fff"/>
+<text x="810" y="2998" text-anchor="start" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="810" dy="0">32. Xác minh chữ ký, tham chiếu, số</tspan><tspan x="810" dy="21">tiền và kết quả</tspan></text>
+<polyline points="788,3030 816,3030 816,3053 788,3053" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="65" y="3073" width="1550" height="620" fill="none" stroke="#111"/>
+<rect x="65" y="3073" width="70" height="28" fill="#fff" stroke="#111"/>
+<rect x="88.0" y="3076" width="24.0" height="21" fill="#fff"/>
+<text x="100" y="3092" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#111"><tspan x="100" dy="0">alt</tspan></text>
+<rect x="142" y="3077" width="274.0" height="21" fill="#fff"/>
+<text x="145" y="3093" text-anchor="start" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="145" dy="0">[IPN hợp lệ và thanh toán thành công]</tspan></text>
+<rect x="809.5" y="3138" width="271.0" height="63" fill="#fff"/>
+<text x="945.0" y="3154" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">33. BEGIN; khóa Order và Payment;</tspan><tspan x="945.0" dy="21">cập nhật Payment Thành công, Order</tspan><tspan x="945.0" dy="21">Đã thanh toán</tspan></text>
+<polyline points="788,3208 1102,3208" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="823.0078125" y="3241" width="243.984375" height="21" fill="#fff"/>
+<text x="945.0" y="3257" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">34. COMMIT; không hoàn tồn kho</tspan></text>
+<polyline points="788,3269 1102,3269" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<polyline points="65,3302 1615,3302" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5"/>
+<rect x="142" y="3310" width="277.0" height="21" fill="#fff"/>
+<text x="145" y="3326" text-anchor="start" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="145" dy="0">[IPN hợp lệ nhưng thanh toán thất bại]</tspan></text>
+<rect x="807.0" y="3360" width="276.0" height="63" fill="#fff"/>
+<text x="945.0" y="3376" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">35. BEGIN; ghi Payment Thất bại;</tspan><tspan x="945.0" dy="21">hoàn tồn đúng một lần; giữ Order Chờ</tspan><tspan x="945.0" dy="21">thanh toán</tspan></text>
+<polyline points="788,3430 1102,3430" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="897.0" y="3463" width="96.0" height="21" fill="#fff"/>
+<text x="945.0" y="3479" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">36. COMMIT</tspan></text>
+<polyline points="788,3491 1102,3491" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<polyline points="65,3524 1615,3524" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5"/>
+<rect x="142" y="3532" width="266.0" height="21" fill="#fff"/>
+<text x="145" y="3548" text-anchor="start" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="145" dy="0">[IPN sai hoặc kết quả chưa xác định]</tspan></text>
+<rect x="816.5" y="3582" width="257.0" height="63" fill="#fff"/>
+<text x="945.0" y="3598" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="945.0" dy="0">37. Không cập nhật thành công/thất</tspan><tspan x="945.0" dy="21">bại; giữ Chờ xử lý hoặc Chờ xác</tspan><tspan x="945.0" dy="21">minh</tspan></text>
+<polyline points="788,3652 1102,3652" fill="none" stroke="#111" stroke-width="1.4" marker-end="url(#call)"/>
+<rect x="1003.0" y="3721" width="254.0" height="21" fill="#fff"/>
+<text x="1130.0" y="3737" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="400" fill="#111"><tspan x="1130.0" dy="0">38. RspCode theo quy ước VNPay</tspan></text>
+<polyline points="788,3749 1472,3749" fill="none" stroke="#111" stroke-width="1.4" stroke-dasharray="6 5" marker-end="url(#arrow)"/></svg>
