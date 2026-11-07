@@ -62,6 +62,7 @@
 <polyline points="955.0,1395.0 955.0,1225.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
 <polyline points="955.0,1195.0 955.0,777.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
 <polyline points="955.0,747.0 955.0,350.0 1245.0,350.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
+<polyline points="230.0,1473.0 230.0,1530.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
 <polyline points="410.0,1572.5 480.0,1572.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
 <polyline points="860.0,1572.5 1040.0,1572.5" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
 <polyline points="1260.0,1615.0 1260.0,1645.0" stroke="#111111" stroke-width="2.2" fill="none" marker-end="url(#arr)"/>
@@ -131,6 +132,7 @@
 <polygon points="955.0,1395 970,1410.0 955.0,1425 940,1410.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <polygon points="955.0,1195 970,1210.0 955.0,1225 940,1210.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <polygon points="955.0,747 970,762.0 955.0,777 940,762.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
+<circle cx="230.0" cy="1459.0" r="14" fill="#111111" stroke="#111111" stroke-width="2"/>
 <rect x="50" y="1530" width="360" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="230.0" y="1550.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Khách hàng thấy đơn vẫn ở trạng thái</text>
 <text x="230.0" y="1572.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Chờ thanh toán (sau khi hoàn tồn);</text>
