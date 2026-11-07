@@ -1,6 +1,6 @@
 # Domain Class Diagram – BrewLite
 
-Tài liệu giải thích ngắn gọn domain model trong `domain-class.drawio` (Task 2.3). Nguồn nghiệp vụ: `context-and-scope.md`, `srs.md`, `use-case-checkout.md`. Bản export SVG sẽ được bổ sung sau khi kiểm tra sơ đồ trong Draw.io.
+Tài liệu giải thích ngắn gọn domain model trong `domain-class.drawio` (Task 2.3). Nguồn nghiệp vụ: `context-and-scope.md`, `srs.md`, `use-case-checkout.md`. Tệp nguồn Draw.io và bản xuất SVG đã được lưu trong repository.
 
 ## 1. Phạm vi domain model
 
@@ -20,7 +20,7 @@ Tài liệu giải thích ngắn gọn domain model trong `domain-class.drawio` 
 | `ProductOption` | Lựa chọn size hoặc topping của một Product (`type: ProductOptionType`) kèm `additionalPrice`. Không có tồn riêng. |
 | `Cart` | Giỏ hàng của User (tối đa một). |
 | `CartItem` | Một dòng trong giỏ: Product, `quantity`, size, topping và `estimatedUnitPrice`. Đây chỉ là **giá tạm tính**; backend tính lại khi tạo Order. |
-| `Order` | Đơn đặt đồ uống nhận tại quầy. `status` là tiến độ xử lý đơn, `paymentStatus` là trạng thái thanh toán, tách riêng nhau. Tiền (`subtotal`, `discountAmount`, `totalAmount`) do backend tính. |
+| `Order` | Đơn đặt đồ uống nhận tại quầy. `status` thể hiện tiến trình của đơn; trạng thái của từng lần thanh toán được quản lý tại `Payment.status`. Tiền (`subtotal`, `discountAmount`, `totalAmount`) do backend tính. |
 | `OrderItem` | Một dòng của Order, lưu **snapshot** tên sản phẩm, size, topping và đơn giá tại thời điểm đặt để lịch sử không thay đổi. |
 | `Payment` | Một lượt thanh toán của Order qua `provider`. Có `transactionRef`, `idempotencyKey`, `expiresAt` (15 phút) và `verifiedAt` riêng. |
 | `Promotion` `«future»` | Chương trình khuyến mãi (mã, loại, giá trị, thời gian hiệu lực, trạng thái). |
@@ -100,7 +100,7 @@ Multiplicity nằm cạnh class mà nó mô tả. Ví dụ `User 1 — 0..1 Cart
 - Chỉ dùng class/attribute theo yêu cầu mới; không mang từ sơ đồ cũ các phần mâu thuẫn (ProductSize, Topping, OrderItemTopping, PaymentMethod, `stockRestoredAt`, `requestHash`).
 - `CartItem` và `OrderItem` lưu size/topping dạng `String` nên không có association tới `ProductOption`; backend đối chiếu khi tạo Order.
 - Các attribute khóa (`userId`, `orderId`, `productId`...) giữ theo yêu cầu, bên cạnh association. `Order` không có `promotionId`; liên kết với Promotion chỉ thể hiện bằng association.
-- `PaymentStatus` không có giá trị "chưa thanh toán", nên `Order.paymentStatus` dùng `PENDING` khi Order chưa có Payment nào.
+- Trạng thái của từng lần thanh toán chỉ được lưu tại `Payment.status`; `Order.status` thể hiện tiến trình của đơn.
 - Trạng thái "cần đối soát thủ công" được biểu diễn bằng `UNKNOWN`, không thêm giá trị enum.
 - "Hoàn tồn đúng một lần" dựa vào việc Payment chuyển sang `FAILED`/`EXPIRED` trong cùng transaction với thao tác hoàn tồn, không thêm attribute cờ.
 - Trong MVP chưa có Promotion nên `Order.discountAmount` mặc định `0`.
