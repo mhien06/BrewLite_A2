@@ -29,7 +29,7 @@ Nếu xử lý thủ công, thông tin sản phẩm, tùy chọn, giá, số lư
 | **Khách hàng** | Xem menu, chọn đồ uống, đặt đơn, thanh toán qua **VNPay Sandbox** và nhận tại quầy. | Giá và tổng tiền rõ ràng; thao tác thuận tiện; biết đơn đã được xác nhận thanh toán hay chưa; theo dõi được đơn của mình. |
 | **Nhân viên quầy** | Xem đơn đã được xác nhận hợp lệ, chuẩn bị đồ uống, cập nhật tiến độ và bàn giao. | Đơn hiển thị đầy đủ sản phẩm, tùy chọn, số lượng và trạng thái đáng tin cậy; không phải tự xác nhận thanh toán. |
 | **Quản lý cửa hàng** | Theo dõi hoạt động, giám sát và xử lý đơn theo quyền. | Dữ liệu đơn và tồn kho nhất quán; phân quyền rõ; có thể nhận biết đơn thanh toán chưa xác định. |
-| **Bên nghiệm thu** | Đánh giá yêu cầu, mô hình, kiến trúc, kiểm thử và sản phẩm bàn giao. | Phạm vi rõ ràng; yêu cầu có thể kiểm chứng; tài liệu và sản phẩm thống nhất; có minh chứng hệ thống hoạt động. |
+| **Khách hàng/Giảng viên** | Đánh giá yêu cầu, mô hình, kiến trúc, kiểm thử và sản phẩm bàn giao. | Phạm vi rõ ràng; yêu cầu có thể kiểm chứng; tài liệu và sản phẩm thống nhất; có minh chứng hệ thống hoạt động. |
 | **Nhóm phát triển** | Phân tích, thiết kế, hiện thực, kiểm thử và triển khai. | Yêu cầu ổn định; thay đổi được truy vết; có cấu hình VNPay Sandbox phù hợp. |
 | **Đơn vị thanh toán (VNPay)** | Cung cấp cổng thanh toán thông qua môi trường **VNPay Sandbox** và phản hồi kết quả giao dịch. | Yêu cầu tích hợp đúng đặc tả, dữ liệu hợp lệ, thông tin xác thực được bảo vệ và kết quả được xử lý đúng. |
 
