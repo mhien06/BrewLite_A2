@@ -8,7 +8,7 @@ BrewLite là ứng dụng đặt đồ uống trực tuyến dành cho **một c
 
 Nếu xử lý thủ công, thông tin sản phẩm, tùy chọn, giá, số lượng tồn và trạng thái đơn dễ thiếu nhất quán. BrewLite tập trung dữ liệu và chuẩn hóa luồng **Xem menu → Chọn tùy chọn → Giỏ hàng → Đặt đơn → Thanh toán → Theo dõi đơn → Nhận tại quầy**. Hệ thống cần tính lại tổng tiền tại backend, kiểm tra tồn kho trước khi tạo đơn và tránh xử lý lặp yêu cầu.
 
-**Phạm vi thanh toán:** BrewLite tích hợp **VNPay Sandbox** để khách hàng thanh toán đơn hàng qua cổng VNPay. Phạm vi tích hợp bao gồm tạo yêu cầu thanh toán, chuyển khách hàng đến VNPay Sandbox, tiếp nhận và xác minh kết quả giao dịch, đồng thời xử lý các trường hợp phản hồi chậm, thanh toán thất bại hoặc chưa xác định được kết quả.
+**Phạm vi thanh toán:** BrewLite sử dụng **VNPay Sandbox làm Payment Service mô phỏng bên ngoài**. Phạm vi tích hợp bao gồm tạo yêu cầu thanh toán thử nghiệm, chuyển khách hàng đến VNPay Sandbox, tiếp nhận và xác minh kết quả giao dịch, đồng thời xử lý các trường hợp phản hồi chậm, thanh toán thất bại hoặc chưa xác định được kết quả. Môi trường này không phát sinh giao dịch tiền thật và không phải hệ thống thanh toán production.
 
 ## 2. Mục tiêu của BrewLite
 
@@ -31,7 +31,7 @@ Nếu xử lý thủ công, thông tin sản phẩm, tùy chọn, giá, số lư
 | **Quản lý cửa hàng** | Theo dõi hoạt động, giám sát và xử lý đơn theo quyền. | Dữ liệu đơn và tồn kho nhất quán; phân quyền rõ; có thể nhận biết đơn thanh toán chưa xác định. |
 | **Khách hàng/Giảng viên** | Đánh giá yêu cầu, mô hình, kiến trúc, kiểm thử và sản phẩm bàn giao. | Phạm vi rõ ràng; yêu cầu có thể kiểm chứng; tài liệu và sản phẩm thống nhất; có minh chứng hệ thống hoạt động. |
 | **Nhóm phát triển** | Phân tích, thiết kế, hiện thực, kiểm thử và triển khai. | Yêu cầu ổn định; thay đổi được truy vết; có cấu hình VNPay Sandbox phù hợp. |
-| **Đơn vị thanh toán (VNPay)** | Cung cấp cổng thanh toán thông qua môi trường **VNPay Sandbox** và phản hồi kết quả giao dịch. | Yêu cầu tích hợp đúng đặc tả, dữ liệu hợp lệ, thông tin xác thực được bảo vệ và kết quả được xử lý đúng. |
+| **Đơn vị thanh toán (VNPay)** | Cung cấp **VNPay Sandbox**, đóng vai trò Payment Service mô phỏng bên ngoài và phản hồi kết quả giao dịch thử nghiệm. | Yêu cầu tích hợp đúng đặc tả, dữ liệu hợp lệ, thông tin xác thực được bảo vệ và kết quả được xử lý đúng. |
 
 ## 4. Phạm vi thực hiện (in-scope MVP)
 
@@ -46,7 +46,7 @@ Nếu xử lý thủ công, thông tin sản phẩm, tùy chọn, giá, số lư
 | Theo dõi và xử lý đơn | Khách xem đơn của mình; nhân viên và quản lý xem, cập nhật tiến độ đơn đã đủ điều kiện xử lý. |
 | Kỹ thuật và bàn giao | Next.js mobile-first/PWA, NestJS, PostgreSQL; migration/seed, Docker, kiểm thử, CI/CD và triển khai hệ thống. |
 
-**Ranh giới nghiệp vụ:** MVP chỉ phục vụ **một cửa hàng**, khách **đặt trực tuyến và đến quầy nhận**, không giao hàng. VNPay Sandbox là dịch vụ thanh toán bên ngoài BrewLite; BrewLite chịu trách nhiệm quản lý đơn, trạng thái và tồn kho nội bộ.
+**Ranh giới nghiệp vụ:** MVP chỉ phục vụ **một cửa hàng**, khách **đặt trực tuyến và đến quầy nhận**, không giao hàng. VNPay Sandbox là Payment Service mô phỏng nằm ngoài ranh giới BrewLite; BrewLite chịu trách nhiệm quản lý đơn, trạng thái thanh toán và tồn kho nội bộ.
 
 ## 5. Quy tắc nghiệp vụ và giới hạn mức phạm vi
 

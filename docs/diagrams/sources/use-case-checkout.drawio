@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.0 Chrome/140.0.7339.249 Electron/38.7.2 Safari/537.36" version="29.3.0">
   <diagram id="brewlite-checkout" name="BrewLite Checkout">
-    <mxGraphModel dx="1469" dy="873" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1469" dy="873" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0" background="#ffffff">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -40,8 +40,8 @@
         <mxCell id="actor-customer" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=14;" value="Khách hàng" vertex="1">
           <mxGeometry height="120" width="80" x="50" y="280" as="geometry" />
         </mxCell>
-        <mxCell id="actor-vnpay" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=14;" value="VNPay Sandbox" vertex="1">
-          <mxGeometry height="120" width="100" x="970" y="700" as="geometry" />
+        <mxCell id="actor-vnpay" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;fontSize=14;" value="VNPay Sandbox&lt;br&gt;«Payment Service»" vertex="1">
+          <mxGeometry height="120" width="180" x="970" y="700" as="geometry" />
         </mxCell>
         <mxCell id="uc07" parent="1" style="ellipse;whiteSpace=wrap;html=1;fontSize=14;" value="Đặt đơn" vertex="1">
           <mxGeometry height="64" width="160" x="300" y="190" as="geometry" />
