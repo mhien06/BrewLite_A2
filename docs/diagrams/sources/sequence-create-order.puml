@@ -50,11 +50,11 @@ break Thiếu tồn kho
   UI --> Customer: Thông báo hết hàng; chọn lại
 end
 
-API -> DB: Trừ Product.inventoryQuantity; tạo Order (status = PENDING_PAYMENT,\npaymentStatus = UNPAID; subtotal, discountAmount = 0, totalAmount)\nvà OrderItem snapshot (productName, size, topping, unitPrice, quantity)
+API -> DB: Trừ Product.inventoryQuantity; tạo Order (status = PENDING_PAYMENT,\nsubtotal, discountAmount = 0, totalAmount)\nvà OrderItem snapshot (productName, size, topping, unitPrice, quantity)
 API -> DB: COMMIT transaction
-DB --> API: Order (id, status, paymentStatus, totalAmount, createdAt)
+DB --> API: Order (id, status, totalAmount, createdAt)
 deactivate DB
-API --> UI: 201 Created: Order (status = PENDING_PAYMENT,\npaymentStatus = UNPAID)
+API --> UI: 201 Created: Order (status = PENDING_PAYMENT, totalAmount)
 deactivate API
 UI --> Customer: Hiển thị đơn hàng; chuyển sang thanh toán
 deactivate UI
