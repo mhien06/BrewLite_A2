@@ -1,0 +1,37 @@
+// BrewLite - C4 Level 1: System Context (đen trắng)
+digraph C4Context {
+  graph [rankdir=TB, splines=true, nodesep=1.0, ranksep=1.3, fontname="DejaVu Sans", fontsize=18, labelloc=t,
+         label=<<B>BrewLite – C4 Level 1: System Context</B>>, pad=0.4];
+  node  [shape=box, style="rounded", fontname="DejaVu Sans", fontsize=12, color=black, fontcolor=black, penwidth=1.6, margin="0.25,0.15"];
+  edge  [fontname="DejaVu Sans", fontsize=10, color=black, fontcolor=black, penwidth=1.3, arrowsize=0.9];
+
+  customer [label=<<B>Khách hàng</B><BR/>[Person]<BR/><BR/>Xem menu, chọn size/topping,<BR/>đặt đơn, thanh toán và theo dõi đơn,<BR/>nhận đồ uống tại quầy>];
+  staff    [label=<<B>Nhân viên quầy</B><BR/>[Person]<BR/><BR/>Xem đơn của cửa hàng,<BR/>cập nhật tiến độ chuẩn bị/bàn giao>];
+  manager  [label=<<B>Quản lý cửa hàng</B><BR/>[Person]<BR/><BR/>Theo dõi và xử lý đơn<BR/>theo quyền hạn>];
+
+  brewlite [shape=box, style="solid", penwidth=3, margin="0.4,0.3", fontsize=13,
+            label=<<B>BrewLite</B><BR/>[Software System]<BR/><BR/>Ứng dụng đặt đồ uống trực tuyến cho một cửa hàng:<BR/>menu, giỏ hàng, đặt đơn, tồn kho theo Product,<BR/>thanh toán thử nghiệm và xử lý đơn tại quầy>];
+
+  vnpay [style="dashed", penwidth=1.8,
+         label=<<B>VNPay Sandbox</B><BR/>[Software System – bên ngoài]<BR/><BR/>Payment Service mô phỏng:<BR/>trang thanh toán thử nghiệm, Return URL, IPN, QueryDR.<BR/>Không có giao dịch tiền thật>];
+
+  customer -> brewlite [label="  Xem menu, đặt đơn, thanh toán,\l  xem trạng thái đơn [HTTPS]  \l"];
+  staff    -> brewlite [label="  Xem đơn, cập nhật\l  trạng thái xử lý [HTTPS]  \l"];
+  manager  -> brewlite [label="  Xem đơn, cập nhật\l  trạng thái xử lý [HTTPS]  \l"];
+
+  brewlite -> vnpay [label="  Tạo URL thanh toán (có chữ ký),\l  truy vấn kết quả (QueryDR) [HTTPS]  \l"];
+  vnpay -> brewlite [label="  Gửi IPN kết quả giao dịch,\l  chuyển khách về Return URL [HTTPS]  \l", constraint=false];
+  customer -> vnpay [label="  Thao tác thanh toán thử nghiệm\l  (redirect từ BrewLite)  \l", style=dashed, constraint=false];
+
+  { rank=same; customer; staff; manager }
+  { rank=max; vnpay }
+
+  legend [shape=plaintext, style="", fontsize=10, margin=0,
+    label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+      <TR><TD ALIGN="LEFT"><B>Chú thích</B></TD></TR>
+      <TR><TD ALIGN="LEFT">Khung nét liền đậm: hệ thống đang xây dựng (BrewLite)</TD></TR>
+      <TR><TD ALIGN="LEFT">Khung nét đứt: hệ thống bên ngoài (ngoài ranh giới BrewLite)</TD></TR>
+      <TR><TD ALIGN="LEFT">Khung bo góc nhẹ: người dùng (Person)</TD></TR>
+      <TR><TD ALIGN="LEFT">Mũi tên: hướng khởi tạo tương tác, nhãn ghi mục đích và giao thức</TD></TR>
+    </TABLE>>];
+}
