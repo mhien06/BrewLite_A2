@@ -28,7 +28,7 @@ opt Chưa đăng nhập
   deactivate API
 end
 
-UI -> API: POST /orders: JWT, cartItems\n(productId, quantity, size, toppings)
+UI -> API: POST /orders: JWT, cartItems\n(productId, quantity, size, topping)
 activate API
 
 API -> API: Kiểm tra JWT; validate Product, Option\nvà tính lại đơn giá hiện hành
@@ -50,11 +50,11 @@ break Thiếu tồn kho
   UI --> Customer: Thông báo hết hàng; chọn lại
 end
 
-API -> DB: Trừ tồn kho; tạo Order (PENDING_PAYMENT)\nvà OrderItem snapshot
+API -> DB: Trừ Product.inventoryQuantity; tạo Order (status = PENDING_PAYMENT,\npaymentStatus = UNPAID; subtotal, discountAmount = 0, totalAmount)\nvà OrderItem snapshot (productName, size, topping, unitPrice, quantity)
 API -> DB: COMMIT transaction
-DB --> API: Order (orderCode, totalAmount)
+DB --> API: Order (id, status, paymentStatus, totalAmount, createdAt)
 deactivate DB
-API --> UI: 201 Created: Order PENDING_PAYMENT
+API --> UI: 201 Created: Order (status = PENDING_PAYMENT,\npaymentStatus = UNPAID)
 deactivate API
 UI --> Customer: Hiển thị đơn hàng; chuyển sang thanh toán
 deactivate UI
