@@ -3,48 +3,57 @@ title Sequence Diagram - Tạo đơn hàng (UC-07)
 hide footbox
 skinparam monochrome true
 skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow false
 
 actor Customer
 participant "Next.js UI" as UI
 participant "NestJS API" as API
-database Database as DB
-participant "VNPay Sandbox\n«Payment Service»" as VNPay
+participant "Database" as DB
+
+' --- Lời gọi đồng bộ: ->   |   Trả về: -->>  (nét đứt, đầu mũi tên hở) ---
 
 Customer -> UI: 1. Chọn Đặt đơn từ giỏ hàng
+activate Customer
 activate UI
+
 UI -> API: 2. POST /orders: JWT và các dòng\ngiỏ hàng (Product, size, topping, số lượng)
 activate API
+
 API -> API: 3. Kiểm tra JWT, vai trò Khách hàng\nvà validate dữ liệu giỏ hàng
+activate API
+deactivate API
 
 alt JWT, vai trò và dữ liệu hợp lệ
   API -> DB: 4. BEGIN; khóa Product; đọc giá,\ntùy chọn và tồn kho
   activate DB
-  DB --> API: 5. Giá hiện hành, tùy chọn hợp lệ và\ntồn kho theo Product
+  DB -->> API: 5. Giá hiện hành, tùy chọn hợp lệ và\ntồn kho theo Product
   deactivate DB
+
   API -> API: 6. Tính lại tổng tiền; cộng số lượng\ntheo từng Product
+  activate API
+  deactivate API
 
   alt Đủ tồn kho cho toàn bộ đơn
     API -> DB: 7. Lưu Order Chờ thanh toán,\nOrderItem snapshot; trừ tồn kho
     activate DB
-    deactivate DB
     API -> DB: 8. COMMIT transaction
-    activate DB
-    DB --> API: 9. Mã đơn, tổng tiền và trạng thái Chờ thanh toán
+    DB -->> API: 9. Mã đơn, tổng tiền và trạng thái Chờ thanh toán
     deactivate DB
-    API --> UI: 10. 201 Created: thông tin đơn chính thức\nvà trạng thái Chờ thanh toán
-    UI --> Customer: 11. Hiển thị đơn Chờ thanh toán\nvà nút Thanh toán
+    API -->> UI: 10. 201 Created: thông tin đơn chính thức\nvà trạng thái Chờ thanh toán
+    UI -->> Customer: 11. Hiển thị đơn Chờ thanh toán\nvà nút Thanh toán
   else Thiếu tồn kho hoặc lỗi transaction
     API -> DB: 12. ROLLBACK; không tạo đơn\nvà không trừ tồn một phần
     activate DB
     deactivate DB
-    API --> UI: 13. 409 Conflict hoặc lỗi tạo đơn
-    UI --> Customer: 14. Thông báo hết hàng\nhoặc tạo đơn thất bại
+    API -->> UI: 13. 409 Conflict hoặc lỗi tạo đơn
+    UI -->> Customer: 14. Thông báo hết hàng\nhoặc tạo đơn thất bại
   end
 else JWT, quyền hoặc dữ liệu không hợp lệ
-  API --> UI: 15. 401 / 403 / 400;\nkhông truy cập Database
-  UI --> Customer: 16. Hiển thị lỗi và yêu cầu khách điều chỉnh
+  API -->> UI: 15. 401 / 403 / 400;\nkhông truy cập Database
+  UI -->> Customer: 16. Hiển thị lỗi và yêu cầu khách điều chỉnh
 end
 
 deactivate API
 deactivate UI
+deactivate Customer
 @enduml
