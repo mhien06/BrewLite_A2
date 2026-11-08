@@ -64,6 +64,7 @@ Việc trình duyệt quay về `Return URL` và việc `VNPay Sandbox` gọi `I
   - `Next.js UI` **không dùng tham số trên Return URL làm căn cứ xác nhận thanh toán**, mà gọi `GET /orders/{id}/payment-status` tới `NestJS API` (kích hoạt một activation bar riêng trên `NestJS API`).
   - `NestJS API` đọc trạng thái thực tế từ `Database` và trả về cho UI hiển thị kết quả đã xác minh hoặc trạng thái `Đang xác minh`.
 - **Tương tác độc lập B – VNPay Sandbox gửi IPN bất đồng bộ:**
+  - IPN là kênh thông báo bất đồng bộ chính. Nếu chưa nhận được IPN hoặc kết quả giao dịch chưa rõ, hệ thống dùng `QueryDR` để đối soát với VNPay Sandbox; vì vậy IPN không được mô tả là căn cứ duy nhất.
   - `VNPay Sandbox` gửi `POST IPN` (gồm `transactionRef`, số tiền, mã kết quả, chữ ký) tới `NestJS API` (kích hoạt một activation bar riêng trên `NestJS API`).
   - `NestJS API` kiểm tra chữ ký, đối chiếu `transactionRef`, số tiền và đọc trạng thái `Order` / `Payment` hiện tại từ `Database`, sau đó xử lý theo **5 nhánh rõ ràng (`alt`)**:
     1. **IPN / chữ ký không hợp lệ, sai tham chiếu hoặc sai số tiền:** Từ chối thông báo, ghi log cảnh báo bảo mật và **không thay đổi Database**.

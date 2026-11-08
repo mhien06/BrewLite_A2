@@ -111,12 +111,13 @@ else Key mới, Order PENDING_PAYMENT và không có Payment đang chờ
       deactivate UI
     end
   else Tương tác độc lập B
+    opt VNPay gửi IPN
     VNPay -> API: POST IPN: transactionRef, số tiền, mã kết quả và chữ ký
     activate VNPay
     activate API
     note over DB, VNPay
-      B: VNPay Sandbox gửi IPN bất đồng bộ —
-      căn cứ duy nhất xác nhận kết quả thanh toán.
+      B: IPN là kênh thông báo bất đồng bộ chính;
+      khi chưa có IPN hoặc kết quả chưa rõ, dùng QueryDR để đối soát.
     end note
     API -> API: Kiểm tra chữ ký, đối chiếu transactionRef,\nsố tiền và trạng thái Payment
     activate API
@@ -153,6 +154,7 @@ else Key mới, Order PENDING_PAYMENT và không có Payment đang chờ
     API --> VNPay: Phản hồi RspCode: 00 (đã ghi nhận),\n02 (đã xác nhận trước đó), 97 (sai chữ ký)
     deactivate API
     deactivate VNPay
+    end
   end
 
   opt Sau khi IPN được xử lý: UI lấy trạng thái đã xác minh và hiển thị kết quả cuối cùng
