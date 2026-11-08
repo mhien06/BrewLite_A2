@@ -120,7 +120,7 @@
 <text x="230.0" y="278.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Thanh toán đơn hàng</text>
 <rect x="480" y="230" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="680.0" y="256.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Sinh Idempotency-Key (UUIDv4); gửi POST</text>
-<text x="680.0" y="278.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">/orders/:id/payments kèm JWT</text>
+<text x="680.0" y="278.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">/orders/{id}/payments kèm JWT</text>
 <polygon points="1485.0,330 1635,375.0 1485.0,420 1335,375.0" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="1485.0" y="365.0" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Xác thực JWT &amp; quyền sở hữu</text>
 <text x="1485.0" y="385.0" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Order?</text>
@@ -192,7 +192,7 @@
 <text x="2440.0" y="1593.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">tham số kết quả</text>
 <rect x="480" y="1545" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="680.0" y="1571.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Tiếp nhận Return URL; gọi GET</text>
-<text x="680.0" y="1593.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">/orders/:id/payment-status</text>
+<text x="680.0" y="1593.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">/orders/{id}/payment-status</text>
 <rect x="1120" y="1650" width="400" height="75" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="1320.0" y="1676.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Đọc trạng thái Payment và Order từ</text>
 <text x="1320.0" y="1698.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Database; trả về cho client</text>
