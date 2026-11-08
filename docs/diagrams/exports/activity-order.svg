@@ -119,8 +119,8 @@
 <text x="2090.0" y="1527.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Đủ tồn kho?</text>
 <rect x="1920" y="1590" width="340" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="2090.0" y="1610.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Trừ tồn kho; tạo bản ghi Order</text>
-<text x="2090.0" y="1632.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">(trạng thái 'Chờ thanh toán') và</text>
-<text x="2090.0" y="1654.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">OrderItem snapshot</text>
+<text x="2090.0" y="1632.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">(trạng thái PENDING_PAYMENT – Chờ</text>
+<text x="2090.0" y="1654.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">thanh toán) và OrderItem snapshot</text>
 <polygon points="2090.0,1700 2175,1737.5 2090.0,1775 2005,1737.5" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="2090.0" y="1727.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">Ghi DB thành</text>
 <text x="2090.0" y="1747.5" fill="#111111" font-family="Arial" font-size="13" font-weight="600" text-anchor="middle">công?</text>
@@ -140,14 +140,14 @@
 <text x="690.0" y="1848.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">hàng); hướng dẫn khách chọn lại</text>
 <rect x="1110" y="1910" width="380" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="1300.0" y="1930.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Trả về Order chính thức (mã đơn, tổng</text>
-<text x="1300.0" y="1952.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">tiền, trạng thái Chờ thanh toán,</text>
-<text x="1300.0" y="1974.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">snapshot)</text>
+<text x="1300.0" y="1952.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">tiền, trạng thái PENDING_PAYMENT – Chờ</text>
+<text x="1300.0" y="1974.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">thanh toán, snapshot)</text>
 <rect x="500" y="1910" width="380" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
 <text x="690.0" y="1941.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Hiển thị thông tin đơn hàng thành công;</text>
 <text x="690.0" y="1963.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">chuyển hướng sang thanh toán</text>
 <rect x="50" y="1910" width="380" height="85" rx="12" fill="#ffffff" stroke="#111111" stroke-width="1.6"/>
-<text x="240.0" y="1941.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Khách hàng nhận mã đơn hàng Chờ thanh</text>
-<text x="240.0" y="1963.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">toán</text>
+<text x="240.0" y="1941.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">Khách hàng nhận mã đơn hàng (trạng thái</text>
+<text x="240.0" y="1963.5" fill="#111111" font-family="Arial" font-size="15" font-weight="400" text-anchor="middle">PENDING_PAYMENT – Chờ thanh toán)</text>
 <circle cx="240.0" cy="2049.0" r="14" fill="#ffffff" stroke="#111111" stroke-width="2"/>
 <circle cx="240.0" cy="2049.0" r="8" fill="#111111"/>
 </svg>
