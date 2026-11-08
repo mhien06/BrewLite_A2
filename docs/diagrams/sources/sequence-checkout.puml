@@ -107,8 +107,8 @@ else Key mới, Order PENDING_PAYMENT và không có Payment đang chờ
   activate DB
 
   opt Thanh toán lại sau khi Payment trước đã FAILED / EXPIRED
-    API -> DB: Kiểm tra tồn kho hiện tại theo Product\n(giữ nguyên Order.totalAmount)
-    DB --> API: Kết quả kiểm tra tồn kho
+    API -> DB: Đọc giá và tùy chọn hiện hành; tính lại tổng tiền;\nkiểm tra tồn kho hiện tại theo Product
+    DB --> API: Tổng tiền vừa tính lại và kết quả kiểm tra tồn kho
   end
 
   break Thiếu tồn kho khi thanh toán lại
@@ -118,10 +118,11 @@ else Key mới, Order PENDING_PAYMENT và không có Payment đang chờ
   end
 
   opt Thanh toán lại sau khi Payment trước đã FAILED / EXPIRED
-    API -> DB: Trừ lại tồn kho theo Product trong cùng transaction
+    API -> DB: Cập nhật Order.totalAmount bằng tổng tiền vừa tính lại;\ntrừ lại tồn kho theo Product trong cùng transaction
   end
 
-  API -> DB: Tạo Payment PENDING (VNPAY_SANDBOX), transactionRef mới,\namount = Order.totalAmount, expiresAt = +15 phút
+  API -> API: Xác định paymentAmount:\nlần đầu = Order.totalAmount; thanh toán lại = tổng tiền vừa tính lại
+  API -> DB: Tạo Payment PENDING (VNPAY_SANDBOX), transactionRef mới,\namount = paymentAmount, expiresAt = +15 phút
   API -> DB: COMMIT transaction
   DB --> API: Thông tin Payment và dữ liệu tạo URL
   deactivate DB

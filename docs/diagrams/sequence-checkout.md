@@ -24,55 +24,55 @@ Sơ đồ trình tự checkout thống nhất mô tả trọn vẹn hai giai đo
 
 ## 2. Chi tiết luồng tương tác theo giai đoạn
 
-### 2.1. Giai đoạn 1 – Tạo đơn hàng và trừ tồn kho nguyên tử (Bước 1 – 16)
+### 2.1. Giai đoạn 1 – Tạo đơn hàng và trừ tồn kho nguyên tử
 
-- **Kiểm tra đầu vào và quyền truy cập (Bước 1 – 3, 15 – 16):**
+- **Kiểm tra đầu vào và quyền truy cập:**
   - `Customer` chọn **Đặt đơn từ giỏ hàng** trên `Next.js UI`.
   - `Next.js UI` gọi `POST /orders` kèm `JWT` và danh sách các dòng giỏ hàng (`Product`, `size`, `topping`, `số lượng`).
   - `NestJS API` kiểm tra tính hợp lệ của `JWT`, vai trò `Customer` và dữ liệu giỏ hàng. Nếu không hợp lệ, API trả ngay `401 / 403 / 400` mà không truy cập `Database`.
-- **Tính lại giá và kiểm tra/trừ tồn kho trong một transaction (Bước 4 – 14):**
+- **Tính lại giá và kiểm tra/trừ tồn kho trong một transaction:**
   - Khi dữ liệu hợp lệ, `NestJS API` mở transaction (`BEGIN`), khóa các bản ghi `Product` liên quan, đọc giá hiện hành, tùy chọn hợp lệ và số lượng tồn kho.
   - Backend tự tính lại đơn giá, phụ phí tùy chọn, tổng tiền chính thức và cộng dồn số lượng theo từng `Product` (không tin giá tạm tính từ client; size/topping không có tồn kho riêng).
-  - **Nhánh đủ tồn kho (Bước 7 – 11):** Lưu `Order` ở trạng thái `Chờ thanh toán`, lưu các bản ghi `OrderItem` snapshot (tên sản phẩm, size, topping, đơn giá tại thời điểm đặt), trừ tồn kho theo `Product` và `COMMIT`. Thời hạn thanh toán 15 phút **chưa bắt đầu** ở bước này.
-  - **Nhánh thiếu tồn kho hoặc lỗi transaction (Bước 12 – 14):** Thực hiện `ROLLBACK` toàn bộ, đảm bảo không tạo đơn dở dang và không trừ tồn kho một phần; trả `409 Conflict` (hoặc lỗi tương ứng) để UI thông báo cho khách hàng.
+  - **Nhánh đủ tồn kho:** Lưu `Order` ở trạng thái `Chờ thanh toán`, lưu các bản ghi `OrderItem` snapshot (tên sản phẩm, size, topping, đơn giá tại thời điểm đặt), trừ tồn kho theo `Product` và `COMMIT`. Thời hạn thanh toán 15 phút **chưa bắt đầu** ở bước này.
+  - **Nhánh thiếu tồn kho hoặc lỗi transaction:** Thực hiện `ROLLBACK` toàn bộ, đảm bảo không tạo đơn dở dang và không trừ tồn kho một phần; trả `409 Conflict` (hoặc lỗi tương ứng) để UI thông báo cho khách hàng.
 
-### 2.2. Giai đoạn 2 – Khởi tạo thanh toán VNPay Sandbox và Idempotency (Bước 17 – 44)
+### 2.2. Giai đoạn 2 – Khởi tạo thanh toán VNPay Sandbox và Idempotency
 
-- **Yêu cầu khởi tạo thanh toán (Bước 17 – 21):**
+- **Yêu cầu khởi tạo thanh toán:**
   - `Customer` chọn thanh toán đơn hàng qua VNPay Sandbox.
   - `Next.js UI` gửi `POST /orders/{id}/payments` kèm `JWT`, phương thức thanh toán (`paymentMethod=VNPAY_SANDBOX`) và khóa chống gửi lặp (`idempotencyKey`).
   - `NestJS API` kiểm tra `JWT`, quyền sở hữu đơn, phương thức thanh toán và truy vấn `Database` để kiểm tra trạng thái `Order`, các `Payment` hiện có cùng `idempotencyKey`.
-- **Phân nhánh kiểm soát Idempotency và điều kiện thanh toán (Bước 22 – 27):**
-  1. **Cùng `idempotencyKey` và cùng nội dung yêu cầu (Bước 22 – 23):** Trả lại đúng URL thanh toán, trạng thái đang xử lý hoặc kết quả đã lưu của lần gọi trước (`200 OK`); không tạo `Payment` mới.
-  2. **Cùng `idempotencyKey` nhưng khác đơn hoặc khác nội dung (Bước 24 – 25):** Từ chối với `409 Conflict`, không thay đổi dữ liệu.
-  3. **Đã tồn tại `Payment` đang ở trạng thái `Chờ xử lý / Chờ xác minh` (hoặc `Order` không còn ở trạng thái hợp lệ) (Bước 26 – 27):** Chặn tạo `Payment` mới (`409 Conflict`), giữ nguyên giao dịch đang chờ xác minh để tránh tạo giao dịch trùng hoặc hoàn/trừ tồn sai lệch.
-- **Xử lý hết hạn / thanh toán lại và tạo `Payment` mới (Bước 28 – 41):**
-  - **Xác minh hết hạn trước khi hoàn tồn (Bước 28 – 29, fragment `opt`):** Nếu `Payment` trước đã quá 15 phút nhưng chưa đóng trạng thái, backend phải đối soát/xác minh kết quả giao dịch trước đủ tin cậy là `Hết hạn` rồi mới ghi nhận `Payment` `Hết hạn` và hoàn tồn kho đúng một lần trong transaction.
-  - **Thanh toán lại sau khi `Payment` trước đã xác minh `Thất bại / Hết hạn` (Bước 30 – 36, fragment `opt` & `break`):** Khi khách thanh toán lại cho đơn `Chờ thanh toán` đã được hoàn tồn trước đó, backend khóa `Order`, tính lại tổng tiền và kiểm tra tồn kho hiện tại theo `Product`. Nếu thiếu tồn kho (`break`), thực hiện `ROLLBACK`, trả `409 Conflict` và không tạo `Payment` mới. Nếu đủ tồn kho, giữ/trừ lại tồn kho theo `Product` ngay trong cùng transaction.
-  - **Tạo `Payment` và kết thúc kích hoạt API khởi tạo (Bước 37 – 41):** Tạo bản ghi `Payment` mới ở trạng thái `Chờ xử lý` (`VNPAY_SANDBOX`) với `transactionRef` mới và thời hạn 15 phút (`expiresAt`), thực hiện `COMMIT`, tạo URL VNPay Sandbox có chữ ký bảo mật và trả `200 OK` kèm URL cho `Next.js UI`.
-  - **Quy tắc Activation Bar:** Activation bar của `NestJS API` cho yêu cầu `POST /orders/{id}/payments` **kết thúc ngay sau khi trả response tạo URL (Bước 41)**, không kéo dài sang thời gian khách hàng thao tác trên cổng VNPay.
-- **Chuyển hướng và thao tác tại VNPay Sandbox (Bước 42 – 44):**
+- **Phân nhánh kiểm soát Idempotency và điều kiện thanh toán:**
+  1. **Cùng `idempotencyKey` và cùng nội dung yêu cầu:** Trả lại đúng URL thanh toán, trạng thái đang xử lý hoặc kết quả đã lưu của lần gọi trước (`200 OK`); không tạo `Payment` mới.
+  2. **Cùng `idempotencyKey` nhưng khác đơn hoặc khác nội dung:** Từ chối với `409 Conflict`, không thay đổi dữ liệu.
+  3. **Đã tồn tại `Payment` đang ở trạng thái `Chờ xử lý / Chờ xác minh` (hoặc `Order` không còn ở trạng thái hợp lệ):** Chặn tạo `Payment` mới (`409 Conflict`), giữ nguyên giao dịch đang chờ xác minh để tránh tạo giao dịch trùng hoặc hoàn/trừ tồn sai lệch.
+- **Xử lý hết hạn / thanh toán lại và tạo `Payment` mới:**
+  - **Xác minh hết hạn trước khi hoàn tồn (fragment `opt`):** Nếu `Payment` trước đã quá 15 phút nhưng chưa đóng trạng thái, backend phải đối soát/xác minh kết quả giao dịch trước đủ tin cậy là `Hết hạn` rồi mới ghi nhận `Payment` `Hết hạn` và hoàn tồn kho đúng một lần trong transaction.
+  - **Thanh toán lại sau khi `Payment` trước đã xác minh `Thất bại / Hết hạn` (fragment `opt` và `break`):** Backend khóa `Order`, đọc giá và tùy chọn hiện hành, tính lại tổng tiền, kiểm tra tồn kho hiện tại theo `Product`, rồi cập nhật `Order.totalAmount` bằng tổng tiền vừa tính lại. Nếu thiếu tồn kho, hệ thống `ROLLBACK`, trả `409 Conflict` và không tạo `Payment` mới. Nếu đủ tồn kho, hệ thống giữ/trừ lại tồn kho trong cùng transaction.
+  - **Tạo `Payment` và kết thúc kích hoạt API khởi tạo:** Lần thanh toán đầu dùng tổng tiền chính thức đã lưu trên đơn; lần thanh toán lại dùng tổng tiền vừa tính lại. Hệ thống tạo `Payment` `Chờ xử lý` (`VNPAY_SANDBOX`) với `transactionRef` mới và thời hạn 15 phút, `COMMIT`, tạo URL VNPay Sandbox có chữ ký và trả URL cho `Next.js UI`.
+  - **Quy tắc Activation Bar:** Activation bar của `NestJS API` cho yêu cầu `POST /orders/{id}/payments` kết thúc ngay sau khi trả response tạo URL, không kéo dài sang thời gian khách hàng thao tác trên cổng VNPay.
+- **Chuyển hướng và thao tác tại VNPay Sandbox:**
   - `Next.js UI` chuyển hướng trình duyệt của khách sang `VNPay Sandbox «Payment Service»`.
   - `Customer` xem trang thanh toán thử nghiệm và xác nhận giao dịch trên `VNPay Sandbox`.
 
-### 2.3. Giai đoạn 3 – Hai tương tác độc lập (Return URL và IPN) & Cập nhật kết quả cuối cùng (Bước 45 – 67)
+### 2.3. Giai đoạn 3 – Hai tương tác độc lập (Return URL và IPN) và cập nhật kết quả cuối cùng
 
-Việc trình duyệt quay về `Return URL` và việc `VNPay Sandbox` gọi `IPN` tới backend là **hai tương tác độc lập**, không có thứ tự cố định và không bắt buộc cùng xảy ra (được biểu diễn bằng các fragment `opt` độc lập, không dùng `par` đồng thời):
+Việc trình duyệt quay về `Return URL` và việc `VNPay Sandbox` gọi `IPN` tới backend là **hai tương tác độc lập**, không có thứ tự cố định và không bắt buộc cùng xảy ra. Sơ đồ tổng quát biểu diễn hai nhánh trong fragment `par`; mỗi nhánh dùng `opt` để thể hiện tương tác có thể không xảy ra.
 
-- **Tương tác độc lập A – Khách quay về qua Return URL (Bước 45 – 50):**
+- **Tương tác độc lập A – Khách quay về qua Return URL:**
   - `VNPay Sandbox` chuyển hướng trình duyệt về `Return URL` trên `Next.js UI` (có thể xảy ra trước IPN, sau IPN, hoặc không xảy ra nếu khách đóng trình duyệt).
   - `Next.js UI` **không dùng tham số trên Return URL làm căn cứ xác nhận thanh toán**, mà gọi `GET /orders/{id}/payment-status` tới `NestJS API` (kích hoạt một activation bar riêng trên `NestJS API`).
   - `NestJS API` đọc trạng thái thực tế từ `Database` và trả về cho UI hiển thị kết quả đã xác minh hoặc trạng thái `Đang xác minh`.
-- **Tương tác độc lập B – VNPay Sandbox gửi IPN bất đồng bộ (Bước 51 – 62):**
+- **Tương tác độc lập B – VNPay Sandbox gửi IPN bất đồng bộ:**
   - `VNPay Sandbox` gửi `POST IPN` (gồm `transactionRef`, số tiền, mã kết quả, chữ ký) tới `NestJS API` (kích hoạt một activation bar riêng trên `NestJS API`).
   - `NestJS API` kiểm tra chữ ký, đối chiếu `transactionRef`, số tiền và đọc trạng thái `Order` / `Payment` hiện tại từ `Database`, sau đó xử lý theo **5 nhánh rõ ràng (`alt`)**:
-    1. **IPN / chữ ký không hợp lệ, sai tham chiếu hoặc sai số tiền (Bước 55):** Từ chối thông báo, ghi log cảnh báo bảo mật và **không thay đổi Database**.
-    2. **IPN gửi lặp khi `Payment` đã ở trạng thái cuối (`Thành công / Thất bại / Hết hạn`) (Bước 56):** Đảm bảo tính idempotent cho IPN — bỏ qua cập nhật lặp, **không cập nhật `Payment`, `Order` hoặc tồn kho lần thứ hai**.
-    3. **IPN hợp lệ và giao dịch `Thành công` (Bước 57 – 58):** Trong một transaction (`BEGIN` ... `COMMIT`), khóa `Order` và `Payment`, cập nhật `Payment` sang `Thành công`, chuyển `Order` sang `Đã thanh toán` đúng một lần và giữ nguyên tồn kho đã trừ.
-    4. **IPN hợp lệ nhưng giao dịch `Thất bại` (hoặc xác minh `Hết hạn`) (Bước 59 – 60):** Trong một transaction (`BEGIN` ... `COMMIT`), khóa `Order` và `Payment`, cập nhật `Payment` sang `Thất bại` (hoặc `Hết hạn`), **hoàn tồn kho đúng một lần** và giữ `Order` ở trạng thái `Chờ thanh toán` để khách có thể thanh toán lại.
-    5. **Kết quả chưa xác định hoặc cần đối soát thêm (Bước 61):** Giữ `Payment` ở trạng thái `Chờ xử lý / Chờ xác minh`, không hoàn tồn kho và không đánh dấu thành công.
-  - Ở cuối luồng IPN (Bước 62), `NestJS API` trả `RspCode` theo quy ước tích hợp VNPay và kết thúc activation bar xử lý IPN.
-- **Luồng UI lấy trạng thái đã xác minh sau khi IPN được xử lý (Bước 63 – 67):**
+    1. **IPN / chữ ký không hợp lệ, sai tham chiếu hoặc sai số tiền:** Từ chối thông báo, ghi log cảnh báo bảo mật và **không thay đổi Database**.
+    2. **IPN gửi lặp khi `Payment` đã ở trạng thái cuối (`Thành công / Thất bại / Hết hạn`):** Đảm bảo tính idempotent cho IPN — bỏ qua cập nhật lặp, **không cập nhật `Payment`, `Order` hoặc tồn kho lần thứ hai**.
+    3. **IPN hợp lệ và giao dịch `Thành công`:** Trong một transaction (`BEGIN` ... `COMMIT`), khóa `Order` và `Payment`, cập nhật `Payment` sang `Thành công`, chuyển `Order` sang `Đã thanh toán` đúng một lần và giữ nguyên tồn kho đã trừ.
+    4. **IPN hợp lệ nhưng giao dịch `Thất bại` (hoặc xác minh `Hết hạn`):** Trong một transaction (`BEGIN` ... `COMMIT`), khóa `Order` và `Payment`, cập nhật `Payment` sang `Thất bại` (hoặc `Hết hạn`), **hoàn tồn kho đúng một lần** và giữ `Order` ở trạng thái `Chờ thanh toán` để khách có thể thanh toán lại.
+    5. **Kết quả chưa xác định hoặc cần đối soát thêm:** Giữ `Payment` ở trạng thái `Chờ xử lý / Chờ xác minh`, không hoàn tồn kho và không đánh dấu thành công.
+  - Ở cuối luồng IPN, `NestJS API` trả `RspCode` theo quy ước tích hợp VNPay và kết thúc activation bar xử lý IPN.
+- **Luồng UI lấy trạng thái đã xác minh sau khi IPN được xử lý:**
   - Sau khi IPN hoàn tất xử lý tại backend, `Next.js UI` gọi `GET /orders/{id}/payment-status` (kích hoạt activation bar riêng trên `NestJS API`) để đọc trạng thái `Order` và `Payment` đã được xác minh từ `Database`.
   - `Next.js UI` hiển thị kết quả thanh toán cuối cùng cho `Customer` (`Đã thanh toán` nếu thành công, hoặc thông báo thất bại/hết hạn kèm tùy chọn **Thanh toán lại** trên cùng đơn hàng).
 
@@ -80,10 +80,10 @@ Việc trình duyệt quay về `Return URL` và việc `VNPay Sandbox` gọi `I
 
 ## 3. Danh sách tệp bàn giao
 
-- **Sơ đồ nguồn Draw.io (chính):** `docs/diagrams/sources/sequence-checkout.drawio`
+- **Nguồn PlantUML của sơ đồ tổng quát:** `docs/diagrams/sources/sequence-checkout.puml`
 - **Bản xuất SVG thống nhất (chính):** `docs/diagrams/exports/sequence-checkout.svg`
 - **Tài liệu mô tả sơ đồ:** `docs/diagrams/sequence-checkout.md`
-- **Nguồn phụ PlantUML (tham khảo):**
+- **Nguồn PlantUML của hai sơ đồ chi tiết:**
   - `docs/diagrams/sources/sequence-create-order.puml`
   - `docs/diagrams/sources/sequence-payment-vnpay.puml`
 
