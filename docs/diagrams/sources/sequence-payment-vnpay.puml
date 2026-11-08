@@ -1,0 +1,174 @@
+@startuml
+title Sequence-03: Thanh toán đơn qua VNPay Sandbox (UC-08)
+hide footbox
+skinparam monochrome true
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow false
+autonumber "0."
+
+actor Customer
+participant "Next.js UI" as UI
+participant "NestJS API" as API
+participant "Database" as DB
+participant "«Payment Service»\nVNPay Sandbox" as VNPay
+
+Customer -> UI: Chọn Thanh toán đơn (VNPay Sandbox)
+activate Customer
+activate UI
+
+UI -> API: POST /orders/{id}/payments: JWT,\npaymentMethod=VNPAY_SANDBOX, idempotencyKey
+activate API
+
+API -> API: Kiểm tra JWT, quyền sở hữu đơn\nvà validate phương thức thanh toán
+activate API
+deactivate API
+
+API -> DB: Tra Order, Payment hiện có và idempotencyKey
+activate DB
+DB --> API: Trạng thái Order, Payment\nvà dữ liệu của idempotencyKey
+deactivate DB
+
+alt Cùng idempotencyKey và cùng nội dung yêu cầu
+  API --> UI: 200 OK: trả lại URL thanh toán,\ntrạng thái đang xử lý hoặc kết quả đã lưu
+  UI --> Customer: Hiển thị lại đúng lần xử lý;\nkhông tạo Payment mới
+else Cùng idempotencyKey nhưng khác đơn hoặc nội dung
+  API --> UI: 409 Conflict; không thay đổi dữ liệu
+  UI --> Customer: Thông báo yêu cầu thanh toán bị xung đột
+else Đã tồn tại Payment PENDING / UNKNOWN hoặc Order không ở PENDING_PAYMENT
+  API --> UI: 409 Conflict: chặn tạo Payment mới;\ngiữ nguyên giao dịch đang chờ xác minh
+  UI --> Customer: Hiển thị trạng thái Đang xác minh\nhoặc tiếp tục giao dịch hiện tại
+else Key mới, Order PENDING_PAYMENT và không có Payment đang chờ
+  opt Payment trước đã quá hạn 15 phút nhưng chưa đóng trạng thái
+    API -> VNPay: QueryDR: đối soát giao dịch trước (transactionRef)
+    activate VNPay
+    VNPay --> API: Kết quả giao dịch trước
+    deactivate VNPay
+    break QueryDR báo SUCCESS hoặc chưa xác minh được
+      API -> DB: SUCCESS: Payment = SUCCESS, Order = PAID;\nchưa rõ: Payment = UNKNOWN; COMMIT
+      API --> UI: 409 Conflict: đơn đã thanh toán hoặc đang xác minh
+      UI --> Customer: Thông báo trạng thái đơn
+    end
+    API -> DB: BEGIN; Payment trước = EXPIRED (đã xác minh không thành công);\nhoàn tồn kho đúng 1 lần; COMMIT
+    activate DB
+    deactivate DB
+  end
+
+  API -> DB: BEGIN; khóa Order và kiểm tra\nđiều kiện khởi tạo Payment
+  activate DB
+
+  opt Thanh toán lại sau khi Payment trước đã FAILED / EXPIRED
+    API -> DB: Đọc giá và tùy chọn hiện hành; tính lại tổng tiền;\nkiểm tra tồn kho hiện tại theo Product
+    DB --> API: Tổng tiền vừa tính lại và kết quả kiểm tra tồn kho
+  end
+
+  break Thiếu tồn kho khi thanh toán lại
+    API -> DB: ROLLBACK; không tạo Payment mới\nvà không trừ tồn
+    API --> UI: 409 Conflict: không đủ tồn kho để thanh toán lại
+    UI --> Customer: Thông báo hết hàng; giữ Order PENDING_PAYMENT
+  end
+
+  opt Thanh toán lại sau khi Payment trước đã FAILED / EXPIRED
+    API -> DB: Cập nhật Order.totalAmount bằng tổng tiền vừa tính lại;\ntrừ lại tồn kho theo Product trong cùng transaction
+  end
+
+  API -> API: Xác định paymentAmount:\nlần đầu = Order.totalAmount; thanh toán lại = tổng tiền vừa tính lại
+  API -> DB: Tạo Payment PENDING (VNPAY_SANDBOX), transactionRef mới,\namount = paymentAmount, expiresAt = +15 phút
+  API -> DB: COMMIT transaction
+  DB --> API: Thông tin Payment và dữ liệu tạo URL
+  deactivate DB
+
+  API -> API: Tạo URL VNPay Sandbox có chữ ký bảo mật
+  activate API
+  deactivate API
+  API --> UI: 200 OK: URL thanh toán VNPay Sandbox
+  deactivate API
+
+  UI -> VNPay: Chuyển hướng trình duyệt đến VNPay Sandbox
+  deactivate UI
+  activate VNPay
+  VNPay --> Customer: Hiển thị trang thanh toán thử nghiệm
+  Customer -> VNPay: Thực hiện và xác nhận giao dịch thử nghiệm
+  deactivate Customer
+
+  par Tương tác độc lập A
+    opt Khách quay về qua Return URL
+      VNPay -> UI: Chuyển trình duyệt về Return URL (kèm query params)
+      deactivate VNPay
+      activate UI
+      note over DB, VNPay
+        A: Return URL có thể xảy ra trước/sau IPN hoặc không xảy ra;
+        không quyết định kết quả thanh toán.
+      end note
+      UI -> API: GET /orders/{id}/payment-status: JWT\n(không tin tham số URL)
+      activate API
+      API -> DB: Đọc trạng thái Order và Payment hiện tại
+      activate DB
+      DB --> API: Trạng thái đã xác minh hoặc UNKNOWN (Chờ xác minh)
+      deactivate DB
+      API --> UI: 200 OK: trạng thái thực tế từ backend
+      deactivate API
+      UI --> Customer: Hiển thị kết quả đã xác minh\nhoặc trạng thái Đang xác minh
+      deactivate UI
+    end
+  else Tương tác độc lập B
+    opt VNPay gửi IPN
+    VNPay -> API: POST IPN: transactionRef, số tiền, mã kết quả và chữ ký
+    activate VNPay
+    activate API
+    note over DB, VNPay
+      B: IPN là kênh thông báo bất đồng bộ chính;
+      khi chưa có IPN hoặc kết quả chưa rõ, dùng QueryDR để đối soát.
+    end note
+    API -> API: Kiểm tra chữ ký, đối chiếu transactionRef,\nsố tiền và trạng thái Payment
+    activate API
+    deactivate API
+    API -> DB: Đọc Order và Payment theo transactionRef
+    activate DB
+    DB --> API: Dữ liệu Order và trạng thái Payment hiện tại
+    deactivate DB
+
+    alt IPN / chữ ký không hợp lệ, sai tham chiếu hoặc sai số tiền
+      API -> API: Từ chối thông báo; ghi log cảnh báo;\nkhông thay đổi Database; RspCode 97
+      activate API
+      deactivate API
+    else IPN gửi lặp hoặc đến muộn — Payment đã ở trạng thái cuối (SUCCESS / FAILED / EXPIRED)
+      API -> API: Bỏ qua, không sửa Payment, Order hoặc tồn kho lần hai;\nIPN SUCCESS đến muộn sau EXPIRED: ghi log, xử lý thủ công (ngoài MVP)
+      activate API
+      deactivate API
+    else IPN hợp lệ và giao dịch SUCCESS
+      API -> DB: BEGIN; khóa Order và Payment; Payment = SUCCESS,\nOrder = PAID; ghi providerTransactionNo, responseCode, verifiedAt
+      activate DB
+      API -> DB: COMMIT; giữ nguyên tồn kho đã trừ
+      deactivate DB
+    else IPN hợp lệ nhưng giao dịch thất bại
+      API -> DB: BEGIN; khóa Order và Payment; Payment = FAILED;\nhoàn tồn kho đúng 1 lần; giữ Order PENDING_PAYMENT
+      activate DB
+      API -> DB: COMMIT transaction
+      deactivate DB
+    else Kết quả chưa xác định hoặc cần đối soát thêm
+      API -> DB: Payment = UNKNOWN (Chờ xác minh);\nkhông hoàn tồn kho và không đánh dấu thành công
+      activate DB
+      deactivate DB
+    end
+
+    API --> VNPay: Phản hồi RspCode: 00 (đã ghi nhận),\n02 (đã xác nhận trước đó), 97 (sai chữ ký)
+    deactivate API
+    deactivate VNPay
+    end
+  end
+
+  opt Sau khi IPN được xử lý: UI lấy trạng thái đã xác minh và hiển thị kết quả cuối cùng
+    activate UI
+    UI -> API: GET /orders/{id}/payment-status: JWT\n(truy vấn/làm mới trạng thái sau IPN)
+    activate API
+    API -> DB: Đọc trạng thái Order và Payment đã xác minh
+    activate DB
+    DB --> API: Trạng thái cuối cùng (PAID, hoặc PENDING_PAYMENT\nkèm kết quả Payment)
+    deactivate DB
+    API --> UI: 200 OK: kết quả thanh toán và trạng thái đơn đã xác minh
+    deactivate API
+    UI --> Customer: Hiển thị kết quả thanh toán cuối cùng\n(hoặc cho phép Thanh toán lại nếu FAILED / EXPIRED)
+    deactivate UI
+  end
+end
+@enduml

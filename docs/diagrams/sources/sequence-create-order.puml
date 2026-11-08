@@ -1,0 +1,62 @@
+@startuml
+title Sequence-02: Đặt đơn hàng (UC-07)
+hide footbox
+skinparam monochrome true
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow false
+autonumber "0."
+
+actor Customer
+participant "Next.js UI" as UI
+participant "NestJS API" as API
+participant "Database" as DB
+
+Customer -> UI: Bấm Tiến hành đặt đơn (giỏ hàng)
+activate Customer
+activate UI
+
+opt Chưa đăng nhập
+  UI --> Customer: Hiển thị modal đăng nhập
+  Customer -> UI: Nhập thông tin đăng nhập
+  UI -> API: POST /auth/login
+  activate API
+  API -> DB: Tra User theo email
+  activate DB
+  DB --> API: User (passwordHash, status)
+  deactivate DB
+  API --> UI: 200 OK: JWT (401 nếu sai thông tin)
+  deactivate API
+end
+
+UI -> API: POST /orders: JWT, cartItems\n(productId, quantity, size, toppings)
+activate API
+
+API -> API: Kiểm tra JWT; validate Product, Option\nvà tính lại đơn giá hiện hành
+activate API
+deactivate API
+
+break JWT sai hoặc dữ liệu không hợp lệ
+  API --> UI: 401 Unauthorized / 400 Bad Request
+  UI --> Customer: Hiển thị lỗi; hướng dẫn chọn lại
+end
+
+API -> DB: BEGIN; khóa Product (SELECT ... FOR UPDATE);\ncộng gộp số lượng theo Product
+activate DB
+DB --> API: Tồn kho hiện tại theo Product
+
+break Thiếu tồn kho
+  API -> DB: ROLLBACK; không tạo Order, không trừ tồn
+  API --> UI: 409 Conflict: hết hàng
+  UI --> Customer: Thông báo hết hàng; chọn lại
+end
+
+API -> DB: Trừ tồn kho; tạo Order (PENDING_PAYMENT)\nvà OrderItem snapshot
+API -> DB: COMMIT transaction
+DB --> API: Order (orderCode, totalAmount)
+deactivate DB
+API --> UI: 201 Created: Order PENDING_PAYMENT
+deactivate API
+UI --> Customer: Hiển thị đơn hàng; chuyển sang thanh toán
+deactivate UI
+deactivate Customer
+@enduml

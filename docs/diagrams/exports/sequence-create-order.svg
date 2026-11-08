@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1097" height="1218" viewBox="0 0 1097 1218" font-family="Liberation Sans, Arial, Helvetica, sans-serif">
+<title>Sequence-02: Đặt đơn hàng (UC-07)</title><rect width="100%" height="100%" fill="#ffffff"/>
+<line x1="52.0" y1="120.0" x2="52.0" y2="1194.0" stroke="#181818" stroke-width="1" stroke-dasharray="5,4"/>
+<circle cx="52.0" cy="52.0" r="8" fill="#fff" stroke="#181818" stroke-width="1.5"/>
+<line x1="52.0" y1="60.0" x2="52.0" y2="82.0" stroke="#181818" stroke-width="1.5"/>
+<line x1="39.0" y1="68.0" x2="65.0" y2="68.0" stroke="#181818" stroke-width="1.5"/>
+<line x1="52.0" y1="82.0" x2="41.0" y2="96.0" stroke="#181818" stroke-width="1.5"/>
+<line x1="52.0" y1="82.0" x2="63.0" y2="96.0" stroke="#181818" stroke-width="1.5"/>
+<text x="52.0" y="112.0" font-size="14" text-anchor="middle" fill="#181818">Customer</text>
+<line x1="367.0" y1="120.0" x2="367.0" y2="1194.0" stroke="#181818" stroke-width="1" stroke-dasharray="5,4"/>
+<rect x="322.6" y="88.0" width="88.7" height="32.0" fill="#fff" stroke="#181818" stroke-width="1.5"/>
+<text x="367.0" y="107.0" font-size="14" text-anchor="middle" fill="#181818">Next.js UI</text>
+<line x1="675.7" y1="120.0" x2="675.7" y2="1194.0" stroke="#181818" stroke-width="1" stroke-dasharray="5,4"/>
+<rect x="626.3" y="88.0" width="98.8" height="32.0" fill="#fff" stroke="#181818" stroke-width="1.5"/>
+<text x="675.7" y="107.0" font-size="14" text-anchor="middle" fill="#181818">NestJS API</text>
+<line x1="1032.8" y1="120.0" x2="1032.8" y2="1194.0" stroke="#181818" stroke-width="1" stroke-dasharray="5,4"/>
+<rect x="988.8" y="88.0" width="87.9" height="32.0" fill="#fff" stroke="#181818" stroke-width="1.5"/>
+<text x="1032.8" y="107.0" font-size="14" text-anchor="middle" fill="#181818">Database</text>
+<text x="548.4" y="26.0" font-size="14" text-anchor="middle" font-weight="bold" fill="#181818">Sequence-02: Đặt đơn hàng (UC-07)</text>
+<rect x="100.3" y="143.0" width="218.4" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="125.2" y="221.0" width="168.7" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="124.4" y="261.0" width="170.1" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="461.7" y="301.0" width="119.2" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="787.3" y="341.0" width="133.9" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="760.2" y="381.0" width="188.1" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="405.7" y="421.0" width="231.2" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="424.9" y="471.0" width="192.8" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="417.6" y="487.0" width="207.4" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="714.7" y="534.0" width="243.7" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="714.7" y="550.0" width="170.0" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="400.5" y="623.0" width="241.7" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="105.8" y="663.0" width="207.3" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="694.7" y="713.0" width="319.1" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="758.0" y="729.0" width="192.4" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="755.6" y="769.0" width="197.3" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="713.2" y="847.0" width="282.1" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="444.2" y="887.0" width="154.2" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="111.5" y="927.0" width="195.9" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="706.2" y="977.0" width="296.0" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="785.1" y="993.0" width="138.2" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="780.5" y="1033.0" width="147.4" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="748.6" y="1073.0" width="211.2" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="386.0" y="1113.0" width="270.7" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="71.0" y="1153.0" width="277.0" height="14.0" fill="#fff" stroke="none" stroke-width="0"/>
+<rect x="1027.8" y="363.0" width="10.0" height="40.0" fill="#fff" stroke="#181818" stroke-width="1"/>
+<rect x="670.7" y="323.0" width="10.0" height="120.0" fill="#fff" stroke="#181818" stroke-width="1"/>
+<rect x="674.7" y="530.0" width="10.0" height="38.0" fill="#fff" stroke="#181818" stroke-width="1"/>
+<rect x="1027.8" y="751.0" width="10.0" height="344.0" fill="#fff" stroke="#181818" stroke-width="1"/>
+<rect x="670.7" y="509.0" width="10.0" height="626.0" fill="#fff" stroke="#181818" stroke-width="1"/>
+<rect x="362.0" y="165.0" width="10.0" height="1010.0" fill="#fff" stroke="#181818" stroke-width="1"/>
+<rect x="47.0" y="165.0" width="10.0" height="1010.0" fill="#fff" stroke="#181818" stroke-width="1"/>
+<rect x="20.0" y="190.0" width="1044.8" height="266.0" fill="none" stroke="#181818" stroke-width="1.5"/>
+<polygon points="20.0,190.0 56.2,190.0 56.2,202.0 49.2,208.0 20.0,208.0" fill="#fff" stroke="#181818" stroke-width="1"/>
+<text x="27.0" y="203.0" font-size="13" text-anchor="start" font-weight="bold" fill="#181818">opt</text>
+<text x="64.2" y="202.0" font-size="11" text-anchor="start" font-weight="bold" fill="#181818">[Chưa đăng nhập]</text>
+<rect x="20.0" y="592.0" width="687.7" height="106.0" fill="none" stroke="#181818" stroke-width="1.5"/>
+<polygon points="20.0,592.0 70.7,592.0 70.7,604.0 63.7,610.0 20.0,610.0" fill="#fff" stroke="#181818" stroke-width="1"/>
+<text x="27.0" y="605.0" font-size="13" text-anchor="start" font-weight="bold" fill="#181818">break</text>
+<text x="78.7" y="604.0" font-size="11" text-anchor="start" font-weight="bold" fill="#181818">[JWT sai hoặc dữ liệu không hợp lệ]</text>
+<rect x="20.0" y="816.0" width="1044.8" height="146.0" fill="none" stroke="#181818" stroke-width="1.5"/>
+<polygon points="20.0,816.0 70.7,816.0 70.7,828.0 63.7,834.0 20.0,834.0" fill="#fff" stroke="#181818" stroke-width="1"/>
+<text x="27.0" y="829.0" font-size="13" text-anchor="start" font-weight="bold" fill="#181818">break</text>
+<text x="78.7" y="828.0" font-size="11" text-anchor="start" font-weight="bold" fill="#181818">[Thiếu tồn kho]</text>
+<line x1="57.0" y1="165.0" x2="362.0" y2="165.0" stroke="#181818" stroke-width="1.2"/>
+<polygon points="352.0,161.0 362.0,165.0 352.0,169.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="209.5" y="154.0" font-size="13" text-anchor="middle" fill="#181818">1. Bấm Tiến hành đặt đơn (giỏ hàng)</text>
+<line x1="362.0" y1="243.0" x2="57.0" y2="243.0" stroke="#181818" stroke-width="1.2" stroke-dasharray="5,4"/>
+<polygon points="67.0,239.0 57.0,243.0 67.0,247.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="209.5" y="232.0" font-size="13" text-anchor="middle" fill="#181818">2. Hiển thị modal đăng nhập</text>
+<line x1="57.0" y1="283.0" x2="362.0" y2="283.0" stroke="#181818" stroke-width="1.2"/>
+<polygon points="352.0,279.0 362.0,283.0 352.0,287.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="209.5" y="272.0" font-size="13" text-anchor="middle" fill="#181818">3. Nhập thông tin đăng nhập</text>
+<line x1="372.0" y1="323.0" x2="670.7" y2="323.0" stroke="#181818" stroke-width="1.2"/>
+<polygon points="660.7,319.0 670.7,323.0 660.7,327.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="521.3" y="312.0" font-size="13" text-anchor="middle" fill="#181818">4. POST /auth/login</text>
+<line x1="680.7" y1="363.0" x2="1027.8" y2="363.0" stroke="#181818" stroke-width="1.2"/>
+<polygon points="1017.8,359.0 1027.8,363.0 1017.8,367.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="854.2" y="352.0" font-size="13" text-anchor="middle" fill="#181818">5. Tra User theo email</text>
+<line x1="1027.8" y1="403.0" x2="680.7" y2="403.0" stroke="#181818" stroke-width="1.2" stroke-dasharray="5,4"/>
+<polygon points="690.7,399.0 680.7,403.0 690.7,407.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="854.2" y="392.0" font-size="13" text-anchor="middle" fill="#181818">6. User (passwordHash, status)</text>
+<line x1="670.7" y1="443.0" x2="372.0" y2="443.0" stroke="#181818" stroke-width="1.2" stroke-dasharray="5,4"/>
+<polygon points="382.0,439.0 372.0,443.0 382.0,447.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="521.3" y="432.0" font-size="13" text-anchor="middle" fill="#181818">7. 200 OK: JWT (401 nếu sai thông tin)</text>
+<line x1="372.0" y1="509.0" x2="670.7" y2="509.0" stroke="#181818" stroke-width="1.2"/>
+<polygon points="660.7,505.0 670.7,509.0 660.7,513.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="521.3" y="482.0" font-size="13" text-anchor="middle" fill="#181818">8. POST /orders: JWT, cartItems</text>
+<text x="521.3" y="498.0" font-size="13" text-anchor="middle" fill="#181818">(productId, quantity, size, toppings)</text>
+<polyline points="680.7,530.0 708.7,530.0 708.7,568.0 684.7,568.0" fill="none" stroke="#181818" stroke-width="1.2"/>
+<polygon points="694.7,564.0 684.7,568.0 694.7,572.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="717.7" y="545.0" font-size="13" text-anchor="start" fill="#181818">9. Kiểm tra JWT; validate Product, Option</text>
+<text x="717.7" y="561.0" font-size="13" text-anchor="start" fill="#181818">và tính lại đơn giá hiện hành</text>
+<line x1="670.7" y1="645.0" x2="372.0" y2="645.0" stroke="#181818" stroke-width="1.2" stroke-dasharray="5,4"/>
+<polygon points="382.0,641.0 372.0,645.0 382.0,649.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="521.3" y="634.0" font-size="13" text-anchor="middle" fill="#181818">10. 401 Unauthorized / 400 Bad Request</text>
+<line x1="362.0" y1="685.0" x2="57.0" y2="685.0" stroke="#181818" stroke-width="1.2" stroke-dasharray="5,4"/>
+<polygon points="67.0,681.0 57.0,685.0 67.0,689.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="209.5" y="674.0" font-size="13" text-anchor="middle" fill="#181818">11. Hiển thị lỗi; hướng dẫn chọn lại</text>
+<line x1="680.7" y1="751.0" x2="1027.8" y2="751.0" stroke="#181818" stroke-width="1.2"/>
+<polygon points="1017.8,747.0 1027.8,751.0 1017.8,755.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="854.2" y="724.0" font-size="13" text-anchor="middle" fill="#181818">12. BEGIN; khóa Product (SELECT ... FOR UPDATE);</text>
+<text x="854.2" y="740.0" font-size="13" text-anchor="middle" fill="#181818">cộng gộp số lượng theo Product</text>
+<line x1="1027.8" y1="791.0" x2="680.7" y2="791.0" stroke="#181818" stroke-width="1.2" stroke-dasharray="5,4"/>
+<polygon points="690.7,787.0 680.7,791.0 690.7,795.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="854.2" y="780.0" font-size="13" text-anchor="middle" fill="#181818">13. Tồn kho hiện tại theo Product</text>
+<line x1="680.7" y1="869.0" x2="1027.8" y2="869.0" stroke="#181818" stroke-width="1.2"/>
+<polygon points="1017.8,865.0 1027.8,869.0 1017.8,873.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="854.2" y="858.0" font-size="13" text-anchor="middle" fill="#181818">14. ROLLBACK; không tạo Order, không trừ tồn</text>
+<line x1="670.7" y1="909.0" x2="372.0" y2="909.0" stroke="#181818" stroke-width="1.2" stroke-dasharray="5,4"/>
+<polygon points="382.0,905.0 372.0,909.0 382.0,913.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="521.3" y="898.0" font-size="13" text-anchor="middle" fill="#181818">15. 409 Conflict: hết hàng</text>
+<line x1="362.0" y1="949.0" x2="57.0" y2="949.0" stroke="#181818" stroke-width="1.2" stroke-dasharray="5,4"/>
+<polygon points="67.0,945.0 57.0,949.0 67.0,953.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="209.5" y="938.0" font-size="13" text-anchor="middle" fill="#181818">16. Thông báo hết hàng; chọn lại</text>
+<line x1="680.7" y1="1015.0" x2="1027.8" y2="1015.0" stroke="#181818" stroke-width="1.2"/>
+<polygon points="1017.8,1011.0 1027.8,1015.0 1017.8,1019.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="854.2" y="988.0" font-size="13" text-anchor="middle" fill="#181818">17. Trừ tồn kho; tạo Order (PENDING_PAYMENT)</text>
+<text x="854.2" y="1004.0" font-size="13" text-anchor="middle" fill="#181818">và OrderItem snapshot</text>
+<line x1="680.7" y1="1055.0" x2="1027.8" y2="1055.0" stroke="#181818" stroke-width="1.2"/>
+<polygon points="1017.8,1051.0 1027.8,1055.0 1017.8,1059.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="854.2" y="1044.0" font-size="13" text-anchor="middle" fill="#181818">18. COMMIT transaction</text>
+<line x1="1027.8" y1="1095.0" x2="680.7" y2="1095.0" stroke="#181818" stroke-width="1.2" stroke-dasharray="5,4"/>
+<polygon points="690.7,1091.0 680.7,1095.0 690.7,1099.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="854.2" y="1084.0" font-size="13" text-anchor="middle" fill="#181818">19. Order (orderCode, totalAmount)</text>
+<line x1="670.7" y1="1135.0" x2="372.0" y2="1135.0" stroke="#181818" stroke-width="1.2" stroke-dasharray="5,4"/>
+<polygon points="382.0,1131.0 372.0,1135.0 382.0,1139.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="521.3" y="1124.0" font-size="13" text-anchor="middle" fill="#181818">20. 201 Created: Order PENDING_PAYMENT</text>
+<line x1="362.0" y1="1175.0" x2="57.0" y2="1175.0" stroke="#181818" stroke-width="1.2" stroke-dasharray="5,4"/>
+<polygon points="67.0,1171.0 57.0,1175.0 67.0,1179.0" fill="#181818" stroke="#181818" stroke-width="1"/>
+<text x="209.5" y="1164.0" font-size="13" text-anchor="middle" fill="#181818">21. Hiển thị đơn hàng; chuyển sang thanh toán</text>
+</svg>
