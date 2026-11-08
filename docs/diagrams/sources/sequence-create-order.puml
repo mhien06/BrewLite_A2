@@ -1,59 +1,62 @@
 @startuml
-title Sequence Diagram - Tạo đơn hàng (UC-07)
+title Sequence-02: Đặt đơn hàng (UC-07)
 hide footbox
 skinparam monochrome true
 skinparam sequenceMessageAlign center
 skinparam responseMessageBelowArrow false
+autonumber "0."
 
 actor Customer
 participant "Next.js UI" as UI
 participant "NestJS API" as API
 participant "Database" as DB
 
-' --- Lời gọi đồng bộ: ->   |   Trả về: -->>  (nét đứt, đầu mũi tên hở) ---
-
-Customer -> UI: 1. Chọn Đặt đơn từ giỏ hàng
+Customer -> UI: Bấm Tiến hành đặt đơn (giỏ hàng)
 activate Customer
 activate UI
 
-UI -> API: 2. POST /orders: JWT và các dòng\ngiỏ hàng (Product, size, topping, số lượng)
-activate API
-
-API -> API: 3. Kiểm tra JWT, vai trò Khách hàng\nvà validate dữ liệu giỏ hàng
-activate API
-deactivate API
-
-alt JWT, vai trò và dữ liệu hợp lệ
-  API -> DB: 4. BEGIN; khóa Product; đọc giá,\ntùy chọn và tồn kho
-  activate DB
-  DB -->> API: 5. Giá hiện hành, tùy chọn hợp lệ và\ntồn kho theo Product
-  deactivate DB
-
-  API -> API: 6. Tính lại tổng tiền; cộng số lượng\ntheo từng Product
+opt Chưa đăng nhập
+  UI --> Customer: Hiển thị modal đăng nhập
+  Customer -> UI: Nhập thông tin đăng nhập
+  UI -> API: POST /auth/login
   activate API
+  API -> DB: Tra User theo email
+  activate DB
+  DB --> API: User (passwordHash, status)
+  deactivate DB
+  API --> UI: 200 OK: JWT (401 nếu sai thông tin)
   deactivate API
-
-  alt Đủ tồn kho cho toàn bộ đơn
-    API -> DB: 7. Lưu Order Chờ thanh toán,\nOrderItem snapshot; trừ tồn kho
-    activate DB
-    API -> DB: 8. COMMIT transaction
-    DB -->> API: 9. Mã đơn, tổng tiền và trạng thái Chờ thanh toán
-    deactivate DB
-    API -->> UI: 10. 201 Created: thông tin đơn chính thức\nvà trạng thái Chờ thanh toán
-    UI -->> Customer: 11. Hiển thị đơn Chờ thanh toán\nvà nút Thanh toán
-  else Thiếu tồn kho hoặc lỗi transaction
-    API -> DB: 12. ROLLBACK; không tạo đơn\nvà không trừ tồn một phần
-    activate DB
-    deactivate DB
-    API -->> UI: 13. 409 Conflict hoặc lỗi tạo đơn
-    UI -->> Customer: 14. Thông báo hết hàng\nhoặc tạo đơn thất bại
-  end
-else JWT, quyền hoặc dữ liệu không hợp lệ
-  API -->> UI: 15. 401 / 403 / 400;\nkhông truy cập Database
-  UI -->> Customer: 16. Hiển thị lỗi và yêu cầu khách điều chỉnh
 end
 
+UI -> API: POST /orders: JWT, cartItems\n(productId, quantity, size, toppings)
+activate API
+
+API -> API: Kiểm tra JWT; validate Product, Option\nvà tính lại đơn giá hiện hành
+activate API
 deactivate API
+
+break JWT sai hoặc dữ liệu không hợp lệ
+  API --> UI: 401 Unauthorized / 400 Bad Request
+  UI --> Customer: Hiển thị lỗi; hướng dẫn chọn lại
+end
+
+API -> DB: BEGIN; khóa Product (SELECT ... FOR UPDATE);\ncộng gộp số lượng theo Product
+activate DB
+DB --> API: Tồn kho hiện tại theo Product
+
+break Thiếu tồn kho
+  API -> DB: ROLLBACK; không tạo Order, không trừ tồn
+  API --> UI: 409 Conflict: hết hàng
+  UI --> Customer: Thông báo hết hàng; chọn lại
+end
+
+API -> DB: Trừ tồn kho; tạo Order (PENDING_PAYMENT)\nvà OrderItem snapshot
+API -> DB: COMMIT transaction
+DB --> API: Order (orderCode, totalAmount)
+deactivate DB
+API --> UI: 201 Created: Order PENDING_PAYMENT
+deactivate API
+UI --> Customer: Hiển thị đơn hàng; chuyển sang thanh toán
 deactivate UI
 deactivate Customer
 @enduml
