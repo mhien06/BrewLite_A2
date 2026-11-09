@@ -1,32 +1,4 @@
-# Domain Class Diagram – BrewLite
-
-Tài liệu giải thích ngắn gọn domain model trong `domain-class.drawio` (Task 2.3). Nguồn nghiệp vụ: `context-and-scope.md`, `srs.md`, `use-case-checkout.md`. Tệp nguồn Draw.io và bản xuất SVG đã được lưu trong repository.
-
-## 1. Phạm vi domain model
-
-- Mô hình hóa **dữ liệu nghiệp vụ cốt lõi** của MVP một cửa hàng: tài khoản, menu, giỏ hàng, đơn hàng và thanh toán.
-- Gồm 8 class MVP, 2 class `«future»` (nét đứt) và 9 enum.
-- Chỉ có class, attribute, enum, association, composition và multiplicity. Không có method; không có Controller, Service, Repository, API, Database, Next.js hay NestJS.
-- Enum không nối bằng connector; chúng là kiểu của attribute (ví dụ `Order.status: OrderStatus`).
-- Hình thoi đặc nằm ở phía "toàn thể" (Cart, Product, Order); mũi tên mở là navigable association.
-- **VNPay Sandbox nằm ngoài domain model** (xem mục 8).
-
-## 2. Ý nghĩa các class
-
-| Class | Ý nghĩa |
-| :--- | :--- |
-| `User` | Tài khoản của Khách hàng, Nhân viên quầy hoặc Quản lý (`role: UserRole`). Chỉ lưu `passwordHash`, không lưu mật khẩu gốc. |
-| `Product` | Đồ uống bán trong menu. `inventoryQuantity` là **tồn kho duy nhất** của hệ thống. |
-| `ProductOption` | Lựa chọn size hoặc topping của một Product (`type: ProductOptionType`) kèm `additionalPrice`. Không có tồn riêng. |
-| `Cart` | Giỏ hàng của User (tối đa một). |
-| `CartItem` | Một dòng trong giỏ: Product, `quantity`, size, topping và `estimatedUnitPrice`. Đây chỉ là **giá tạm tính**; backend tính lại khi tạo Order. |
-| `Order` | Đơn đặt đồ uống nhận tại quầy. `status` thể hiện tiến trình của đơn; trạng thái của từng lần thanh toán được quản lý tại `Payment.status`. Tiền (`subtotal`, `discountAmount`, `totalAmount`) do backend tính. |
-| `OrderItem` | Một dòng của Order, lưu **snapshot** tên sản phẩm, size, topping và đơn giá tại thời điểm đặt để lịch sử không thay đổi. |
-| `Payment` | Một lượt thanh toán của Order qua `provider`. Có `transactionRef`, `idempotencyKey`, `expiresAt` (15 phút) và `verifiedAt` riêng. |
-| `Promotion` `«future»` | Chương trình khuyến mãi (mã, loại, giá trị, thời gian hiệu lực, trạng thái). |
-| `LoyaltyTransaction` `«future»` | Giao dịch điểm tích lũy của User, có thể gắn với một Order. |
-
-**Enum:** `UserRole` (CUSTOMER, STAFF, MANAGER), `UserStatus` (ACTIVE, INACTIVE), `ProductOptionType` (SIZE, TOPPING), `OrderStatus` (PENDING_PAYMENT, PAID, PREPARING, READY_FOR_PICKUP, COMPLETED, CANCELLED), `PaymentStatus` (PENDING, SUCCESS, FAILED, UNKNOWN, EXPIRED), `PaymentProvider` (VNPAY_SANDBOX), `PromotionType` (FIXED_AMOUNT, PERCENTAGE), `PromotionStatus` (DRAFT, ACTIVE, INACTIVE, EXPIRED), `LoyaltyTransactionType` (EARN, REDEEM, ADJUST).
+**Enum:** `UserRole` (CUSTOMER, STAFF, MANAGER), `UserStatus` (ACTIVE, INACTIVE), `ProductOptionType` (SIZE, TOPPING), `OrderStatus` (PENDING_PAYMENT, PAID, PREPARING, READY_FOR_PICKUP, COMPLETED), `PaymentStatus` (PENDING, SUCCESS, FAILED, UNKNOWN, EXPIRED), `PaymentProvider` (VNPAY_SANDBOX), `PromotionType` (FIXED_AMOUNT, PERCENTAGE), `PromotionStatus` (DRAFT, ACTIVE, INACTIVE, EXPIRED), `LoyaltyTransactionType` (EARN, REDEEM, ADJUST).
 
 ## 3. Quan hệ và multiplicity
 
@@ -54,7 +26,6 @@ Multiplicity nằm cạnh class mà nó mô tả. Ví dụ `User 1 — 0..1 Cart
 - Payment `SUCCESS` đã xác minh mới chuyển Order sang `PAID`, đúng một lần.
 - Payment `FAILED` hoặc `EXPIRED` đã xác minh: Order **vẫn ở `PENDING_PAYMENT`** để khách thanh toán lại.
 - Từ `PAID`, Nhân viên quầy/Quản lý chuyển tuần tự từng bước; không bỏ bước, không quay lui.
-- `CANCELLED`: đơn đã hủy, không được tạo Payment mới. Tài liệu nguồn chưa quy định điều kiện chuyển sang `CANCELLED`; MVP không có khách tự hủy đơn đã thanh toán và không hoàn tiền.
 
 ## 5. Vòng đời Payment
 
@@ -104,3 +75,30 @@ Multiplicity nằm cạnh class mà nó mô tả. Ví dụ `User 1 — 0..1 Cart
 - Trạng thái "cần đối soát thủ công" được biểu diễn bằng `UNKNOWN`, không thêm giá trị enum.
 - "Hoàn tồn đúng một lần" dựa vào việc Payment chuyển sang `FAILED`/`EXPIRED` trong cùng transaction với thao tác hoàn tồn, không thêm attribute cờ.
 - Trong MVP chưa có Promotion nên `Order.discountAmount` mặc định `0`.
+# Domain Class Diagram – BrewLite
+
+Tài liệu giải thích ngắn gọn domain model trong `domain-class.drawio` (Task 2.3). Nguồn nghiệp vụ: `context-and-scope.md`, `srs.md`, `use-case-checkout.md`. Tệp nguồn Draw.io và bản xuất SVG đã được lưu trong repository.
+
+## 1. Phạm vi domain model
+
+- Mô hình hóa **dữ liệu nghiệp vụ cốt lõi** của MVP một cửa hàng: tài khoản, menu, giỏ hàng, đơn hàng và thanh toán.
+- Gồm 8 class MVP, 2 class `«future»` (nét đứt) và 9 enum.
+- Chỉ có class, attribute, enum, association, composition và multiplicity. Không có method; không có Controller, Service, Repository, API, Database, Next.js hay NestJS.
+- Enum không nối bằng connector; chúng là kiểu của attribute (ví dụ `Order.status: OrderStatus`).
+- Hình thoi đặc nằm ở phía "toàn thể" (Cart, Product, Order); mũi tên mở là navigable association.
+- **VNPay Sandbox nằm ngoài domain model** (xem mục 8).
+
+## 2. Ý nghĩa các class
+
+| Class | Ý nghĩa |
+| :--- | :--- |
+| `User` | Tài khoản của Khách hàng, Nhân viên quầy hoặc Quản lý (`role: UserRole`). Chỉ lưu `passwordHash`, không lưu mật khẩu gốc. |
+| `Product` | Đồ uống bán trong menu. `inventoryQuantity` là **tồn kho duy nhất** của hệ thống. |
+| `ProductOption` | Lựa chọn size hoặc topping của một Product (`type: ProductOptionType`) kèm `additionalPrice`. Không có tồn riêng. |
+| `Cart` | Giỏ hàng của User (tối đa một). |
+| `CartItem` | Một dòng trong giỏ: Product, `quantity`, size, topping và `estimatedUnitPrice`. Đây chỉ là **giá tạm tính**; backend tính lại khi tạo Order. |
+| `Order` | Đơn đặt đồ uống nhận tại quầy. `status` thể hiện tiến trình của đơn; trạng thái của từng lần thanh toán được quản lý tại `Payment.status`. Tiền (`subtotal`, `discountAmount`, `totalAmount`) do backend tính. |
+| `OrderItem` | Một dòng của Order, lưu **snapshot** tên sản phẩm, size, topping và đơn giá tại thời điểm đặt để lịch sử không thay đổi. |
+| `Payment` | Một lượt thanh toán của Order qua `provider`. Có `transactionRef`, `idempotencyKey`, `expiresAt` (15 phút) và `verifiedAt` riêng. |
+| `Promotion` `«future»` | Chương trình khuyến mãi (mã, loại, giá trị, thời gian hiệu lực, trạng thái). |
+| `LoyaltyTransaction` `«future»` | Giao dịch điểm tích lũy của User, có thể gắn với một Order. |
