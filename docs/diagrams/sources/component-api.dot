@@ -1,0 +1,82 @@
+// BrewLite - UML Component Diagram: API Application (NestJS) (đen trắng)
+digraph ComponentApi {
+  graph [rankdir=TB, splines=true, nodesep=0.5, ranksep=0.9, newrank=true, fontname="DejaVu Sans", fontsize=18, labelloc=t, compound=true,
+         label=<<B>BrewLite – UML Component Diagram: API Application (NestJS)</B>>, pad=0.4];
+  node  [shape=component, style="solid", fontname="DejaVu Sans", fontsize=11, color=black, fontcolor=black, penwidth=1.5, margin="0.25,0.14"];
+  edge  [fontname="DejaVu Sans", fontsize=9.5, color=black, fontcolor=black, penwidth=1.2, arrowsize=0.85, arrowhead=vee, style=dashed];
+
+  // ---- bên ngoài ----
+  web   [shape=box, style="rounded", penwidth=1.8, label=<<B>Web App</B><BR/>[Next.js / PWA]>];
+  vnpay [shape=box, style="dashed", penwidth=1.8, label=<<B>VNPay Sandbox</B><BR/>[hệ thống bên ngoài]>];
+  pg    [shape=cylinder, style="solid", penwidth=1.8, label=<<B>PostgreSQL</B>>];
+
+  subgraph cluster_api {
+    label=<<B>API Application</B> [Container: NestJS]>; labeljust=l; fontsize=14; style="dashed"; penwidth=1.6; margin=26;
+
+    subgraph cluster_features {
+      label=<Feature modules theo domain (mỗi module: controller – service – repository)>; labeljust=l; fontsize=11; style="solid"; penwidth=1; margin=16;
+
+      auth [label=<«component»<BR/><B>AuthModule</B><BR/>AuthController, AuthService<BR/>đăng ký, đăng nhập, cấp JWT>];
+      users [label=<«component»<BR/><B>UsersModule</B><BR/>UsersService, UserRepository<BR/>tài khoản, vai trò>];
+      catalog [label=<«component»<BR/><B>CatalogModule</B><BR/>MenuController, ProductService<BR/>Product, ProductOption, giá>];
+      cart [label=<«component»<BR/><B>CartModule</B><BR/>CartController, CartService<BR/>Cart, CartItem (giá tạm tính)>];
+      orders [label=<«component»<BR/><B>OrdersModule</B><BR/>OrdersController, OrderService<BR/>tạo đơn, tính lại giá, snapshot,<BR/>lịch sử, xử lý trạng thái đơn>];
+      inventory [label=<«component»<BR/><B>InventoryModule</B><BR/>InventoryService<BR/>kiểm tra, trừ, hoàn tồn<BR/>(khóa bản ghi, đúng một lần)>];
+      payments [label=<«component»<BR/><B>PaymentsModule</B><BR/>PaymentsController, IpnController,<BR/>PaymentService<BR/>idempotency, trạng thái, thanh toán lại>];
+      scheduler [label=<«component»<BR/><B>SchedulerModule</B><BR/>ReconciliationJob (@nestjs/schedule)<BR/>xử lý hết hạn (15') và đối soát<BR/>Payment PENDING/UNKNOWN>];
+      vnpaygw [label=<«component»<BR/><B>VnpayGatewayModule</B><BR/>VnpayGateway (adapter)<BR/>ký URL, xác minh chữ ký IPN, QueryDR>];
+    }
+
+    subgraph cluster_infra {
+      label=<Cross-cutting và hạ tầng (dùng chung)>; labeljust=l; fontsize=11; style="solid"; penwidth=1; margin=16;
+
+      security [label=<«component»<BR/><B>SecurityKit</B><BR/>JwtAuthGuard, RolesGuard,<BR/>ValidationPipe, ExceptionFilter<BR/>(đăng ký toàn cục)>];
+      config   [label=<«component»<BR/><B>ConfigModule</B><BR/>biến môi trường, kiểm tra khi khởi động<BR/>(JWT secret, VNPay TMN code, hash secret)>];
+      logger   [label=<«component»<BR/><B>LoggerModule</B><BR/>log có cấu trúc, requestId,<BR/>che secret/JWT/mật khẩu>];
+      health   [label=<«component»<BR/><B>HealthModule</B><BR/>GET /health: API + database>];
+      database [label=<«component»<BR/><B>DatabaseModule</B><BR/>TypeORM DataSource,<BR/>transaction, migration, seed>];
+    }
+  }
+
+  // ---- REST từ Web App ----
+  web -> auth      [label="REST /auth/*"];
+  web -> catalog   [label="REST /products"];
+  web -> cart      [label="REST /cart"];
+  web -> orders    [label="REST /orders"];
+  web -> payments  [label="REST /orders/{id}/payments,\l/orders/{id}/payment-status"];
+  vnpay -> payments [label="IPN [HTTPS]", constraint=false];
+
+  // ---- phụ thuộc giữa module (một chiều, không vòng) ----
+  auth     -> users     [label="UsersService"];
+  cart     -> catalog   [label="ProductReader"];
+  orders   -> catalog   [label="ProductReader"];
+  orders   -> inventory [label="InventoryService"];
+  payments -> orders    [label="OrderPaymentPort"];
+  payments -> inventory [label="InventoryService"];
+  payments -> vnpaygw   [label="PaymentGateway (port)"];
+  scheduler -> vnpaygw   [label="PaymentGateway (QueryDR)"];
+  scheduler -> inventory [label="InventoryService (hoàn tồn)"];
+  vnpaygw  -> vnpay     [label="URL có chữ ký, QueryDR\l[HTTPS]", constraint=false];
+
+  // ---- hạ tầng ----
+  payments  -> database [ltail=cluster_features, label="Repository / transaction", style=dashed, constraint=true];
+  scheduler -> database [label="Repository Payment/Order\l(khóa dòng, FOR UPDATE SKIP LOCKED)", style=dashed, constraint=false];
+  health   -> database [label="ping"];
+  database -> pg       [label="SQL [TCP]", style=solid, arrowhead=normal];
+
+  // giữ hàng hạ tầng nằm dưới cùng, cạnh nhau
+  inventory -> security [style=invis];
+  security -> config [style=invis, constraint=false];
+  config -> logger [style=invis, constraint=false];
+  logger -> health [style=invis, constraint=false];
+  { rank=same; security; config; logger; health }
+
+  legend [shape=plaintext, style="", fontsize=10, margin=0,
+    label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+      <TR><TD ALIGN="LEFT"><B>Chú thích</B></TD></TR>
+      <TR><TD ALIGN="LEFT">Biểu tượng «component»: một module NestJS</TD></TR>
+      <TR><TD ALIGN="LEFT">Mũi tên nét đứt: phụ thuộc, nhãn là interface được dùng</TD></TR>
+      <TR><TD ALIGN="LEFT">Hướng phụ thuộc: Payments → Orders → Inventory/Catalog (không vòng)</TD></TR>
+      <TR><TD ALIGN="LEFT">Mọi feature module dùng DatabaseModule; mũi tên gộp thể hiện cho toàn nhóm</TD></TR>
+    </TABLE>>];
+}

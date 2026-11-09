@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1000" viewBox="0 0 1440 1000">
+<title>BrewLite – C4 Level 2: Container</title>
+<rect x="0" y="0" width="1440" height="1000" fill="#FFFFFF"/>
+<text x="30.0" y="40.0" text-anchor="start" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="18" font-weight="bold" fill="#000000">BrewLite – C4 Level 2: Container</text>
+<rect x="60" y="190" width="790" height="780" fill="none" stroke="#000000" stroke-width="1.8" stroke-dasharray="9 6"/>
+<text x="74.0" y="214.0" text-anchor="start" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" font-weight="bold" fill="#000000">BrewLite [Software System]</text>
+<rect x="245" y="70" width="170" height="70" rx="14" ry="14" fill="#FFFFFF" stroke="#000000" stroke-width="1.5"/>
+<text x="330.0" y="100.9" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" font-weight="bold" fill="#000000">Khách hàng</text>
+<text x="330.0" y="117.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">[Person]</text>
+<rect x="435" y="70" width="170" height="70" rx="14" ry="14" fill="#FFFFFF" stroke="#000000" stroke-width="1.5"/>
+<text x="520.0" y="100.9" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" font-weight="bold" fill="#000000">Nhân viên quầy</text>
+<text x="520.0" y="117.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">[Person]</text>
+<rect x="625" y="70" width="170" height="70" rx="14" ry="14" fill="#FFFFFF" stroke="#000000" stroke-width="1.5"/>
+<text x="710.0" y="100.9" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" font-weight="bold" fill="#000000">Quản lý cửa hàng</text>
+<text x="710.0" y="117.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">[Person]</text>
+<rect x="190" y="250" width="560" height="140" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+<text x="470.0" y="282.8" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" font-weight="bold" fill="#000000">Web App</text>
+<text x="470.0" y="299.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">[Container: Next.js, React, PWA]</text>
+<text x="470.0" y="332.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">Giao diện mobile-first/PWA: menu, giỏ hàng, đặt đơn,</text>
+<text x="470.0" y="349.0" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">trang kết quả thanh toán (Return URL),</text>
+<text x="470.0" y="365.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">màn hình quầy cho nhân viên/quản lý</text>
+<rect x="190" y="520" width="560" height="150" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+<text x="470.0" y="557.8" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" font-weight="bold" fill="#000000">API Application</text>
+<text x="470.0" y="574.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">[Container: NestJS, TypeScript]</text>
+<text x="470.0" y="607.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">REST API theo module/domain: xác thực JWT, phân quyền,</text>
+<text x="470.0" y="624.0" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">menu, giỏ hàng, đơn, tồn kho, thanh toán VNPay,</text>
+<text x="470.0" y="640.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">IPN, đối soát, health check, logging</text>
+<path d="M190,804 L190,926 A280.0,14 0 0 0 750,926 L750,804" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+<ellipse cx="470.0" cy="804" rx="280.0" ry="14" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+<text x="470.0" y="834.8" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" font-weight="bold" fill="#000000">Database</text>
+<text x="470.0" y="851.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">[Container: PostgreSQL]</text>
+<text x="470.0" y="884.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">User, Product, ProductOption, Cart, CartItem,</text>
+<text x="470.0" y="901.0" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">Order, OrderItem, Payment;</text>
+<text x="470.0" y="917.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">lược đồ quản lý bằng migration</text>
+<rect x="1080" y="500" width="300" height="160" fill="#FFFFFF" stroke="#000000" stroke-width="1.5"/>
+<text x="1230.0" y="542.8" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" font-weight="bold" fill="#000000">VNPay Sandbox</text>
+<text x="1230.0" y="559.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">[External System]</text>
+<text x="1230.0" y="592.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">Payment Service mô phỏng:</text>
+<text x="1230.0" y="609.0" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">trang thanh toán thử nghiệm,</text>
+<text x="1230.0" y="625.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="12" fill="#000000">Return URL, IPN, QueryDR</text>
+<rect x="920" y="760" width="460" height="132" fill="#FFFFFF" stroke="#000000" stroke-width="1"/>
+<text x="930.0" y="780.9" text-anchor="start" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10.5" font-weight="bold" fill="#000000">Chú thích</text>
+<text x="930.0" y="795.4" text-anchor="start" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10.5" fill="#000000">Khung nét đứt lớn: ranh giới hệ thống BrewLite</text>
+<text x="930.0" y="809.9" text-anchor="start" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10.5" fill="#000000">Khung nét liền: container (đơn vị chạy/triển khai được)</text>
+<text x="930.0" y="824.4" text-anchor="start" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10.5" fill="#000000">[External System]: hệ thống bên ngoài, nằm ngoài ranh giới</text>
+<text x="930.0" y="838.9" text-anchor="start" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10.5" fill="#000000">Mũi tên nét liền: lời gọi giữa các thành phần</text>
+<text x="930.0" y="853.4" text-anchor="start" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10.5" fill="#000000">Mũi tên nét đứt: chuyển hướng trình duyệt (redirect)</text>
+<text x="930.0" y="867.9" text-anchor="start" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10.5" fill="#000000">Nhãn: mục đích [giao thức]</text>
+<polyline points="330,140 330,250" fill="none" stroke="#000000" stroke-width="1.4"/>
+<polygon points="330.0,250.0 324.5,238.0 335.5,238.0" fill="#000000" stroke="#000000" stroke-width="1"/>
+<polyline points="520,140 520,250" fill="none" stroke="#000000" stroke-width="1.4"/>
+<polygon points="520.0,250.0 514.5,238.0 525.5,238.0" fill="#000000" stroke="#000000" stroke-width="1"/>
+<polyline points="710,140 710,250" fill="none" stroke="#000000" stroke-width="1.4"/>
+<polygon points="710.0,250.0 704.5,238.0 715.5,238.0" fill="#000000" stroke="#000000" stroke-width="1"/>
+<polyline points="470,390 470,520" fill="none" stroke="#000000" stroke-width="1.4"/>
+<polygon points="470.0,520.0 464.5,508.0 475.5,508.0" fill="#000000" stroke="#000000" stroke-width="1"/>
+<polyline points="470,670 470,790" fill="none" stroke="#000000" stroke-width="1.4"/>
+<polygon points="470.0,790.0 464.5,778.0 475.5,778.0" fill="#000000" stroke="#000000" stroke-width="1"/>
+<polyline points="750,550 1080,550" fill="none" stroke="#000000" stroke-width="1.4"/>
+<polygon points="1080.0,550.0 1068.0,555.5 1068.0,544.5" fill="#000000" stroke="#000000" stroke-width="1"/>
+<polyline points="1080,630 750,630" fill="none" stroke="#000000" stroke-width="1.4"/>
+<polygon points="750.0,630.0 762.0,624.5 762.0,635.5" fill="#000000" stroke="#000000" stroke-width="1"/>
+<polyline points="750,350 1180,350 1180,500" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="7 5"/>
+<polygon points="1180.0,500.0 1174.5,488.0 1185.5,488.0" fill="#000000" stroke="#000000" stroke-width="1"/>
+<polyline points="1300,500 1300,290 750,290" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="7 5"/>
+<polygon points="750.0,290.0 762.0,284.5 762.0,295.5" fill="#000000" stroke="#000000" stroke-width="1"/>
+<rect x="237.4" y="155.1" width="185.3" height="17.8" fill="#FFFFFF" stroke="none"/>
+<text x="330.0" y="167.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">Dùng trên trình duyệt/PWA [HTTPS]</text>
+<rect x="471.0" y="155.1" width="98.0" height="17.8" fill="#FFFFFF" stroke="none"/>
+<text x="520.0" y="167.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">Xử lý đơn [HTTPS]</text>
+<rect x="661.0" y="155.1" width="98.0" height="17.8" fill="#FFFFFF" stroke="none"/>
+<text x="710.0" y="167.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">Xử lý đơn [HTTPS]</text>
+<rect x="364.1" y="439.2" width="211.8" height="31.6" fill="#FFFFFF" stroke="none"/>
+<text x="470.0" y="451.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">Gọi REST/JSON kèm JWT [HTTPS]</text>
+<text x="470.0" y="465.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">(kể cả GET /orders/{id}/payment-status)</text>
+<rect x="392.8" y="724.2" width="154.4" height="31.6" fill="#FFFFFF" stroke="none"/>
+<text x="470.0" y="736.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">Đọc/ghi, transaction,</text>
+<text x="470.0" y="750.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">khóa dòng tồn kho [SQL/TCP]</text>
+<rect x="911.3" y="527.3" width="107.3" height="45.4" fill="#FFFFFF" stroke="none"/>
+<text x="965.0" y="539.7" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">Tạo URL thanh toán</text>
+<text x="965.0" y="553.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">có chữ ký, QueryDR</text>
+<text x="965.0" y="567.3" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">đối soát [HTTPS]</text>
+<rect x="904.0" y="614.2" width="122.0" height="31.6" fill="#FFFFFF" stroke="none"/>
+<text x="965.0" y="626.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">IPN (kết quả giao dịch)</text>
+<text x="965.0" y="640.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">[HTTPS]</text>
+<rect x="896.0" y="334.2" width="138.0" height="31.6" fill="#FFFFFF" stroke="none"/>
+<text x="965.0" y="346.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">Chuyển hướng sang trang</text>
+<text x="965.0" y="360.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">thanh toán [redirect]</text>
+<rect x="951.8" y="274.2" width="146.5" height="31.6" fill="#FFFFFF" stroke="none"/>
+<text x="1025.0" y="286.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">Return URL (chỉ để hiển thị)</text>
+<text x="1025.0" y="300.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">[redirect]</text>
+</svg>

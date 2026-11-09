@@ -1,0 +1,48 @@
+// BrewLite - C4 Level 2: Container (đen trắng)
+digraph C4Container {
+  graph [rankdir=TB, splines=true, nodesep=1.0, ranksep=1.3, fontname="DejaVu Sans", fontsize=18, labelloc=t, compound=true,
+         label=<<B>BrewLite – C4 Level 2: Container</B>>, pad=0.4];
+  node  [shape=box, style="rounded", fontname="DejaVu Sans", fontsize=12, color=black, fontcolor=black, penwidth=1.6, margin="0.25,0.15"];
+  edge  [fontname="DejaVu Sans", fontsize=10, color=black, fontcolor=black, penwidth=1.3, arrowsize=0.9];
+
+  customer [label=<<B>Khách hàng</B><BR/>[Person]>];
+  staff    [label=<<B>Nhân viên quầy</B><BR/>[Person]>];
+  manager  [label=<<B>Quản lý cửa hàng</B><BR/>[Person]>];
+
+  subgraph cluster_brewlite {
+    label=<<B>BrewLite</B> [Software System]>; labeljust=l; fontsize=14; style="dashed"; color=black; penwidth=1.6; margin=28;
+
+    web [style="solid", label=<<B>Web App</B><BR/>[Container: Next.js, React, PWA]<BR/><BR/>Giao diện mobile-first/PWA: menu, giỏ hàng,<BR/>đặt đơn, trang kết quả thanh toán (Return URL),<BR/>màn hình quầy cho nhân viên/quản lý>];
+
+    api [style="solid", penwidth=2.4, label=<<B>API Application</B><BR/>[Container: NestJS, TypeScript]<BR/><BR/>REST API theo module/domain: xác thực JWT, phân quyền,<BR/>menu, giỏ hàng, đơn, tồn kho, thanh toán VNPay,<BR/>IPN, đối soát, health check, logging>];
+
+    db [shape=cylinder, style="solid", label=<<B>Database</B><BR/>[Container: PostgreSQL]<BR/><BR/>User, Product, ProductOption, Cart, Order,<BR/>OrderItem, Payment; lược đồ quản lý bằng migration>];
+  }
+
+  vnpay [style="dashed", penwidth=1.8,
+         label=<<B>VNPay Sandbox</B><BR/>[Software System – bên ngoài]<BR/><BR/>Payment Service mô phỏng>];
+
+  customer -> web [label="  Dùng trên trình duyệt/PWA [HTTPS]  "];
+  staff    -> web [label="  Xử lý đơn [HTTPS]  "];
+  manager  -> web [label="  Xử lý đơn [HTTPS]  "];
+
+  web -> api [label="  Gọi REST/JSON kèm JWT [HTTPS]  ", penwidth=2];
+  api -> db  [label="  Đọc/ghi, transaction,\l  khóa bản ghi tồn kho [SQL/TCP]  \l", penwidth=2];
+
+  api -> vnpay [label="  Tạo URL thanh toán có chữ ký,\l  QueryDR đối soát [HTTPS]  \l"];
+  vnpay -> api [label="  IPN [HTTPS]  ", constraint=false];
+  web -> vnpay [label="  Chuyển hướng sang trang\l  thanh toán [redirect]  \l", style=dashed, constraint=false];
+  vnpay -> web [label="  Return URL\l  (chỉ để hiển thị)  \l", style=dashed, constraint=false];
+
+  { rank=same; customer; staff; manager }
+
+  legend [shape=plaintext, style="", fontsize=10, margin=0,
+    label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+      <TR><TD ALIGN="LEFT"><B>Chú thích</B></TD></TR>
+      <TR><TD ALIGN="LEFT">Khung nét đứt lớn: ranh giới hệ thống BrewLite</TD></TR>
+      <TR><TD ALIGN="LEFT">Khung nét liền: container (đơn vị chạy/triển khai được)</TD></TR>
+      <TR><TD ALIGN="LEFT">Khung nét đứt nhỏ: hệ thống bên ngoài</TD></TR>
+      <TR><TD ALIGN="LEFT">Mũi tên nét đứt: chuyển hướng trình duyệt (redirect)</TD></TR>
+      <TR><TD ALIGN="LEFT">Mũi tên nét liền: lời gọi giữa các thành phần</TD></TR>
+    </TABLE>>];
+}
