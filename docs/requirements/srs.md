@@ -66,7 +66,7 @@ Các yêu cầu được ưu tiên theo MoSCoW: **Must** (bắt buộc), **Shoul
 
 - **Ưu tiên:** Must.
 - **Mô tả:** Khách hàng thanh toán đơn của mình qua **VNPay Sandbox**. BrewLite tạo yêu cầu thanh toán cho số tiền chính thức của đơn, tiếp nhận kết quả và quản lý trạng thái thanh toán riêng với trạng thái xử lý đơn.
-- **Tiêu chí chấp nhận:** (1) Chỉ chủ đơn đã đăng nhập mới được khởi tạo thanh toán khi đơn ở trạng thái **Chờ thanh toán** và không có giao dịch đang chờ hoặc chưa xác định. (2) Backend tạo URL thanh toán hợp lệ, có mã tham chiếu giao dịch riêng, số tiền khớp với đơn và thời hạn 15 phút; khách hàng được chuyển đến VNPay Sandbox. (3) Khi khách hàng quay về Return URL, giao diện hiển thị trạng thái đang xác minh hoặc trạng thái đã được backend xác nhận; không sử dụng tham số từ trình duyệt làm bằng chứng thanh toán thành công. (4) Backend chỉ ghi nhận **Thành công** sau khi xác minh kết quả hợp lệ từ VNPay, bao gồm chữ ký, mã tham chiếu, số tiền và mã kết quả; đơn được chuyển sang **Đã thanh toán** đúng một lần. (5) Kết quả thất bại được xác minh chuyển giao dịch sang **Thất bại** và được xử lý theo FR-11. (6) Khi chưa có kết quả đáng tin cậy, giao dịch ở trạng thái **Chờ xử lý/Chờ xác minh**; hệ thống không tự kết luận thành công hoặc thất bại. (7) Đơn đã thanh toán hoặc đã hủy không được tạo yêu cầu thanh toán mới. (8) Hệ thống chỉ sử dụng **VNPay Sandbox** và không xử lý giao dịch tiền thật.
+- **Tiêu chí chấp nhận:** (1) Chỉ chủ đơn đã đăng nhập mới được khởi tạo thanh toán khi đơn ở trạng thái **Chờ thanh toán** và không có giao dịch đang chờ hoặc chưa xác định. (2) Backend tạo URL thanh toán hợp lệ, có mã tham chiếu giao dịch riêng, số tiền khớp với đơn và thời hạn 15 phút; khách hàng được chuyển đến VNPay Sandbox. (3) Khi khách hàng quay về Return URL, giao diện hiển thị trạng thái đang xác minh hoặc trạng thái đã được backend xác nhận; không sử dụng tham số từ trình duyệt làm bằng chứng thanh toán thành công. (4) Backend chỉ ghi nhận **Thành công** sau khi xác minh kết quả hợp lệ từ VNPay, bao gồm chữ ký, mã tham chiếu, số tiền và mã kết quả; đơn được chuyển sang **Đã thanh toán** đúng một lần. (5) Kết quả thất bại được xác minh chuyển giao dịch sang **Thất bại** và được xử lý theo FR-11. (6) Khi chưa có kết quả đáng tin cậy, giao dịch ở trạng thái **Chờ xử lý/Chờ xác minh**; hệ thống không tự kết luận thành công hoặc thất bại. (7) Đơn đã thanh toán không được tạo yêu cầu thanh toán mới. (8) Hệ thống chỉ sử dụng **VNPay Sandbox** và không xử lý giao dịch tiền thật.
 
 #### FR-10 — Chống xử lý trùng thanh toán
 
@@ -104,7 +104,7 @@ Các yêu cầu được ưu tiên theo MoSCoW: **Must** (bắt buộc), **Shoul
 
 - **Ưu tiên:** Must.
 - **Mô tả:** Nhân viên quầy và Quản lý cửa hàng xử lý đơn đã thanh toán theo thứ tự **Đã thanh toán → Đang chuẩn bị → Sẵn sàng nhận → Hoàn tất**.
-- **Tiêu chí chấp nhận:** (1) Chỉ cho phép chuyển sang bước kế tiếp. (2) Không bỏ bước, quay lui, sửa đơn đã hủy/hoàn tất. (3) Không cho phép nhân viên tự xác nhận thanh toán thành công. (4) Trạng thái mới được lưu và hiển thị cho các bên có quyền. (5) Không có chức năng khách tự hủy đơn đã thanh toán hoặc yêu cầu hoàn tiền.
+- **Tiêu chí chấp nhận:** (1) Chỉ cho phép chuyển sang bước kế tiếp. (2) Không bỏ bước, quay lui, sửa đơn đã hoàn tất. (3) Không cho phép nhân viên tự xác nhận thanh toán thành công. (4) Trạng thái mới được lưu và hiển thị cho các bên có quyền. (5) Không có chức năng khách tự hủy đơn đã thanh toán hoặc yêu cầu hoàn tiền.
 
 ## 2. Yêu cầu phi chức năng
 
@@ -249,5 +249,5 @@ Sơ đồ gồm **12 Use Case** bên trong ranh giới BrewLite và **4 actor** 
 
 - **Trong phạm vi:** Một cửa hàng; xem menu, chi tiết sản phẩm, giỏ hàng, tài khoản, đặt đơn, thanh toán qua **VNPay Sandbox**, xem lịch sử và xử lý trạng thái đơn; nhận đồ uống tại quầy.
 - **Tồn kho:** Quản lý theo Product; size và topping là tùy chọn giá, không có tồn riêng.
-- **Thanh toán:** Không thu tiền thật; chỉ ghi nhận thành công khi backend đã xác minh kết quả hợp lệ. Đơn chưa rõ kết quả được giữ để xác minh/đối soát trước khi hủy và hoàn tồn.
+- **Thanh toán:** Không thu tiền thật; chỉ ghi nhận thành công khi backend đã xác minh kết quả hợp lệ. Đơn chưa rõ kết quả được giữ để xác minh/đối soát trước khi hoàn tồn.
 - **Ngoài phạm vi:** Giao hàng, nhiều chi nhánh, thanh toán production/tiền thật, lưu dữ liệu thẻ, hoàn tiền, khách tự hủy đơn đã thanh toán, khuyến mãi, tích điểm và thống kê nâng cao.

@@ -60,7 +60,7 @@ Nếu xử lý thủ công, thông tin sản phẩm, tùy chọn, giá, số lư
 - Nếu kết quả giao dịch trước đang chờ hoặc chưa xác định, hệ thống chưa cho phép tạo yêu cầu thanh toán mới cho đến khi hoàn tất xác minh.
 - Chỉ kết quả thanh toán đã được backend xác minh hợp lệ mới có thể chuyển đơn sang trạng thái **Đã thanh toán**. Nhân viên và quản lý không được tự đánh dấu giao dịch thành công.
 - Một đơn đã được xác nhận thanh toán thành công không được thanh toán lại.
-- Khi kết quả giao dịch đang chờ hoặc chưa xác định, hệ thống không được mặc định hủy đơn hoặc hoàn tồn kho cho đến khi có kết quả xác minh.
+- Khi kết quả giao dịch đang chờ hoặc chưa xác định, hệ thống không được mặc định hoàn tồn kho cho đến khi có kết quả xác minh.
 - Nếu VNPay gửi kết quả thành công hợp lệ sau khi yêu cầu thanh toán đã hết hạn nhưng đơn vẫn ở trạng thái **Chờ thanh toán**, hệ thống kiểm tra trạng thái tồn kho trong cùng một transaction. Nếu tồn kho vẫn được giữ hoặc có thể được cập nhật an toàn, hệ thống chuyển đơn sang **Đã thanh toán**.
 - Nếu kết quả thành công hợp lệ đến khi đơn hoặc tồn kho không còn đủ điều kiện cập nhật an toàn, hệ thống ghi nhận sự kiện, giữ nguyên dữ liệu hiện có và chuyển giao dịch sang trạng thái cần đối soát thủ công.
 - Hệ thống phải tránh xử lý trùng yêu cầu thanh toán, thông báo kết quả và thao tác hoàn tồn kho.
@@ -113,7 +113,7 @@ Các điều kiện chi tiết về URL thanh toán, Return URL, IPN, kiểm tra
 | RR-02 | Frontend/backend hiểu khác dữ liệu đơn và thanh toán. | Thống nhất hợp đồng API, kiểm thử tích hợp sớm. |
 | RR-03 | Nhiều đơn đặt đồng thời dẫn đến bán vượt tồn. | Dùng transaction và kiểm thử cạnh tranh dữ liệu. |
 | RR-04 | Người dùng gửi lặp yêu cầu hoặc VNPay gửi lại thông báo. | Thiết kế idempotency và kiểm tra trạng thái trước khi cập nhật. |
-| RR-05 | IPN đến chậm, không đến hoặc kết quả chưa rõ, trong khi đơn hết hạn. | Quy định trạng thái chờ, đối soát và chính sách hết hạn trước khi hủy/hoàn tồn. |
+| RR-05 | IPN đến chậm, không đến hoặc kết quả chưa rõ, trong khi đơn hết hạn. | Quy định trạng thái chờ, đối soát và chính sách hết hạn trước khi hoàn tồn. |
 | RR-06 | Thông báo giả mạo hoặc sai số tiền làm xác nhận thanh toán nhầm. | Backend xác thực chữ ký, mã đơn, số tiền và trạng thái theo tài liệu VNPay. |
 | RR-07 | VNPay Sandbox không gọi được endpoint IPN của môi trường local hoặc cấu hình sai. | Dùng endpoint có thể truy cập phù hợp; kiểm tra cấu hình và bảo đảm log không chứa secret. |
 | RR-08 | Môi trường local khác production, dẫn đến lỗi triển khai. | Quản lý biến môi trường, Docker và smoke test. |
