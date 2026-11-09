@@ -136,7 +136,6 @@ Actor và use case trong tài liệu này khớp hoàn toàn với `srs.md` §3:
 ### 8.2. Mô hình dữ liệu (đối chiếu `domain-class.md` Task 2.3)
 
 Kiến trúc này căn theo `domain-class.md` (Task 2.3) — nguồn sự thật duy nhất cho mô hình dữ liệu:
-
 - **Trạng thái thanh toán** theo `PaymentStatus` của `Payment.status`: `PENDING` / `SUCCESS` / `FAILED` / `UNKNOWN` / `EXPIRED`. `Order.status` thể hiện tiến trình xử lý đơn: `PENDING_PAYMENT` / `PAID` / `PREPARING` / `READY_FOR_PICKUP` / `COMPLETED`. Hai trạng thái này **độc lập** và không lẫn nhau.
 - **Số tiền thanh toán** lưu tại `Payment.amount`. Tổng đơn lưu tại `Order.totalAmount`.
 - **Tồn kho** quản lý duy nhất qua `Product.inventoryQuantity`; size và topping (`ProductOption`) không có tồn riêng. Không có entity `Inventory` độc lập — `InventoryModule` trong kiến trúc chỉ là module chứa logic nghiệp vụ kiểm tra/trừ/hoàn `Product.inventoryQuantity`, không phải một entity riêng trong database.
@@ -154,7 +153,6 @@ Các luồng sau phải thể hiện nhất quán trên cả C4 Context, C4 Cont
 > **Ghi chú đồng bộ sơ đồ:** Tệp `.drawio` trong `docs/diagrams/sources/` là nguồn để chỉnh sửa. Sau mỗi lần cập nhật, xuất lại SVG/PNG từ Draw.io và thay thế file tương ứng trong `docs/diagrams/exports/`. Ba cặp `.drawio`/`.svg` (`c4-context`, `c4-container`, `component-api`) phải luôn mô tả cùng một kiến trúc, nhất quán với tài liệu này.
 
 ### 8.4. Đối chiếu với `sequence-checkout.md` (Task 2)
-
 `sequence-checkout.md` (Task 2.2) đã khớp với domain model: trạng thái thanh toán dùng `PaymentStatus` (`PENDING`, `SUCCESS`, `FAILED`, `EXPIRED`, `UNKNOWN`), không có `Order.paymentStatus` và không có nhánh chuyển đơn sang `CANCELLED`.
 
 ### 8.5. Thông số kỹ thuật (không ảnh hưởng kiến trúc)
