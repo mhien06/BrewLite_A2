@@ -23,9 +23,9 @@ API -> API: Kiểm tra JWT, quyền sở hữu đơn\nvà validate provider than
 activate API
 deactivate API
 
-API -> DB: Tra Order (status, paymentStatus), Payment hiện có\nvà Payment.idempotencyKey
+API -> DB: Tra Order.status, Payment hiện có\n(Payment.status, Payment.idempotencyKey)
 activate DB
-DB --> API: Order.status, Order.paymentStatus, Payment.status\nvà dữ liệu của idempotencyKey
+DB --> API: Order.status, Payment.status\nvà dữ liệu của idempotencyKey
 deactivate DB
 
 alt Cùng idempotencyKey và cùng nội dung yêu cầu
@@ -34,7 +34,7 @@ alt Cùng idempotencyKey và cùng nội dung yêu cầu
 else Cùng idempotencyKey nhưng khác đơn hoặc nội dung
   API --> UI: 409 Conflict; không thay đổi dữ liệu
   UI --> Customer: Thông báo yêu cầu thanh toán bị xung đột
-else Đã tồn tại Payment PENDING / UNKNOWN (paymentStatus = PENDING / UNKNOWN) hoặc Order.status không ở PENDING_PAYMENT
+else Đã tồn tại Payment PENDING / UNKNOWN hoặc Order.status không ở PENDING_PAYMENT
   API --> UI: 409 Conflict: chặn tạo Payment mới;\ngiữ nguyên giao dịch đang chờ xác minh
   UI --> Customer: Hiển thị trạng thái Đang xác minh\nhoặc tiếp tục giao dịch hiện tại
 else Key mới, Order PENDING_PAYMENT và không có Payment đang chờ
@@ -44,11 +44,11 @@ else Key mới, Order PENDING_PAYMENT và không có Payment đang chờ
     VNPay --> API: Kết quả giao dịch trước
     deactivate VNPay
     break QueryDR báo SUCCESS hoặc chưa xác minh được
-      API -> DB: SUCCESS: Payment.status = SUCCESS, Order.status = PAID,\nOrder.paymentStatus = SUCCESS; chưa rõ: Payment.status\nvà Order.paymentStatus = UNKNOWN; COMMIT
+      API -> DB: SUCCESS: Payment.status = SUCCESS, Order.status = PAID;\nchưa rõ: Payment.status = UNKNOWN; COMMIT
       API --> UI: 409 Conflict: đơn đã thanh toán hoặc đang xác minh
       UI --> Customer: Thông báo trạng thái đơn
     end
-    API -> DB: BEGIN; Payment trước: status = EXPIRED, Order.paymentStatus = EXPIRED\n(đã xác minh không thành công); hoàn tồn kho đúng 1 lần; COMMIT
+    API -> DB: BEGIN; Payment trước: status = EXPIRED\n(đã xác minh không thành công); hoàn tồn kho đúng 1 lần; COMMIT
     activate DB
     deactivate DB
   end
@@ -72,7 +72,7 @@ else Key mới, Order PENDING_PAYMENT và không có Payment đang chờ
   end
 
   API -> API: Xác định paymentAmount:\nlần đầu = Order.totalAmount; thanh toán lại = tổng tiền vừa tính lại
-  API -> DB: Tạo Payment (provider = VNPAY_SANDBOX, status = PENDING, idempotencyKey,\ntransactionRef mới, amount = paymentAmount, expiresAt = +15 phút);\nOrder.paymentStatus = PENDING
+  API -> DB: Tạo Payment (provider = VNPAY_SANDBOX, status = PENDING, idempotencyKey,\ntransactionRef mới, amount = paymentAmount, expiresAt = +15 phút)
   API -> DB: COMMIT transaction
   DB --> API: Thông tin Payment và dữ liệu tạo URL
   deactivate DB
@@ -136,17 +136,17 @@ else Key mới, Order PENDING_PAYMENT và không có Payment đang chờ
       activate API
       deactivate API
     else IPN hợp lệ và giao dịch SUCCESS
-      API -> DB: BEGIN; khóa Order và Payment; Payment.status = SUCCESS;\nOrder.status = PAID, Order.paymentStatus = SUCCESS;\nghi providerTransactionNo, responseCode, verifiedAt
+      API -> DB: BEGIN; khóa Order và Payment; Payment.status = SUCCESS;\nOrder.status = PAID;\nghi providerTransactionNo, responseCode, verifiedAt
       activate DB
       API -> DB: COMMIT; giữ nguyên tồn kho đã trừ
       deactivate DB
     else IPN hợp lệ nhưng giao dịch thất bại
-      API -> DB: BEGIN; khóa Order và Payment; Payment.status = FAILED,\nOrder.paymentStatus = FAILED; ghi responseCode, verifiedAt;\nhoàn tồn kho đúng 1 lần; giữ Order.status = PENDING_PAYMENT
+      API -> DB: BEGIN; khóa Order và Payment; Payment.status = FAILED;\nghi responseCode, verifiedAt;\nhoàn tồn kho đúng 1 lần; giữ Order.status = PENDING_PAYMENT
       activate DB
       API -> DB: COMMIT transaction
       deactivate DB
     else Kết quả chưa xác định hoặc cần đối soát thêm
-      API -> DB: Payment.status = UNKNOWN, Order.paymentStatus = UNKNOWN\n(Chờ xác minh); không hoàn tồn kho và không đánh dấu thành công
+      API -> DB: Payment.status = UNKNOWN\n(Chờ xác minh); không hoàn tồn kho và không đánh dấu thành công
       activate DB
       deactivate DB
     end
@@ -163,7 +163,7 @@ else Key mới, Order PENDING_PAYMENT và không có Payment đang chờ
     activate API
     API -> DB: Đọc trạng thái Order và Payment đã xác minh
     activate DB
-    DB --> API: Trạng thái cuối cùng (Order.status = PAID, paymentStatus = SUCCESS;\nhoặc PENDING_PAYMENT kèm paymentStatus = FAILED / EXPIRED / UNKNOWN)
+    DB --> API: Trạng thái cuối cùng (Order.status = PAID;\nhoặc PENDING_PAYMENT kèm Payment.status = FAILED / EXPIRED / UNKNOWN)
     deactivate DB
     API --> UI: 200 OK: kết quả thanh toán và trạng thái đơn đã xác minh
     deactivate API
