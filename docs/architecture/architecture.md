@@ -137,10 +137,10 @@ Actor và use case trong tài liệu này khớp hoàn toàn với `srs.md` §3:
 
 Kiến trúc này căn theo `domain-class.md` (Task 2.3) — nguồn sự thật duy nhất cho mô hình dữ liệu:
 
-- **Trạng thái thanh toán** theo `PaymentStatus` của `Payment.status`: `UNPAID` / `PENDING` / `SUCCESS` / `FAILED` / `UNKNOWN` / `EXPIRED` (bản Domain đã cập nhật có `UNPAID`). `Order.status` thể hiện tiến trình xử lý đơn: `PENDING_PAYMENT` / `PAID` / `PREPARING` / `READY_FOR_PICKUP` / `COMPLETED`. Hai trạng thái này **độc lập** và không lẫn nhau.
+- **Trạng thái thanh toán** theo `PaymentStatus` của `Payment.status`: `PENDING` / `SUCCESS` / `FAILED` / `UNKNOWN` / `EXPIRED`. `Order.status` thể hiện tiến trình xử lý đơn: `PENDING_PAYMENT` / `PAID` / `PREPARING` / `READY_FOR_PICKUP` / `COMPLETED`. Hai trạng thái này **độc lập** và không lẫn nhau.
 - **Số tiền thanh toán** lưu tại `Payment.amount`. Tổng đơn lưu tại `Order.totalAmount`.
 - **Tồn kho** quản lý duy nhất qua `Product.inventoryQuantity`; size và topping (`ProductOption`) không có tồn riêng. Không có entity `Inventory` độc lập — `InventoryModule` trong kiến trúc chỉ là module chứa logic nghiệp vụ kiểm tra/trừ/hoàn `Product.inventoryQuantity`, không phải một entity riêng trong database.
-- **Không có `OrderStatus.CANCELLED`** trong Domain đã cập nhật: kiến trúc không có endpoint hay job hủy đơn. Thanh toán thất bại hoặc hết hạn được thể hiện ở `Payment.status` (`FAILED` / `EXPIRED`) kèm hoàn tồn đúng một lần (ADR-003, ADR-006); khách có thể thanh toán lại theo ADR-006.
+- **Không có `OrderStatus.CANCELLED`** trong domain model MVP: kiến trúc không có endpoint hay job hủy đơn. Thanh toán thất bại hoặc hết hạn được thể hiện ở `Payment.status` (`FAILED` / `EXPIRED`) kèm hoàn tồn đúng một lần (ADR-003, ADR-006); khách có thể thanh toán lại theo ADR-006.
 - **Database container** lưu đúng 8 class MVP: `User`, `Product`, `ProductOption`, `Cart`, `CartItem`, `Order`, `OrderItem`, `Payment`. `Promotion` và `LoyaltyTransaction` là `«future»`, không thuộc MVP.
 
 ### 8.3. Luồng thanh toán và sơ đồ C4
@@ -155,7 +155,7 @@ Các luồng sau phải thể hiện nhất quán trên cả C4 Context, C4 Cont
 
 ### 8.4. Đối chiếu với `sequence-checkout.md` (Task 2)
 
-Domain đã cập nhật (có `Payment.amount` và `PaymentStatus.UNPAID`, không có `OrderStatus.CANCELLED`) là chuẩn của kiến trúc này. `sequence-checkout.md` (Task 2.2) cần khớp với chuẩn đó: mọi trạng thái thanh toán dùng `PaymentStatus` (kể cả `UNPAID`) và không có nhánh chuyển đơn sang `CANCELLED`. Nếu bản sequence hiện hành còn dùng `Order.paymentStatus` hoặc nhánh hủy đơn, cần cập nhật ở Task 2; việc này không làm thay đổi hình dạng kiến trúc ở tài liệu này.
+`sequence-checkout.md` (Task 2.2) đã khớp với domain model: trạng thái thanh toán dùng `PaymentStatus` (`PENDING`, `SUCCESS`, `FAILED`, `EXPIRED`, `UNKNOWN`), không có `Order.paymentStatus` và không có nhánh chuyển đơn sang `CANCELLED`.
 
 ### 8.5. Thông số kỹ thuật (không ảnh hưởng kiến trúc)
 
