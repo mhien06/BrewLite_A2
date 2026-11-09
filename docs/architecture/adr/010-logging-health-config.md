@@ -20,3 +20,4 @@ Cần giám sát cơ bản, tự khởi động lại khi lỗi, và tuyệt đ�
 ## Hệ quả
 - **Ưu điểm:** lỗi cấu hình phát hiện ngay lúc khởi động; log truy vết được theo `requestId` mà không lộ secret; health check dùng chung cho Docker và smoke test sau triển khai.
 - **Hạn chế:** chưa có metric hay cảnh báo tự động; cần review để bảo đảm không ai thêm log chứa dữ liệu nhạy cảm ngoài danh sách `redact`.
+- **Đánh đổi:** giám sát cơ bản (log JSON + health check) thay vì hệ thống metric/cảnh báo đầy đủ, phù hợp quy mô MVP.

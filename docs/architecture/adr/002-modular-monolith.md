@@ -22,3 +22,4 @@ Quy tắc:
 ## Hệ quả
 - **Ưu điểm:** transaction ACID trong một database; triển khai đơn giản (một image API); ranh giới module rõ nên sau MVP có thể tách riêng nếu cần.
 - **Hạn chế:** scale theo cả khối chứ không theo module; kỷ luật phụ thuộc giữa module phải được kiểm tra khi review (có thể thêm lint rule chặn import vòng).
+- **Đánh đổi:** nhường khả năng scale và triển khai độc lập từng module để có transaction ACID đơn giản; ranh giới module được giữ bằng quy ước và review thay vì bằng ranh giới mạng.

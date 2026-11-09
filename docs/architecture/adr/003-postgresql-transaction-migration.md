@@ -20,3 +20,4 @@ Hệ thống cần transaction đáng tin cậy, chống bán vượt tồn khi 
 ## Hệ quả
 - **Ưu điểm:** nhất quán mạnh, kiểm thử được tình huống đặt đồng thời; lược đồ tái tạo được (NFR-07).
 - **Hạn chế:** khóa dòng làm các đơn cùng Product xử lý tuần tự (chấp nhận được ở quy mô MVP); nhóm phải viết migration cẩn thận và review kỹ.
+- **Đánh đổi:** chấp nhận xử lý tuần tự các đơn cùng Product và công sức viết migration để đổi lấy nhất quán mạnh về tồn kho và thanh toán.

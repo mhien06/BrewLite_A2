@@ -27,3 +27,4 @@ CI dùng path filter để chỉ chạy job của phần bị thay đổi.
 ## Hệ quả
 - **Ưu điểm:** một PR có thể sửa API, UI và tài liệu cùng lúc; kiểu dùng chung giảm lệch hợp đồng; một lệnh `docker compose up` khởi chạy toàn bộ.
 - **Hạn chế:** pipeline CI phải cấu hình path filter; lịch sử commit chung nhiều phần; cần quy ước thư mục rõ để tránh phụ thuộc chéo `web` ↔ `api` (chỉ được dùng qua `packages/shared`).
+- **Đánh đổi:** chấp nhận cấu hình CI và quy ước thư mục phức tạp hơn để đổi lấy hợp đồng dữ liệu đồng bộ giữa web và API và một luồng PR duy nhất.

@@ -21,3 +21,4 @@ Có ba vai trò (Khách hàng, Nhân viên quầy, Quản lý). Yêu cầu phân
 ## Hệ quả
 - **Ưu điểm:** stateless, dễ chạy nhiều instance; quy tắc quyền tập trung, khó quên.
 - **Hạn chế:** không thu hồi được token trước khi hết hạn; token lưu ở client chịu rủi ro XSS (giảm bằng thời hạn ngắn, CSP, không ghi log token).
+- **Đánh đổi:** ưu tiên đơn giản và stateless (access token ngắn hạn, không refresh token) thay vì khả năng thu hồi token tức thời.

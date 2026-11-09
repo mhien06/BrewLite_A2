@@ -20,3 +20,4 @@ Ràng buộc công nghệ yêu cầu Next.js mobile-first/PWA. Khách chủ yế
 ## Hệ quả
 - **Ưu điểm:** một nơi duy nhất quyết định nghiệp vụ; PWA cài được; luồng Return URL an toàn.
 - **Hạn chế:** mỗi thao tác cần một lần gọi API (cần loading/error rõ, NFR-06); không dùng được offline cho thao tác đặt đơn/thanh toán.
+- **Đánh đổi:** nghiệp vụ tập trung ở API (an toàn, nhất quán) nên giao diện phụ thuộc mạng cho mọi thao tác quan trọng.

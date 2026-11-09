@@ -3,6 +3,7 @@
 - **Trạng thái:** Đã chấp nhận
 - **Ngày:** 2026-11-08
 - **Liên quan:** FR-09, FR-10; NFR-04, NFR-09; QD-01 đến QD-10; RR-07
+- **Phạm vi:** Mở rộng – Kết quả trực tiếp từ quyết định mở rộng ở ADR-004 (tích hợp VNPay Sandbox thực thay vì mock nội bộ).
 
 ## Bối cảnh
 ADR-004 đã chốt VNPay Sandbox là hệ thống bên ngoài và ADR-005 đã chốt Return URL/IPN/idempotency là quyết định nghiệp vụ. Vấn đề còn lại thuộc tầng *implementation*: nên để `PaymentsModule` gọi thẳng giao thức VNPay (tham số `vnp_*`, HMAC-SHA512, nhân 100 số tiền) hay tách riêng, để nghiệp vụ không phụ thuộc chi tiết giao thức của một nhà cung cấp cụ thể.
@@ -21,3 +22,4 @@ ADR-004 đã chốt VNPay Sandbox là hệ thống bên ngoài và ADR-005 đã 
 ## Hệ quả
 - **Ưu điểm:** dễ viết unit test cho `PaymentService` bằng một `PaymentGateway` giả; đổi/thêm nhà cung cấp thanh toán sau này chỉ cần viết adapter mới (dù MVP chỉ dùng VNPay); logic xác minh giao thức tập trung ở một module.
 - **Hạn chế:** thêm một lớp trừu tượng và một module; endpoint IPN cần HTTPS mà VNPay gọi tới được (môi trường local cần tunnel, rủi ro RR-07).
+- **Đánh đổi:** thêm một lớp trừu tượng và một module để đổi lấy khả năng kiểm thử và thay nhà cung cấp thanh toán.
