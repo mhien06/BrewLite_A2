@@ -6,7 +6,7 @@ Tài liệu mô tả UML deployment diagram cho môi trường production của 
 
 ![Deployment diagram](../diagrams/exports/deployment-production.svg)
 
-- Nguồn Draw.io: `docs/diagrams/sources/deployment-production.drawio`; nguồn Graphviz: `docs/diagrams/sources/deployment-production.dot`; bản xuất: `docs/diagrams/exports/deployment-production.svg`.
+- Nguồn Draw.io: `docs/diagrams/sources/deployment-production.drawio`; bản xuất: `docs/diagrams/exports/deployment-production.svg`.
 - Quy ước: đen trắng; `«device»`, `«execution environment»` là node UML (hộp 3D), `«artifact»` là tệp triển khai (ghi chú gấp góc), `«external»` là hệ thống bên ngoài (nét đứt đậm), hình trụ là volume / persistent storage; khung nét đứt lớn là ranh giới môi trường (local, CI, production); mũi tên nét liền có `«giao thức»` là communication path, mũi tên nét đứt là dependency / association; nhãn ghi giao thức và cổng.
 
 ## 1. Nền tảng triển khai được chọn
@@ -62,7 +62,7 @@ Tài liệu mô tả UML deployment diagram cho môi trường production của 
 | Trình duyệt → VNPay Sandbox | HTTPS 443 | Chuyển hướng thanh toán (Return URL quay về qua cùng đường vào) |
 | VNPay Sandbox → `proxy` → `api` | HTTPS 443 | IPN tới `/api/...`, công khai, xác minh chữ ký |
 | `api` → VNPay Sandbox | HTTPS 443 | URL thanh toán có chữ ký, QueryDR |
-| `ci_dep` → VPS | SSH 22 | Khóa riêng chỉ cho deploy |
+| Runner CI (`deploy`) → VPS | SSH 22 | Khóa riêng chỉ cho deploy |
 | VPS ← GHCR | HTTPS 443 | Kéo image theo tag SHA |
 
 ## 4. Secret, biến môi trường, health check và log
