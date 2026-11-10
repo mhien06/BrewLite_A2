@@ -1,8 +1,16 @@
 {
   "name": "brewlite-a2",
   "private": true,
+  "packageManager": "pnpm@11.25.0",
   "scripts": {
     "build": "pnpm -r build",
-    "dev": "pnpm -r --parallel dev"
+    "dev": "pnpm -r --parallel dev",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test"
+  },
+  "devDependencies": {
+    "eslint": "^10.14.0",
+    "eslint-config-next": "16.4.2",
+    "typescript-eslint": "^8.72.1"
   }
 }

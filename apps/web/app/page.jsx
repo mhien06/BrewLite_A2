@@ -1,7 +1,9 @@
 ﻿'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { formatVndPrice, stockLabel } from './catalog.mjs';
 
 const api = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001';
 
@@ -65,16 +67,22 @@ export default function Menu() {
               <article className="product-card" key={product.id}>
                 <Link className="image-link" href={'/products/' + product.id}>
                   {product.imageUrl && (
-                    <img className="product-image" src={product.imageUrl} alt={product.name} />
+                    <Image
+                      className="product-image"
+                      src={product.imageUrl}
+                      alt={product.name}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 25vw"
+                    />
                   )}
-                  <span className="card-badge">{product.stock ? 'CÒN HÀNG' : 'TẠM HẾT'}</span>
+                  <span className="card-badge">{stockLabel(product.stock)}</span>
                 </Link>
 
                 <div className="card-content">
                   <h3>{product.name}</h3>
                   <p>{product.description}</p>
                   <div className="card-bottom">
-                    <strong>{product.price.toLocaleString('vi-VN')}đ</strong>
+                    <strong>{formatVndPrice(product.price)}</strong>
                     <Link href={'/products/' + product.id}>Xem chi tiết</Link>
                   </div>
                 </div>

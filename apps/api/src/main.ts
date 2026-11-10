@@ -3,6 +3,7 @@ import { config } from 'dotenv';
 import { Controller, Get, Module, NotFoundException, Param, ParseIntPipe, ServiceUnavailableException } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DataSource, QueryRunner } from 'typeorm';
+import { productDetailResponse } from './catalog-domain.cjs';
 
 config({ path: '../../.env' });
 class Catalog1760000000000 {
@@ -80,7 +81,7 @@ class CatalogController {
       'SELECT id, kind, name, surcharge FROM product_options WHERE product_id = $1 ORDER BY id',
       [id],
     );
-    return { ...product, options };
+    return productDetailResponse(product, options);
   }
 }
 
