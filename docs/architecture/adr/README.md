@@ -16,5 +16,6 @@ ADR-001 đến ADR-006 là các quyết định được nêu trực tiếp tron
 | [008](008-vnpay-payment-gateway-adapter.md) | Tích hợp VNPay qua `PaymentGateway` (port/adapter), tách khỏi `PaymentsModule` *(mở rộng)* | Đã chấp nhận |
 | [009](009-jwt-rbac.md) | JWT + RBAC + kiểm tra quyền sở hữu | Đã chấp nhận |
 | [010](010-logging-health-config.md) | Log JSON (pino), health check (terminus), cấu hình bằng biến môi trường | Đã chấp nhận |
+| [011](011-production-deployment-vps-docker.md) | Triển khai production bằng Docker Compose trên VPS Ubuntu + Caddy + GHCR | Đã chấp nhận |
 
 Khi cần đổi một quyết định, không sửa lịch sử: tạo ADR mới và đổi trạng thái ADR cũ thành "Bị thay thế bởi ADR-NNN".

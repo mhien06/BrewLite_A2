@@ -114,7 +114,7 @@ Quy tắc phụ thuộc (kiểm tra khi review): hướng một chiều và khô
 | Dịch vụ thanh toán mô phỏng | Đề yêu cầu tối thiểu là một dịch vụ thanh toán giả lập; nhóm chọn tích hợp **VNPay Sandbox** (hệ thống ngoài thực tế) làm phương án mở rộng — xem `VnpayGatewayModule`, ADR-004, ADR-008. Thiết kế port/adapter (ADR-008) đảm bảo có thể thay bằng mock nội bộ mà không đổi nghiệp vụ. |
 | Logging, health check, quản lý cấu hình | `LoggerModule`, `HealthModule`, `ConfigModule`, ADR-010 |
 | Lý do chọn kiến trúc, ưu điểm, hạn chế, trade-off | Mục 5 và từng ADR |
-| ADR ngắn trong `docs/architecture/adr`, đúng `NNN-ten.md` | `adr/001-monorepo.md` đến `adr/010-logging-health-config.md` và `adr/README.md` |
+| ADR ngắn trong `docs/architecture/adr`, đúng `NNN-ten.md` | `adr/001-monorepo.md` đến `adr/011-production-deployment-vps-docker.md` và `adr/README.md` |
 | Có cả ba sơ đồ dạng Draw.io (nguồn) và SVG (xuất) | `docs/diagrams/sources/*.drawio` và `docs/diagrams/exports/*.svg` (kèm `.png`), đồng bộ nội dung — xem Mục 1 và §8.3 |
 | Dùng đúng ký hiệu C4 và UML, không trộn ký hiệu loại sơ đồ khác | Bảng ký hiệu ở Mục 1; Context/Container dùng C4, Component dùng UML |
 | Sơ đồ đen trắng cơ bản; VNPay Sandbox nằm ngoài BrewLite | Mục 1; ranh giới `BrewLite [Software System]` (Container), `[External System]` (Context, Container), `«external system»` (Component) |
