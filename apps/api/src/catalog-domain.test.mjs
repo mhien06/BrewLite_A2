@@ -24,7 +24,3 @@ test('product detail response does not mutate its inputs', () => {
   assert.equal('options' in product, false);
   assert.equal(result.options, options);
 });
-
-test('temporary Task 4.4 failure evidence', () => {
-  assert.fail('intentional failure to verify the required CI check');
-});
