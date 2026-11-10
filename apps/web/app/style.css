@@ -359,7 +359,16 @@ footer p {
   }
 
   .header-actions {
-    display: none;
+    display: flex;
+    order: 2;
+    gap: 0.35rem;
+    font-size: 0.7rem;
+  }
+
+  .search-pill,
+  .login-pill {
+    padding: 0.4rem 0.55rem;
+    white-space: nowrap;
   }
 
   nav {
@@ -412,5 +421,25 @@ footer p {
     grid-template-columns: 1fr;
     margin: 0;
     padding: 2rem 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-inner {
+    padding: 0.65rem 0.75rem;
+  }
+
+  .brand {
+    gap: 0.5rem;
+    font-size: 1.05rem;
+  }
+
+  .brand-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .brand small {
+    display: none;
   }
 }
