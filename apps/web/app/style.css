@@ -187,13 +187,12 @@ main {
 .image-link {
   position: relative;
   display: block;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
 }
 
 .product-image {
   display: block;
-  width: 100%;
-  aspect-ratio: 4 / 3;
   object-fit: cover;
   transition: transform 0.25s ease;
 }
@@ -279,10 +278,14 @@ button {
   align-items: center;
 }
 
-.detail-image {
-  display: block;
+.detail-image-wrap {
+  position: relative;
   width: 100%;
   aspect-ratio: 1 / 1;
+}
+
+.detail-image {
+  display: block;
   object-fit: cover;
   border-radius: 1rem;
 }

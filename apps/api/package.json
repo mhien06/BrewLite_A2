@@ -4,6 +4,8 @@
   "scripts": {
     "dev": "tsx watch src/main.ts",
     "build": "tsc",
+    "lint": "eslint src",
+    "test": "node --test src/catalog-domain.test.mjs",
     "start": "node dist/main.js"
   },
   "dependencies": {

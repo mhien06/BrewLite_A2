@@ -1,5 +1,7 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import { formatVndPrice, splitOptions } from '../../catalog.mjs';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,30 +16,35 @@ export default async function ProductPage({ params }) {
   if (!response.ok) throw new Error('Không tải được món.');
 
   const product = await response.json();
-  const sizes = product.options.filter(option => option.kind === 'SIZE');
-  const toppings = product.options.filter(option => option.kind === 'TOPPING');
+  const { sizes, toppings } = splitOptions(product.options);
 
   return (
     <>
       <Link className="back-link" href="/">← Menu</Link>
 
       <article className="detail-card">
-        <div>
-          <img className="detail-image" src={product.imageUrl} alt={product.name} />
+        <div className="detail-image-wrap">
+          <Image
+            className="detail-image"
+            src={product.imageUrl}
+            alt={product.name}
+            fill
+            sizes="(max-width: 760px) 100vw, 50vw"
+          />
         </div>
 
         <div className="detail-content">
           <span className="eyebrow">BREWLITE COFFEE</span>
           <h1>{product.name}</h1>
           <p className="detail-description">{product.description}</p>
-          <p className="detail-price">{product.price.toLocaleString('vi-VN')}đ</p>
+          <p className="detail-price">{formatVndPrice(product.price)}</p>
 
           <section className="option-group">
             <h2>Chọn kích thước</h2>
             <div className="option-list">
               {sizes.map(option => (
                 <span key={option.id}>
-                  {option.name} · +{option.surcharge.toLocaleString('vi-VN')}đ
+                  {option.name} · +{formatVndPrice(option.surcharge)}
                 </span>
               ))}
             </div>
@@ -48,7 +55,7 @@ export default async function ProductPage({ params }) {
             <div className="option-list">
               {toppings.map(option => (
                 <span key={option.id}>
-                  {option.name} · +{option.surcharge.toLocaleString('vi-VN')}đ
+                  {option.name} · +{formatVndPrice(option.surcharge)}
                 </span>
               ))}
             </div>
