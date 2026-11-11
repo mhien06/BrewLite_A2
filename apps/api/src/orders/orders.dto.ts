@@ -6,7 +6,6 @@ export class CreateOrderItemDto {
   @Type(() => Number) @IsInt() @Min(1) @Max(2_147_483_647) sizeOptionId!: number;
   @IsOptional() @IsArray() @ArrayUnique() @ArrayMaxSize(10) @Type(() => Number) @IsInt({ each: true }) @Min(1, { each: true }) @Max(2_147_483_647, { each: true }) toppingOptionIds: number[] = [];
   @Type(() => Number) @IsInt() @Min(1) @Max(2_147_483_647) quantity!: number;
-  @IsOptional() @Type(() => Number) @IsInt() @Min(0) @Max(2_147_483_647) unitPrice?: number;
 }
 
 export class CreateOrderDto {

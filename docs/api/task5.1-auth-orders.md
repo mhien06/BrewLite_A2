@@ -2,8 +2,6 @@
 
 Base URL: `http://localhost:3001`. JSON requests and responses use UTF-8. Error responses have `{ statusCode, error, code?, message, details?, path, timestamp }`.
 
-**Implementation status:** this contract follows the ZIP proposal for #26. Confirm the request/response shapes and error codes with Hiển and Thành before integrating #25/#27.
-
 ## Authentication
 
 ### `POST /auth/register`
@@ -19,7 +17,7 @@ Public. Creates a `CUSTOMER` account; roles cannot be assigned by the client.
 }
 ```
 
-Returns `201` with `{ accessToken, tokenType: "Bearer", expiresIn, account: { id, fullName, email, role } }`. Passwords are bcrypt hashed. A duplicate email returns `409 EMAIL_EXISTS`; mismatched passwords return `409 PASSWORD_MISMATCH`.
+Returns `201` with `{ accessToken, tokenType: "Bearer", expiresIn, account: { id, fullName, email, role } }`. Passwords are bcrypt hashed. A duplicate email returns `409 EMAIL_EXISTS`; mismatched passwords return `400 PASSWORD_MISMATCH`.
 
 ### `POST /auth/login`
 
@@ -35,7 +33,7 @@ All order routes require a valid token. `GET` routes only return records owned b
 
 ### `POST /orders`
 
-The backend loads product and option prices from the database and ignores any client-supplied price fields. Product inventory is tracked per product, so quantities across lines for one product are summed before stock validation.
+The backend loads product and option prices from the database and rejects any client-supplied price fields. Product inventory is tracked per product, so quantities across lines for one product are summed before stock validation.
 
 ```json
 {
@@ -55,11 +53,11 @@ Return the authenticated account's order summaries or one owned order with its i
 
 ## Common status codes
 
-- `400`: invalid DTO or option selection.
+- `400`: invalid DTO, option selection, or password confirmation mismatch.
 - `401`: missing, invalid, or expired JWT; invalid credentials.
 - `403`: a route with a role requirement was called by an account without that role.
 - `404`: missing product/order, including an order owned by another account.
-- `409`: duplicate email, password confirmation mismatch, or insufficient stock.
+- `409`: duplicate email or insufficient stock.
 
 ## Configuration
 

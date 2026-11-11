@@ -1,4 +1,4 @@
-import { ConflictException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { DATA_SOURCE } from '../database/database.module';
 import { AuthUser } from './auth.types';
@@ -9,7 +9,7 @@ export class AuthService {
   constructor(@Inject(DATA_SOURCE) private readonly db: DataSource, @Inject(JwtService) private readonly jwt: JwtService) {}
 
   async register(input: { fullName: string; email: string; password: string; confirmPassword: string }) {
-    if (input.password !== input.confirmPassword) throw new ConflictException({ code: 'PASSWORD_MISMATCH', message: 'Passwords do not match.' });
+    if (input.password !== input.confirmPassword) throw new BadRequestException({ code: 'PASSWORD_MISMATCH', message: 'Passwords do not match.' });
     const email = input.email.trim().toLowerCase();
     const passwordHash = await import('bcryptjs').then(({ hash }) => hash(input.password, 12));
     try {
