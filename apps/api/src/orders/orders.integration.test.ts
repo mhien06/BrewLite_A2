@@ -52,11 +52,19 @@ test('auth, ownership, server-priced orders, rollback and concurrent stock are s
   const unauthenticated = await get('/orders');
   assert.equal(unauthenticated.status, 401, await unauthenticated.clone().text());
 
-  const registration = await post('/auth/register', { fullName: 'Customer One', email: `one-${Date.now()}@example.com`, password: 'correct-horse-123', confirmPassword: 'correct-horse-123' });
+  const email = `one-${Date.now()}@example.com`;
+  const mismatchedPassword = await post('/auth/register', { fullName: 'Customer One', email, password: 'correct-horse-123', confirmPassword: 'different-password' });
+  assert.equal(mismatchedPassword.status, 409);
+  const attemptedRoleEscalation = await post('/auth/register', { fullName: 'Customer One', email, password: 'correct-horse-123', confirmPassword: 'correct-horse-123', role: 'MANAGER' });
+  assert.equal(attemptedRoleEscalation.status, 400);
+  const registration = await post('/auth/register', { fullName: 'Customer One', email, password: 'correct-horse-123', confirmPassword: 'correct-horse-123' });
   assert.equal(registration.status, 201);
   const session = await registration.json() as { accessToken: string; account: { id: number; role: string } };
   userIds.push(session.account.id);
   assert.equal(session.account.role, 'CUSTOMER');
+
+  const duplicateRegistration = await post('/auth/register', { fullName: 'Customer One', email: email.toUpperCase(), password: 'correct-horse-123', confirmPassword: 'correct-horse-123' });
+  assert.equal(duplicateRegistration.status, 409);
 
   const login = await post('/auth/login', { email: (await db!.query('SELECT email FROM users WHERE id = $1', [session.account.id]))[0].email, password: 'correct-horse-123' });
   assert.equal(login.status, 201);
@@ -93,15 +101,18 @@ test('auth, ownership, server-priced orders, rollback and concurrent stock are s
 
   const invalidOption = await post('/orders', { items: [{ productId: product.id, sizeOptionId: foreignSize.id, quantity: 1 }] }, loggedIn.accessToken);
   assert.equal(invalidOption.status, 400);
+  assert.equal((await invalidOption.json() as { code: string }).code, 'INVALID_PRODUCT_OPTION');
   const priceTampering = await post('/orders', { items: [{ productId: product.id, sizeOptionId: size.id, quantity: 1, unitPrice: 1 }] }, loggedIn.accessToken);
   assert.equal(priceTampering.status, 201);
   assert.equal((await priceTampering.json() as { totalAmount: number }).totalAmount, 130);
 
   await db!.query('UPDATE products SET stock = 1 WHERE id = $1', [product.id]);
+  const ordersBeforeShortage = Number((await db!.query('SELECT count(*) FROM orders WHERE user_id = $1', [session.account.id]))[0].count);
   const shortage = await post('/orders', { items: [{ productId: product.id, sizeOptionId: size.id, quantity: 2 }] }, loggedIn.accessToken);
   assert.equal(shortage.status, 409);
   assert.equal((await shortage.json() as { code: string }).code, 'INSUFFICIENT_STOCK');
   assert.equal((await db!.query('SELECT stock FROM products WHERE id = $1', [product.id]))[0].stock, 1);
+  assert.equal(Number((await db!.query('SELECT count(*) FROM orders WHERE user_id = $1', [session.account.id]))[0].count), ordersBeforeShortage);
 
   const competing = await Promise.all([
     post('/orders', { items: [{ productId: product.id, sizeOptionId: size.id, quantity: 1 }] }, loggedIn.accessToken),

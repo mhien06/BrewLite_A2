@@ -1,7 +1,8 @@
-import { BadRequestException, ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { DATA_SOURCE } from '../database/database.module';
 import { CreateOrderDto } from './orders.dto';
+import { aggregateOrderQuantities, assertSufficientStock, calculateLineAmounts, calculateOrderSubtotal } from './order-calculations';
 
 type ProductRow = { id: number; name: string; price: number; stock: number };
 type OptionRow = { id: number; kind: 'SIZE' | 'TOPPING'; name: string; surcharge: number };
@@ -28,16 +29,10 @@ export class OrdersService {
       const byProduct = new Map(products.map((product) => [product.id, product]));
       if (products.length !== productIds.length) throw new NotFoundException({ code: 'PRODUCT_NOT_FOUND', message: 'One or more products do not exist.' });
 
-      const required = new Map<number, number>();
-      for (const item of body.items) required.set(item.productId, (required.get(item.productId) ?? 0) + item.quantity);
+      const required = aggregateOrderQuantities(body.items);
       for (const [productId, quantity] of required) {
         const product = byProduct.get(productId)!;
-        if (product.stock < quantity) {
-          throw new ConflictException({
-            code: 'INSUFFICIENT_STOCK', message: 'Not enough stock for this order.',
-            productId, requested: quantity, available: product.stock,
-          });
-        }
+        assertSufficientStock(productId, quantity, product.stock);
       }
 
       const snapshots: OrderSnapshot[] = [];
@@ -57,16 +52,21 @@ export class OrdersService {
           });
         }
         const selectedToppings = toppings as OptionRow[];
-        const unitPrice = Number(product.price) + Number(size.surcharge) + selectedToppings.reduce((sum, option) => sum + Number(option.surcharge), 0);
+        const { unitPrice, lineTotal } = calculateLineAmounts(
+          Number(product.price),
+          Number(size.surcharge),
+          selectedToppings.map((option) => Number(option.surcharge)),
+          item.quantity,
+        );
         snapshots.push({
           productId: product.id, productName: product.name, quantity: item.quantity,
           size: { id: size.id, name: size.name },
           toppings: selectedToppings.map(({ id, name }) => ({ id, name })),
-          unitPrice, lineTotal: unitPrice * item.quantity,
+          unitPrice, lineTotal,
         });
       }
 
-      const subtotal = snapshots.reduce((sum, line) => sum + line.lineTotal, 0);
+      const subtotal = calculateOrderSubtotal(snapshots);
       const [order] = await manager.query(
         `INSERT INTO orders(user_id, subtotal, total_amount) VALUES ($1, $2, $2)
          RETURNING id, status, subtotal, discount_amount AS "discountAmount", total_amount AS "totalAmount", created_at AS "createdAt"`,

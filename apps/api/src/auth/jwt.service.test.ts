@@ -1,6 +1,6 @@
 import { strict as assert } from 'node:assert';
 import { test } from 'node:test';
-import { UnauthorizedException } from '@nestjs/common';
+import { InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from './jwt.service';
 
 test('JWT signs and verifies an HS256 account token', () => {
@@ -17,4 +17,15 @@ test('JWT rejects a changed signature', () => {
   const [header, payload, signature] = token.split('.');
   const changedSignature = `${signature[0] === 'a' ? 'b' : 'a'}${signature.slice(1)}`;
   assert.throws(() => jwt.verify(`${header}.${payload}.${changedSignature}`), UnauthorizedException);
+});
+
+test('JWT configuration errors are not reported as invalid client tokens', () => {
+  const originalSecret = process.env.JWT_SECRET;
+  delete process.env.JWT_SECRET;
+  try {
+    assert.throws(() => new JwtService().verify('malformed'), InternalServerErrorException);
+  } finally {
+    if (originalSecret === undefined) delete process.env.JWT_SECRET;
+    else process.env.JWT_SECRET = originalSecret;
+  }
 });

@@ -39,6 +39,6 @@ export class AuthService {
 
   private session(user: { id: number; fullName: string; email: string; role: AuthUser['role'] }) {
     const account = { id: user.id, fullName: user.fullName, email: user.email, role: user.role };
-    return { accessToken: this.jwt.sign({ sub: user.id, fullName: user.fullName, email: user.email, role: user.role }), tokenType: 'Bearer', expiresIn: Number(process.env.JWT_EXPIRES_IN_SECONDS ?? 3600), account };
+    return { accessToken: this.jwt.sign({ sub: user.id, fullName: user.fullName, email: user.email, role: user.role }), tokenType: 'Bearer', expiresIn: this.jwt.expiresInSeconds, account };
   }
 }

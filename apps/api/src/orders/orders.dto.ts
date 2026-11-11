@@ -1,11 +1,12 @@
 import { Type } from 'class-transformer';
-import { ArrayMaxSize, ArrayMinSize, ArrayUnique, IsArray, IsInt, IsOptional, Min, ValidateNested } from 'class-validator';
+import { ArrayMaxSize, ArrayMinSize, ArrayUnique, IsArray, IsInt, IsOptional, Max, Min, ValidateNested } from 'class-validator';
 
 export class CreateOrderItemDto {
-  @Type(() => Number) @IsInt() @Min(1) productId!: number;
-  @Type(() => Number) @IsInt() @Min(1) sizeOptionId!: number;
-  @IsOptional() @IsArray() @ArrayUnique() @ArrayMaxSize(10) @Type(() => Number) @IsInt({ each: true }) @Min(1, { each: true }) toppingOptionIds: number[] = [];
-  @Type(() => Number) @IsInt() @Min(1) quantity!: number;
+  @Type(() => Number) @IsInt() @Min(1) @Max(2_147_483_647) productId!: number;
+  @Type(() => Number) @IsInt() @Min(1) @Max(2_147_483_647) sizeOptionId!: number;
+  @IsOptional() @IsArray() @ArrayUnique() @ArrayMaxSize(10) @Type(() => Number) @IsInt({ each: true }) @Min(1, { each: true }) @Max(2_147_483_647, { each: true }) toppingOptionIds: number[] = [];
+  @Type(() => Number) @IsInt() @Min(1) @Max(2_147_483_647) quantity!: number;
+  @IsOptional() @Type(() => Number) @IsInt() @Min(0) @Max(2_147_483_647) unitPrice?: number;
 }
 
 export class CreateOrderDto {

@@ -2,7 +2,7 @@
 
 Base URL: `http://localhost:3001`. JSON requests and responses use UTF-8. Error responses have `{ statusCode, error, code?, message, details?, path, timestamp }`.
 
-**Handoff status:** this is the contract implemented by #26, based on the ZIP proposal. The proposal was not recorded as approved in the ZIP or the open #25/#27 issues; Hiển and Thành should confirm it before integrating their work.
+**Implementation status:** this contract follows the ZIP proposal for #26. Confirm the request/response shapes and error codes with Hiển and Thành before integrating #25/#27.
 
 ## Authentication
 
@@ -26,6 +26,8 @@ Returns `201` with `{ accessToken, tokenType: "Bearer", expiresIn, account: { id
 Public. Body: `{ "email": "a@example.com", "password": "..." }`. Returns the same session shape. Invalid credentials return `401 INVALID_CREDENTIALS`.
 
 Send the token on protected routes as `Authorization: Bearer <accessToken>`. Tokens are HS256, default lifetime 3600 seconds, with no refresh token in the MVP.
+
+`JWT_SECRET` must contain at least 32 characters. `JWT_EXPIRES_IN_SECONDS`, when set, must be a positive safe integer.
 
 ## Orders
 
@@ -62,3 +64,5 @@ Return the authenticated account's order summaries or one owned order with its i
 ## Configuration
 
 Set `DATABASE_URL`, `JWT_SECRET` (at least 32 characters), optional `JWT_EXPIRES_IN_SECONDS`, `API_PORT`, and `FRONTEND_URL` in the local environment. Do not commit real credentials or secrets.
+
+The API unit tests run with `pnpm --filter @brewlite/api test`. The auth/order integration test is skipped unless `TEST_DATABASE_URL` points to a dedicated PostgreSQL test database; it applies the migrations and exercises registration, login, order ownership, server-side pricing, inventory rollback, and concurrent checkout.

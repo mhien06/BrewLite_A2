@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { Body, Controller, Get, Inject, Param, ParseIntPipe, Post, ValidationPipe } from '@nestjs/common';
 import { CurrentUser } from '../common/current-user.decorator';
 import { AuthUser } from '../auth/auth.types';
 import { CreateOrderDto } from './orders.dto';
@@ -9,7 +9,13 @@ export class OrdersController {
   constructor(@Inject(OrdersService) private readonly orders: OrdersService) {}
 
   @Post()
-  create(@CurrentUser() user: AuthUser, @Body() body: CreateOrderDto) { return this.orders.create(user.sub, body); }
+  create(
+    @CurrentUser() user: AuthUser,
+    @Body(new ValidationPipe({ expectedType: CreateOrderDto, whitelist: true, forbidNonWhitelisted: true, transform: true }))
+    body: CreateOrderDto,
+  ) {
+    return this.orders.create(user.sub, body);
+  }
 
   @Get()
   list(@CurrentUser() user: AuthUser) { return this.orders.list(user.sub); }
