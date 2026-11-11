@@ -5,12 +5,18 @@
     "dev": "next dev",
     "build": "next build",
     "lint": "eslint .",
-    "test": "node --test app/catalog.test.mjs",
+    "test": "node --test app/catalog.test.mjs && vitest run app/page.test.jsx",
     "start": "next start"
   },
   "dependencies": {
     "next": "16.4.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "jsdom": "^31.0.0",
+    "vitest": "^5.1.0"
   }
 }
