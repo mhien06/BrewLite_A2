@@ -6,8 +6,8 @@ Nguồn yêu cầu [SRS](requirements/srs.md), đối chiếu mục 4.1 và 4.2 
 
 | Mã yêu cầu | Use-case/User Story | Thiết kế / Sơ đồ | Code/API | Test |
 |---|---|---|---|---|
-| FR-01 · Xem danh sách sản phẩm | UC-01 | [use-case-overview](diagrams/exports/use-case-overview.svg), [domain-class](diagrams/exports/domain-class.svg) | | |
-| FR-02 · Xem chi tiết và tùy chọn sản phẩm | UC-02 | [use-case-overview](diagrams/exports/use-case-overview.svg), [domain-class](diagrams/exports/domain-class.svg) | | |
+| FR-01 · Xem danh sách sản phẩm | UC-01 | [use-case-overview](diagrams/exports/use-case-overview.svg), [domain-class](diagrams/exports/domain-class.svg) | [Products API](../apps/api/src/main.ts), [Menu UI](../apps/web/app/page.jsx) | [Menu component test](../apps/web/app/page.test.jsx), [API test](../tests/catalog-api.test.mjs) |
+| FR-02 · Xem chi tiết và tùy chọn sản phẩm | UC-02 | [use-case-overview](diagrams/exports/use-case-overview.svg), [domain-class](diagrams/exports/domain-class.svg) | [Product detail API](../apps/api/src/main.ts), [Product detail UI](../apps/web/app/products/%5Bid%5D/page.jsx) | [API test](../tests/catalog-api.test.mjs) |
 | FR-03 · Quản lý giỏ hàng | UC-03 | [activity-order](diagrams/exports/activity-order.svg), [domain-class](diagrams/exports/domain-class.svg) | | |
 | FR-04 · Đăng ký tài khoản khách hàng | UC-04 | [ADR-009](architecture/adr/009-jwt-rbac.md), [domain-class](diagrams/exports/domain-class.svg) | | |
 | FR-05 · Đăng nhập, xác thực và đăng xuất | UC-05, UC-06 | [ADR-009](architecture/adr/009-jwt-rbac.md), [use-case-overview](diagrams/exports/use-case-overview.svg) | | |
