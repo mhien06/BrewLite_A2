@@ -114,9 +114,6 @@ export async function apiRequest(path, { token, ...options } = {}) {
       ORDER_TERMINAL: 'Đơn đã hoàn tất',
       INVALID_ORDER_TRANSITION: 'Chỉ được chuyển đơn sang bước xử lý kế tiếp.',
       ORDER_STATUS_CONFLICT: 'Đơn vừa được người khác cập nhật. Hãy tải lại danh sách.',
-      ORDER_NOT_FOUND: 'Không tìm thấy đơn hàng.',
-      ROLE_FORBIDDEN: 'Tài khoản không có quyền thực hiện thao tác này.',
-      AUTH_REQUIRED: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.',
     };
     const statusMessages = {
       401: 'Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại.',
