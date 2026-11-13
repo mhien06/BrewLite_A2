@@ -12,7 +12,6 @@ const orderLabels = {
   PREPARING: ['Đang pha chế', 'progress'],
   READY_FOR_PICKUP: ['Sẵn sàng nhận', 'success'],
   COMPLETED: ['Đã hoàn tất', 'success'],
-  CANCELLED: ['Đã hủy', 'cancelled'],
 };
 
 const paymentLabels = {
@@ -88,3 +87,4 @@ export default function StaffOrdersPage() {
         })}</div>}
   </div>;
 }
+

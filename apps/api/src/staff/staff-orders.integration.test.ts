@@ -132,8 +132,5 @@ test('staff order API enforces roles, payment verification, safe detail, ordered
     assert.equal((await terminal.json() as { code: string }).code, 'ORDER_TERMINAL');
   }
 
-  const cancelledId = await createOrder('CANCELLED');
-  const cancelled = await request(`/staff/orders/${cancelledId}/status`, staffToken, { method: 'PATCH', body: JSON.stringify({ status: 'PREPARING' }) });
-  assert.equal(cancelled.status, 409);
-  assert.equal((await cancelled.json() as { code: string }).code, 'ORDER_TERMINAL');
 });
+

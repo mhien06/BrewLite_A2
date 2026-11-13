@@ -3,7 +3,7 @@ import { DataSource } from 'typeorm';
 import { DATA_SOURCE } from '../database/database.module';
 import { StaffOrderStatus } from './staff-orders.dto';
 
-type OrderStatus = 'PENDING_PAYMENT' | 'PAID' | 'PREPARING' | 'READY_FOR_PICKUP' | 'COMPLETED' | 'CANCELLED';
+type OrderStatus = 'PENDING_PAYMENT' | 'PAID' | 'PREPARING' | 'READY_FOR_PICKUP' | 'COMPLETED';
 type StaffOrderRow = { id: number; status: OrderStatus; totalAmount: number };
 
 const orderSelect = `
@@ -49,8 +49,8 @@ export class StaffOrdersService {
         'SELECT id, status, total_amount AS "totalAmount" FROM orders WHERE id = $1 FOR UPDATE', [orderId],
       ) as StaffOrderRow[];
       if (!order) throw new NotFoundException({ code: 'ORDER_NOT_FOUND', message: 'Order not found.' });
-      if (order.status === 'COMPLETED' || order.status === 'CANCELLED') {
-        throw new ConflictException({ code: 'ORDER_TERMINAL', message: 'Completed or cancelled orders cannot be changed.' });
+      if (order.status === 'COMPLETED') {
+        throw new ConflictException({ code: 'ORDER_TERMINAL', message: 'Completed orders cannot be changed.' });
       }
 
       const nextAllowed: Partial<Record<OrderStatus, StaffOrderStatus>> = {
