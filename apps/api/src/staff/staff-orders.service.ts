@@ -74,7 +74,8 @@ export class StaffOrdersService {
         WHERE id = $1 AND status = $3
         RETURNING id AS "orderId", status`, [orderId, next, order.status]);
       if (!updated) throw new ConflictException({ code: 'ORDER_STATUS_CONFLICT', message: 'The order changed while it was being updated. Refresh and try again.' });
-      return updated;
+      return { orderId, status: next };
     });
   }
 }
+
