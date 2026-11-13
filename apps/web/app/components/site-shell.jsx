@@ -22,6 +22,7 @@ export function SiteHeader() {
           <Link href="/" onClick={() => setMobileOpen(false)}>Trang chủ</Link>
           <Link href="/#menu" onClick={() => setMobileOpen(false)}>Thực đơn</Link>
           <Link href="/orders" onClick={() => setMobileOpen(false)}>Đơn hàng</Link>
+          {visibleSession && ['STAFF', 'MANAGER'].includes(visibleSession.account?.role) && <Link href="/staff/orders" onClick={() => setMobileOpen(false)}>Quản lý đơn</Link>}
           <Link href="/#story" onClick={() => setMobileOpen(false)}>Câu chuyện</Link>
         </nav>
         <div className="header-actions">

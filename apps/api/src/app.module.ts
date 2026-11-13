@@ -7,9 +7,10 @@ import { CatalogModule } from './catalog/catalog.module';
 import { DatabaseModule } from './database/database.module';
 import { OrdersModule } from './orders/orders.module';
 import { PaymentsModule } from './payments/payments.module';
+import { StaffModule } from './staff/staff-orders.module';
 
 @Module({
-  imports: [DatabaseModule, AuthModule, CatalogModule, OrdersModule, PaymentsModule],
+  imports: [DatabaseModule, AuthModule, CatalogModule, OrdersModule, PaymentsModule, StaffModule],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: APP_GUARD, useClass: RolesGuard },
