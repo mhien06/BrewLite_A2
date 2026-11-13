@@ -11,10 +11,10 @@ async function start() {
   await dataSource.initialize();
   await dataSource.runMigrations({ transaction: 'all' });
   const app = await NestFactory.create(AppModule);
-  app.enableCors({ origin: process.env.FRONTEND_URL ?? 'http://localhost:3000' });
+  app.enableCors({ origin: process.env.FRONTEND_URL ?? 'http://localhost:3002' });
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
   app.useGlobalFilters(new ApiExceptionFilter());
-  await app.listen(Number(process.env.API_PORT ?? process.env.PORT ?? 3001), '0.0.0.0');
+  await app.listen(Number(process.env.API_PORT ?? process.env.PORT ?? 3003), '0.0.0.0');
 }
 
 void start().catch((error: unknown) => {

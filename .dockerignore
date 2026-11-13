@@ -1,0 +1,10 @@
+.git
+**/node_modules
+**/.next
+**/dist
+.env
+**/.env.*
+**/.env.local
+*.zip
+*.rar
+*.7z
