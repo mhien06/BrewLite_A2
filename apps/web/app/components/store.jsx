@@ -5,6 +5,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, u
 const StoreContext = createContext(null);
 const CART_KEY = 'brewlite_a2_cart_v1';
 const SESSION_KEY = 'brewlite_a2_session_v1';
+const SESSION_EXPIRED_EVENT = 'brewlite:session-expired';
 
 function getStored(key) {
   if (typeof window === 'undefined') return null;
@@ -33,6 +34,13 @@ export function StoreProvider({ children }) {
     if (session) window.sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
     else window.sessionStorage.removeItem(SESSION_KEY);
   }, [session, hydrated]);
+
+  useEffect(() => {
+    if (!hydrated) return undefined;
+    const expireSession = () => setSession(null);
+    window.addEventListener(SESSION_EXPIRED_EVENT, expireSession);
+    return () => window.removeEventListener(SESSION_EXPIRED_EVENT, expireSession);
+  }, [hydrated]);
 
   const addToCart = useCallback((item) => {
     const optionKey = `${item.productId}:${item.sizeOptionId}:${[...(item.toppingOptionIds || [])].sort((a, b) => a - b).join('-')}`;
@@ -77,18 +85,37 @@ export async function apiRequest(path, { token, ...options } = {}) {
   const body = await response.json().catch(() => ({}));
   if (!response.ok) {
     const code = body?.code || body?.error?.code;
+    if (
+      response.status === 401 &&
+      ['INVALID_TOKEN', 'AUTH_REQUIRED'].includes(code) &&
+      typeof window !== 'undefined'
+    ) {
+      window.sessionStorage.removeItem(SESSION_KEY);
+      window.dispatchEvent(new Event(SESSION_EXPIRED_EVENT));
+    }
     const messages = {
+      AUTH_REQUIRED: 'Bạn cần đăng nhập để tiếp tục.',
       EMAIL_EXISTS: 'Email đã được sử dụng. Vui lòng đăng nhập.',
       INVALID_CREDENTIALS: 'Email hoặc mật khẩu không đúng.',
       PASSWORD_MISMATCH: 'Hai mật khẩu chưa trùng khớp.',
       INSUFFICIENT_STOCK: 'Một món trong giỏ không còn đủ số lượng.',
       INVALID_PRODUCT_OPTION: 'Tùy chọn sản phẩm không hợp lệ. Hãy chọn lại.',
       INVALID_TOKEN: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.',
+      ROLE_FORBIDDEN: 'Bạn không có quyền thực hiện thao tác này.',
+      ORDER_NOT_FOUND: 'Không tìm thấy đơn hàng hoặc bạn không có quyền xem đơn này.',
       PAYMENT_NOT_CONFIGURED: 'Thanh toán VNPay chưa sẵn sàng. Vui lòng thử lại sau.',
       ORDER_NOT_PAYABLE: 'Đơn này không còn ở trạng thái chờ thanh toán.',
       PAYMENT_REVIEW_REQUIRED: 'Giao dịch đang cần kiểm tra. Vui lòng liên hệ cửa hàng.',
     };
-    throw new Error(messages[code] || (typeof body.message === 'string' ? body.message : 'Có lỗi xảy ra. Vui lòng thử lại.'));
+    const statusMessages = {
+      401: 'Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại.',
+      403: 'Bạn không có quyền thực hiện thao tác này.',
+      404: 'Không tìm thấy dữ liệu yêu cầu.',
+      409: 'Thao tác không thể thực hiện ở trạng thái hiện tại.',
+      503: 'Dịch vụ hiện chưa sẵn sàng. Vui lòng thử lại sau.',
+    };
+    throw new Error(messages[code] || statusMessages[response.status] ||
+      (typeof body.message === 'string' ? body.message : 'Có lỗi xảy ra. Vui lòng thử lại.'));
   }
   return body;
 }
