@@ -5,7 +5,7 @@
     "dev": "tsx watch src/main.ts",
     "build": "tsc",
     "lint": "eslint src",
-    "test": "tsx --test src/catalog-domain.test.mjs src/auth/jwt.service.test.ts src/auth/roles.guard.test.ts src/orders/order-calculations.test.ts src/orders/orders.integration.test.ts",
+    "test": "tsx --test --test-concurrency=1 src/catalog-domain.test.mjs src/auth/jwt.service.test.ts src/auth/roles.guard.test.ts src/orders/order-calculations.test.ts src/orders/orders.integration.test.ts src/vnpay/vnpay.gateway.test.ts src/payments/payments.integration.test.ts",
     "start": "node dist/main.js"
   },
   "dependencies": {

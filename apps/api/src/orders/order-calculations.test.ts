@@ -22,7 +22,7 @@ test('aggregates quantities for products that occur on multiple order lines', ()
 });
 
 test('rejects insufficient stock and quantities or amounts beyond database limits', () => {
-  assert.throws(() => assertSufficientStock(7, 3, 2), (error: unknown) => {
+  assert.throws(() => assertSufficientStock(7, 3, 2), (error) => {
     assert.ok(error instanceof ConflictException);
     assert.equal(error.getStatus(), 409);
     assert.deepEqual(error.getResponse(), {

@@ -1,0 +1,21 @@
+# Chạy cùng docker-compose.yml, luôn dùng project brewlite-a2.
+# URL tunnel thay đổi khi khởi động lại: cần cập nhật trên Merchant Sandbox A2.
+services:
+  ipn-proxy:
+    image: node:24-bookworm-slim
+    profiles: [ipn]
+    command: node /app/ipn-proxy.mjs
+    volumes:
+      - ./scripts/ipn-proxy.mjs:/app/ipn-proxy.mjs:ro
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+  ipn-tunnel:
+    image: cloudflare/cloudflared:latest
+    profiles: [ipn]
+    command: tunnel --no-autoupdate --url http://ipn-proxy:8080
+    depends_on:
+      - ipn-proxy
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
