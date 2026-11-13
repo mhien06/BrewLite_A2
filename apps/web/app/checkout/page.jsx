@@ -38,7 +38,7 @@ export default function CheckoutPage() {
     <div className="order-confirmation"><span>Tổng tiền từ hệ thống</span><strong>{formatVndPrice(Number(created.totalAmount))}</strong></div>
     {error && <p role="alert" className="form-error">{error}</p>}
     <PaymentPanel orderId={created.orderId}/>
-    <div className="success-actions"><Link className="button button-primary" href="/orders">Xem đơn hàng <Icon name="arrow" size={19}/></Link><Link className="button button-outline" href="/#menu">Tiếp tục chọn món</Link></div>
+    <div className="success-actions"><Link className="button button-primary" href={`/orders/${created.orderId}`}>Xem chi tiết đơn <Icon name="arrow" size={19}/></Link><Link className="button button-outline" href="/#menu">Tiếp tục chọn món</Link></div>
   </div></div>;
   if (!session) return <div className="section-container inner-page"><div className="empty-cart"><span className="empty-illustration"><Icon name="user" size={42}/></span><h1>Đăng nhập để đặt hàng</h1><p>BrewLite cần xác nhận tài khoản trước khi tạo đơn.</p><Link className="button button-primary" href="/login?next=%2Fcheckout">Đăng nhập để tiếp tục <Icon name="arrow" size={19}/></Link><Link className="subtle-link" href="/register?next=%2Fcheckout">Chưa có tài khoản? Đăng ký</Link></div></div>;
   if (!cart.length) return <div className="section-container inner-page"><div className="empty-cart"><span className="empty-illustration"><Icon name="bag" size={44}/></span><h1>Chưa có món để đặt</h1><p>Chọn một món trong thực đơn trước khi đặt đơn nhé.</p><Link className="button button-primary" href="/#menu">Khám phá thực đơn <Icon name="arrow" size={19}/></Link></div></div>;

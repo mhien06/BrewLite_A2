@@ -8,5 +8,5 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  return <html lang="vi"><body><StoreProvider><SiteHeader/><main id="main-content">{children}</main><SiteFooter/></StoreProvider></body></html>;
+  return <html lang="vi" data-scroll-behavior="smooth"><body><StoreProvider><SiteHeader/><main id="main-content">{children}</main><SiteFooter/></StoreProvider></body></html>;
 }

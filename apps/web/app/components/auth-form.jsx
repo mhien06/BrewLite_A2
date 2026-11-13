@@ -17,10 +17,14 @@ export default function AuthForm({ mode }) {
 
   async function submit(event) {
     event.preventDefault(); setError('');
+    if (register && !form.fullName.trim()) {
+      setError('Vui lòng nhập họ và tên.');
+      return;
+    }
     if (register && form.password !== form.confirmPassword) { setError('Hai mật khẩu chưa trùng khớp.'); return; }
     setBusy(true);
     try {
-      const body = register ? form : { email: form.email, password: form.password };
+      const body = register ? { ...form, fullName: form.fullName.trim() } : { email: form.email, password: form.password };
       const session = await apiRequest(register ? '/auth/register' : '/auth/login', { method: 'POST', body: JSON.stringify(body) });
       setSession(session);
       const destination = typeof window === 'undefined' ? '/' : new URLSearchParams(window.location.search).get('next');
