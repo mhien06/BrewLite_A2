@@ -37,7 +37,13 @@ export function StoreProvider({ children }) {
 
   useEffect(() => {
     if (!hydrated) return undefined;
-    const expireSession = () => setSession(null);
+    const expireSession = (event) => {
+      const expiredToken = event.detail?.token;
+      setSession((current) => {
+        if (expiredToken && current?.accessToken !== expiredToken) return current;
+        return null;
+      });
+    };
     window.addEventListener(SESSION_EXPIRED_EVENT, expireSession);
     return () => window.removeEventListener(SESSION_EXPIRED_EVENT, expireSession);
   }, [hydrated]);
@@ -85,13 +91,10 @@ export async function apiRequest(path, { token, ...options } = {}) {
   const body = await response.json().catch(() => ({}));
   if (!response.ok) {
     const code = body?.code || body?.error?.code;
-    if (
-      response.status === 401 &&
-      ['INVALID_TOKEN', 'AUTH_REQUIRED'].includes(code) &&
-      typeof window !== 'undefined'
-    ) {
-      window.sessionStorage.removeItem(SESSION_KEY);
-      window.dispatchEvent(new Event(SESSION_EXPIRED_EVENT));
+    if (response.status === 401 && token && typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent(SESSION_EXPIRED_EVENT, {
+        detail: { token },
+      }));
     }
     const messages = {
       AUTH_REQUIRED: 'Bạn cần đăng nhập để tiếp tục.',

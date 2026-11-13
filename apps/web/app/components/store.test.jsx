@@ -51,6 +51,61 @@ describe('Store authentication and API errors', () => {
     expect(window.sessionStorage.getItem('brewlite_a2_session_v1')).toBeNull();
   });
 
+  it('clears the session after a 401 response without an error code', async () => {
+    window.sessionStorage.setItem('brewlite_a2_session_v1', JSON.stringify({
+      accessToken: 'expired-token',
+      account: { id: 1, fullName: 'Thành' },
+    }));
+
+    render(<StoreProvider><SessionState /></StoreProvider>);
+
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: false,
+      status: 401,
+      json: async () => ({}),
+    }));
+
+    let error;
+    await act(async () => {
+      try {
+        await apiRequest('/orders', { token: 'expired-token' });
+      } catch (exception) {
+        error = exception;
+      }
+    });
+
+    expect(error).toHaveProperty(
+      'message',
+      'Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại.',
+    );
+    expect(screen.getByText('Chưa đăng nhập')).toBeInTheDocument();
+    expect(window.sessionStorage.getItem('brewlite_a2_session_v1')).toBeNull();
+  });
+
+  it('keeps a newer session when an older token receives a 401 response', async () => {
+    window.sessionStorage.setItem('brewlite_a2_session_v1', JSON.stringify({
+      accessToken: 'fresh-token',
+      account: { id: 2, fullName: 'Thành mới' },
+    }));
+
+    render(<StoreProvider><SessionState /></StoreProvider>);
+
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+      ok: false,
+      status: 401,
+      json: async () => ({}),
+    }));
+
+    await act(async () => {
+      await expect(apiRequest('/orders', { token: 'expired-token' }))
+        .rejects.toThrow('Phiên đăng nhập không hợp lệ. Vui lòng đăng nhập lại.');
+    });
+
+    expect(screen.getByText('Đã đăng nhập')).toBeInTheDocument();
+    expect(JSON.parse(window.sessionStorage.getItem('brewlite_a2_session_v1')))
+      .toMatchObject({ accessToken: 'fresh-token' });
+  });
+
   it.each([
     [401, 'AUTH_REQUIRED', 'Bạn cần đăng nhập để tiếp tục.'],
     [403, 'ROLE_FORBIDDEN', 'Bạn không có quyền thực hiện thao tác này.'],
