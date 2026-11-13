@@ -17,14 +17,15 @@ export class PaymentsService {
     return this.db.transaction(async manager => {
       const [order] = await manager.query('SELECT * FROM orders WHERE id = $1 AND user_id = $2 FOR UPDATE', [orderId, userId]) as PaymentOrder[];
       if (!order) throw new NotFoundException({ code: 'ORDER_NOT_FOUND', message: 'Order not found.' });
+      const [previous] = await manager.query('SELECT * FROM payments WHERE order_id = $1 AND idempotency_key = $2', [orderId, idempotencyKey]) as PaymentRow[];
+      if (previous) return this.response(previous);
       if (order.status !== 'PENDING_PAYMENT') {
         throw new ConflictException({ code: 'ORDER_NOT_PAYABLE', message: 'Order is not awaiting payment.' });
       }
       const [review] = await manager.query('SELECT id FROM payments WHERE order_id = $1 AND review_required = true LIMIT 1', [orderId]);
       if (review) throw new ConflictException({ code: 'PAYMENT_REVIEW_REQUIRED', message: 'Payment needs manual review.' });
 
-      const [previous] = await manager.query('SELECT * FROM payments WHERE order_id = $1 AND idempotency_key = $2', [orderId, idempotencyKey]) as PaymentRow[];
-      if (previous) return this.response(previous);
+
       const [active] = await manager.query("SELECT * FROM payments WHERE order_id = $1 AND status IN ('PENDING','UNKNOWN','SUCCESS')", [orderId]) as PaymentRow[];
       // Hai request đồng thời nhận cùng attempt, dù frontend gửi hai khóa khác nhau.
       if (active) return this.response(active);

@@ -246,3 +246,28 @@ test('success for an order no longer payable is recorded for manual review, neve
   assert.equal((await db.query('SELECT status FROM orders WHERE id=$1', [orderId]))[0].status, 'PREPARING');
   assert.equal(await stock(), beforeStock);
 });
+
+test('same key after successful IPN returns original payment', { skip: !enabled }, async () => {
+  const orderId = await createOrder();
+  const key = randomUUID();
+  const first = await createPayment(orderId, key);
+
+  assert.equal(await ipn(first), '00');
+
+  const response = await post(`/orders/${orderId}/payments`, {
+    idempotencyKey: key,
+  });
+
+  assert.equal(response.status, 201);
+
+  const replay = await response.json() as Attempt;
+  assert.equal(replay.paymentId, first.paymentId);
+  assert.equal(replay.status, 'SUCCESS');
+  assert.equal(replay.paymentUrl, null);
+
+  const [row] = await db.query(
+    'SELECT COUNT(*) AS count FROM payments WHERE order_id = $1',
+    [orderId],
+  );
+  assert.equal(Number(row.count), 1);
+});
