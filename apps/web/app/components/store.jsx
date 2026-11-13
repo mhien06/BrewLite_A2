@@ -89,7 +89,7 @@ export async function apiRequest(path, { token, ...options } = {}) {
       PAYMENT_REVIEW_REQUIRED: 'Giao dịch đang cần kiểm tra. Vui lòng liên hệ cửa hàng.',
       ORDER_NOT_PAID: 'Đơn chưa thanh toán nên chưa thể bắt đầu xử lý.',
       PAYMENT_NOT_VERIFIED: 'Thanh toán chưa được hệ thống xác minh.',
-      ORDER_TERMINAL: 'Đơn đã hoàn tất hoặc đã hủy, không thể cập nhật tiếp.',
+      ORDER_TERMINAL: 'Đơn đã hoàn tất',
       INVALID_ORDER_TRANSITION: 'Chỉ được chuyển đơn sang bước xử lý kế tiếp.',
       ORDER_STATUS_CONFLICT: 'Đơn vừa được người khác cập nhật. Hãy tải lại danh sách.',
       ORDER_NOT_FOUND: 'Không tìm thấy đơn hàng.',

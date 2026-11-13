@@ -9,4 +9,3 @@ export const dataSource = new DataSource({
   url: process.env.DATABASE_URL,
   migrations: [Catalog1760000000000, ProductImages1760000001000, AuthOrders1760000002000, Payments1760000003000],
 });
-
