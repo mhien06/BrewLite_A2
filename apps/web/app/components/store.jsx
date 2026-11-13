@@ -87,6 +87,14 @@ export async function apiRequest(path, { token, ...options } = {}) {
       PAYMENT_NOT_CONFIGURED: 'Thanh toán VNPay chưa sẵn sàng. Vui lòng thử lại sau.',
       ORDER_NOT_PAYABLE: 'Đơn này không còn ở trạng thái chờ thanh toán.',
       PAYMENT_REVIEW_REQUIRED: 'Giao dịch đang cần kiểm tra. Vui lòng liên hệ cửa hàng.',
+      ORDER_NOT_PAID: 'Đơn chưa thanh toán nên chưa thể bắt đầu xử lý.',
+      PAYMENT_NOT_VERIFIED: 'Thanh toán chưa được hệ thống xác minh.',
+      ORDER_TERMINAL: 'Đơn đã hoàn tất hoặc đã hủy, không thể cập nhật tiếp.',
+      INVALID_ORDER_TRANSITION: 'Chỉ được chuyển đơn sang bước xử lý kế tiếp.',
+      ORDER_STATUS_CONFLICT: 'Đơn vừa được người khác cập nhật. Hãy tải lại danh sách.',
+      ORDER_NOT_FOUND: 'Không tìm thấy đơn hàng.',
+      ROLE_FORBIDDEN: 'Tài khoản không có quyền thực hiện thao tác này.',
+      AUTH_REQUIRED: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.',
     };
     throw new Error(messages[code] || (typeof body.message === 'string' ? body.message : 'Có lỗi xảy ra. Vui lòng thử lại.'));
   }
