@@ -4,8 +4,10 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { formatVndPrice } from '../../catalog.mjs';
+import CustomerAccessDenied from '../../components/customer-access-denied';
 import { Icon } from '../../components/icons';
 import PaymentPanel from '../../components/payment-panel';
+import { isStaffSession } from '../../components/role-access';
 import { apiRequest, useStore } from '../../components/store';
 
 const labels = {
@@ -50,7 +52,7 @@ export default function OrderDetailPage() {
   }, []);
 
   useEffect(() => {
-    if (!hydrated || !session || !orderId) return;
+    if (!hydrated || !session || isStaffSession(session) || !orderId) return;
 
     let ignore = false;
 
@@ -87,6 +89,8 @@ export default function OrderDetailPage() {
       <div className="state-box" role="status">Đang tải tài khoản…</div>
     </div>;
   }
+
+  if (isStaffSession(session)) return <CustomerAccessDenied />;
 
   if (!orderId) {
     return <div className="section-container inner-page">

@@ -37,6 +37,7 @@ describe('CartPage', () => {
     vi.clearAllMocks();
     mocks.store = {
       hydrated: true,
+      session: { account: { role: 'CUSTOMER' } },
       cart: [cartItem],
       cartTotal: 64000,
       updateQuantity: mocks.updateQuantity,
@@ -76,4 +77,23 @@ describe('CartPage', () => {
     expect(screen.getByRole('link', { name: /Khám phá thực đơn/ }))
       .toHaveAttribute('href', '/#menu');
   });
+
+  it.each(['STAFF', 'MANAGER'])(
+    'denies direct cart access for %s',
+    (role) => {
+      mocks.store = {
+        ...mocks.store,
+        session: { account: { role } },
+      };
+
+      render(<CartPage />);
+
+      expect(screen.getByRole('alert'))
+        .toHaveTextContent('Không có quyền truy cập');
+      expect(screen.getByRole('link', { name: /Quản lý đơn/ }))
+        .toHaveAttribute('href', '/staff/orders');
+      expect(screen.queryByRole('link', { name: /Tiếp tục đặt hàng/ }))
+        .not.toBeInTheDocument();
+    },
+  );
 });

@@ -48,6 +48,7 @@ describe('CheckoutPage', () => {
         account: {
           fullName: 'Nguyễn Chí Thành',
           email: 'thanh@example.com',
+          role: 'CUSTOMER',
         },
       },
       cart: [cartItem],
@@ -112,4 +113,32 @@ describe('CheckoutPage', () => {
       .toHaveAttribute('href', '/login?next=%2Fcheckout');
     expect(apiRequest).not.toHaveBeenCalled();
   });
+
+  it.each(['STAFF', 'MANAGER'])(
+    'denies direct checkout access for %s',
+    (role) => {
+      mocks.store = {
+        ...mocks.store,
+        session: {
+          ...mocks.store.session,
+          account: {
+            ...mocks.store.session.account,
+            role,
+          },
+        },
+      };
+
+      render(<CheckoutPage />);
+
+      expect(screen.getByRole('alert'))
+        .toHaveTextContent('Không có quyền truy cập');
+      expect(screen.getByRole('link', { name: /Quản lý đơn/ }))
+        .toHaveAttribute('href', '/staff/orders');
+      expect(screen.queryByRole('button', {
+        name: /Đặt hàng và thanh toán VNPay/,
+      })).not.toBeInTheDocument();
+      expect(apiRequest).not.toHaveBeenCalled();
+      expect(mocks.startPayment).not.toHaveBeenCalled();
+    },
+  );
 });

@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { formatVndPrice } from '../catalog.mjs';
+import CustomerAccessDenied from '../components/customer-access-denied';
 import { Icon } from '../components/icons';
+import { isStaffSession } from '../components/role-access';
 import { apiRequest, useStore } from '../components/store';
 import PaymentPanel, { startPayment } from '../components/payment-panel';
 
@@ -31,6 +33,7 @@ export default function CheckoutPage() {
   }
 
   if (!hydrated) return <div className="section-container inner-page"><div className="state-box" role="status">Đang kiểm tra đơn hàng…</div></div>;
+  if (isStaffSession(session)) return <CustomerAccessDenied />;
   if (created) return <div className="section-container inner-page"><div className="checkout-success">
     <div className="success-icon"><Icon name="check" size={38} /></div><span className="eyebrow">ORDER RECEIVED</span>
     <h1>Đã tạo đơn <em>thành công!</em></h1>

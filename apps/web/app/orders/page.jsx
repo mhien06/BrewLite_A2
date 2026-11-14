@@ -3,7 +3,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { formatVndPrice } from '../catalog.mjs';
+import CustomerAccessDenied from '../components/customer-access-denied';
 import { Icon } from '../components/icons';
+import { isStaffSession } from '../components/role-access';
 import { apiRequest, useStore } from '../components/store';
 import PaymentPanel from '../components/payment-panel';
 
@@ -26,7 +28,7 @@ export default function OrdersPage() {
   const [refresh, setRefresh] = useState(0);
   const refreshOrders = useCallback(() => setRefresh(value => value + 1), []);
   useEffect(() => {
-    if (!hydrated || !session) return;
+    if (!hydrated || !session || isStaffSession(session)) return;
     let ignore = false;
     apiRequest('/orders', { token: session.accessToken })
       .then(data => { if (!ignore) { setOrders(Array.isArray(data) ? data : []); setError(''); } })
@@ -34,6 +36,7 @@ export default function OrdersPage() {
     return () => { ignore = true; };
   }, [hydrated, session, refresh]);
   if (!hydrated) return <div className="section-container inner-page"><div className="state-box" role="status">Đang tải tài khoản…</div></div>;
+  if (isStaffSession(session)) return <CustomerAccessDenied />;
   if (!session) return <div className="section-container inner-page"><div className="empty-cart"><span className="empty-illustration"><Icon name="user" size={42}/></span><h1>Đơn hàng của bạn</h1><p>Đăng nhập để xem lịch sử đơn hàng và tình trạng từng đơn nhé.</p><Link className="button button-primary" href="/login?next=%2Forders">Đăng nhập <Icon name="arrow" size={18}/></Link></div></div>;
   return <div className="section-container inner-page"><div className="breadcrumbs"><Link href="/">Trang chủ</Link><span>/</span><strong>Đơn hàng</strong></div><div className="inner-heading"><span className="eyebrow">— YOUR COFFEE JOURNEY</span><h1>Đơn hàng <em>của tôi.</em></h1><p>Mọi ly cà phê đã chọn, lưu lại tại đây.</p></div>
     {error ? <div className="state-box" role="alert"><h2>Không thể tải đơn hàng</h2><p>{error}</p><button type="button" className="button button-primary" onClick={() => { setError(''); setRefresh(n => n + 1); }}>Thử lại <Icon name="arrow" size={18}/></button></div>

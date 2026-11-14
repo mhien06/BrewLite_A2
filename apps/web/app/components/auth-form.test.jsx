@@ -38,6 +38,15 @@ function fillRegistration({ fullName }) {
   });
 }
 
+function fillLogin() {
+  fireEvent.change(screen.getByLabelText('Địa chỉ email'), {
+    target: { value: 'thanh@example.com' },
+  });
+  fireEvent.change(screen.getByLabelText('Mật khẩu'), {
+    target: { value: 'password123' },
+  });
+}
+
 describe('AuthForm registration validation', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -73,5 +82,30 @@ describe('AuthForm registration validation', () => {
     expect(JSON.parse(options.body).fullName).toBe('Nguyễn Chí Thành');
     expect(mocks.setSession).toHaveBeenCalledWith(session);
     expect(mocks.replace).toHaveBeenCalledWith('/');
+  });
+
+  it.each([
+    ["CUSTOMER", "/login?next=%2Fcheckout", "/checkout"],
+    ["CUSTOMER", "/login?next=%2Fstaff%2Forders", "/"],
+    ["CUSTOMER", "/login?next=%2F%5Cevil.example", "/"],
+    ["CUSTOMER", "/login?next=%2F%2Fevil.example", "/"],
+    ["STAFF", "/login?next=%2Fcheckout", "/staff/orders"],
+    ["MANAGER", "/login?next=%2Forders", "/staff/orders"],
+  ])("redirects %s from %s to %s", async (role, location, expected) => {
+    window.history.replaceState({}, "", location);
+    const session = {
+      accessToken: "test-token",
+      account: { id: 1, fullName: "Nguyễn Chí Thành", role },
+    };
+    apiRequest.mockResolvedValue(session);
+
+    render(<AuthForm mode="login" />);
+    fillLogin();
+    fireEvent.click(screen.getByRole("button", { name: "Đăng nhập" }));
+
+    await waitFor(() => {
+      expect(mocks.replace).toHaveBeenCalledWith(expected);
+    });
+    expect(mocks.setSession).toHaveBeenCalledWith(session);
   });
 });

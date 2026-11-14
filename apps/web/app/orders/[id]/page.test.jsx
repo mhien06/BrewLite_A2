@@ -8,7 +8,10 @@ const mocks = vi.hoisted(() => ({
   params: { id: '12' },
   store: {
     hydrated: true,
-    session: { accessToken: 'test-token' },
+    session: {
+      accessToken: 'test-token',
+      account: { role: 'CUSTOMER' },
+    },
   },
 }));
 
@@ -55,7 +58,10 @@ describe('OrderDetailPage', () => {
     mocks.params = { id: '12' };
     mocks.store = {
       hydrated: true,
-      session: { accessToken: 'test-token' },
+      session: {
+        accessToken: 'test-token',
+        account: { role: 'CUSTOMER' },
+      },
     };
   });
 
@@ -113,4 +119,25 @@ describe('OrderDetailPage', () => {
     });
     expect(apiRequest).toHaveBeenCalledTimes(2);
   });
+
+  it.each(['STAFF', 'MANAGER'])(
+    'denies direct personal order detail access for %s',
+    (role) => {
+      mocks.store = {
+        hydrated: true,
+        session: {
+          accessToken: `${role.toLowerCase()}-token`,
+          account: { role },
+        },
+      };
+
+      render(<OrderDetailPage />);
+
+      expect(screen.getByRole('alert'))
+        .toHaveTextContent('Không có quyền truy cập');
+      expect(screen.getByRole('link', { name: /Quản lý đơn/ }))
+        .toHaveAttribute('href', '/staff/orders');
+      expect(apiRequest).not.toHaveBeenCalled();
+    },
+  );
 });

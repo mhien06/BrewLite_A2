@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { apiRequest, useStore } from './store';
 import { Icon } from './icons';
+import { getPostAuthDestination } from './role-access';
 
 export default function AuthForm({ mode }) {
   const register = mode === 'register';
@@ -27,8 +28,8 @@ export default function AuthForm({ mode }) {
       const body = register ? { ...form, fullName: form.fullName.trim() } : { email: form.email, password: form.password };
       const session = await apiRequest(register ? '/auth/register' : '/auth/login', { method: 'POST', body: JSON.stringify(body) });
       setSession(session);
-      const destination = typeof window === 'undefined' ? '/' : new URLSearchParams(window.location.search).get('next');
-      router.replace(destination && destination.startsWith('/') && !destination.startsWith('//') ? destination : '/');
+      const requestedNext = typeof window === 'undefined' ? null : new URLSearchParams(window.location.search).get('next');
+      router.replace(getPostAuthDestination(session, requestedNext));
       router.refresh();
     } catch (e) { setError(e.message); } finally { setBusy(false); }
   }

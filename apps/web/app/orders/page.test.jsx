@@ -42,7 +42,10 @@ describe('OrdersPage', () => {
     vi.clearAllMocks();
     mocks.store = {
       hydrated: true,
-      session: { accessToken: 'test-token' },
+      session: {
+        accessToken: 'test-token',
+        account: { role: 'CUSTOMER' },
+      },
     };
   });
 
@@ -78,4 +81,25 @@ describe('OrdersPage', () => {
       .toHaveAttribute('href', '/login?next=%2Forders');
     expect(apiRequest).not.toHaveBeenCalled();
   });
+
+  it.each(['STAFF', 'MANAGER'])(
+    'denies direct personal order history access for %s',
+    (role) => {
+      mocks.store = {
+        hydrated: true,
+        session: {
+          accessToken: `${role.toLowerCase()}-token`,
+          account: { role },
+        },
+      };
+
+      render(<OrdersPage />);
+
+      expect(screen.getByRole('alert'))
+        .toHaveTextContent('Không có quyền truy cập');
+      expect(screen.getByRole('link', { name: /Quản lý đơn/ }))
+        .toHaveAttribute('href', '/staff/orders');
+      expect(apiRequest).not.toHaveBeenCalled();
+    },
+  );
 });
