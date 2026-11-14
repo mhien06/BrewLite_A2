@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "tsx watch src/main.ts",
-    "build": "tsc",
+    "build": "tsc && node -e \"for (const f of require('node:fs').readdirSync('src').filter(f => f.endsWith('.cjs'))) require('node:fs').copyFileSync('src/' + f, 'dist/' + f)\"",
     "lint": "eslint src",
     "test": "tsx --test --test-concurrency=1 src/catalog-domain.test.mjs src/auth/jwt.service.test.ts src/auth/roles.guard.test.ts src/orders/order-calculations.test.ts src/payments/payment-inventory.test.ts src/payments/payment-settlement.service.test.ts src/orders/orders.integration.test.ts src/staff/staff-orders.integration.test.ts src/vnpay/vnpay.gateway.test.ts src/payments/payments.integration.test.ts",
     "start": "node dist/main.js",

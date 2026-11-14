@@ -13,3 +13,4 @@ dist/
 # Test outputs
 test-results/
 playwright-report/
+*.log
