@@ -3,20 +3,24 @@
   "private": true,
   "scripts": {
     "dev": "tsx watch src/main.ts",
-    "build": "tsc",
+    "build": "tsc && node -e \"for (const f of require('node:fs').readdirSync('src').filter(f => f.endsWith('.cjs'))) require('node:fs').copyFileSync('src/' + f, 'dist/' + f)\"",
     "lint": "eslint src",
-    "test": "node --test src/catalog-domain.test.mjs",
-    "start": "node dist/main.js"
+    "test": "tsx --test --test-concurrency=1 src/catalog-domain.test.mjs src/auth/jwt.service.test.ts src/auth/roles.guard.test.ts src/orders/order-calculations.test.ts src/payments/payment-inventory.test.ts src/payments/payment-settlement.service.test.ts src/orders/orders.integration.test.ts src/staff/staff-orders.integration.test.ts src/vnpay/vnpay.gateway.test.ts src/payments/payments.integration.test.ts",
+    "start": "node dist/main.js",
+    "db:migrate": "tsx src/database/run-migrations.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.0",
     "@nestjs/core": "^11.1.0",
     "@nestjs/platform-express": "^11.1.0",
+    "bcryptjs": "^3.0.3",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
+    "dotenv": "^16.6.0",
+    "pg": "^8.16.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
-    "pg": "^8.16.0",
-    "typeorm": "^0.3.28",
-    "dotenv": "^16.6.0"
+    "typeorm": "^0.3.28"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

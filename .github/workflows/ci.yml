@@ -5,6 +5,7 @@ on:
     branches:
       - develop
       - main
+      - feat/task-5.1
 
 permissions:
   contents: read
@@ -18,9 +19,28 @@ jobs:
     name: CI
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: brewlite
+          POSTGRES_PASSWORD: brewlite_test
+          POSTGRES_DB: brewlite_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U brewlite -d brewlite_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      TEST_DATABASE_URL: postgresql://brewlite:brewlite_test@localhost:5432/brewlite_test
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
+      - name: Validate Docker Compose configuration
+        run: docker compose config
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
@@ -39,8 +59,89 @@ jobs:
       - name: Lint API and web
         run: pnpm lint
 
-      - name: Run unit tests
+      - name: Run unit and integration tests
         run: pnpm test
 
       - name: Build API and web
         run: pnpm build
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Start services and run Automated E2E Tests
+        env:
+          CI: true
+          WEB_URL: http://localhost:3002
+          API_URL: http://localhost:3003
+          DATABASE_URL: postgresql://brewlite:brewlite_test@localhost:5432/brewlite_test
+          JWT_SECRET: brewlite_jwt_secret_dev_32_characters_long
+          # CI sử dụng dummy merchant code và dummy secret để tạo và ký URL thanh toán cục bộ (offline HMAC-SHA512),
+          # không thực hiện giao dịch hoặc gửi request tới server VNPay trong automated test.
+          VNPAY_TMN_CODE: BREWA201
+          VNPAY_HASH_SECRET: sandbox_secret_key_32_characters
+          VNPAY_PAYMENT_URL: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+          VNPAY_QUERY_URL: https://sandbox.vnpayment.vn/merchant_webapi/api/transaction
+          VNPAY_RETURN_URL: http://localhost:3002/payment/return
+          FRONTEND_URL: http://localhost:3002
+        run: |
+          echo "Starting NestJS API..."
+          (cd apps/api && PORT=3003 node dist/main.js) > api.log 2>&1 &
+          API_PID=$!
+
+          echo "Starting Next.js Web..."
+          (cd apps/web && PORT=3002 NEXT_PUBLIC_API_URL=http://localhost:3003 pnpm start) > web.log 2>&1 &
+          WEB_PID=$!
+
+          echo "API PID: $API_PID | Web PID: $WEB_PID"
+
+          echo "Waiting for services to become healthy..."
+          READY=0
+          for i in $(seq 1 30); do
+            if ! kill -0 $API_PID 2>/dev/null; then
+              echo "ERROR: API process (PID $API_PID) exited prematurely!"
+              break
+            fi
+            if ! kill -0 $WEB_PID 2>/dev/null; then
+              echo "ERROR: Web process (PID $WEB_PID) exited prematurely!"
+              break
+            fi
+
+            API_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3003/health || echo "000")
+            WEB_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3002 || echo "000")
+            echo "Attempt $i/30: API HTTP $API_CODE, Web HTTP $WEB_CODE"
+
+            if [ "$API_CODE" = "200" ] && [ "$WEB_CODE" = "200" ]; then
+              echo "Both API and Web are healthy!"
+              READY=1
+              break
+            fi
+            sleep 2
+          done
+
+          if [ "$READY" -ne 1 ]; then
+            echo "=== Services failed to become ready in time ==="
+            echo "--- API LOG (api.log) ---"
+            cat api.log || true
+            echo "--- WEB LOG (web.log) ---"
+            cat web.log || true
+            kill $API_PID $WEB_PID 2>/dev/null || true
+            exit 1
+          fi
+
+          echo "Running E2E tests..."
+          pnpm test:e2e
+          pnpm exec playwright test
+
+          kill $API_PID $WEB_PID 2>/dev/null || true
+
+      - name: Print service logs on failure
+        if: failure()
+        run: |
+          if [ -f api.log ]; then
+            echo "=== API LOG ==="
+            cat api.log
+          fi
+          if [ -f web.log ]; then
+            echo "=== WEB LOG ==="
+            cat web.log
+          fi

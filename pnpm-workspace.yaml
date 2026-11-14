@@ -2,3 +2,7 @@ packages:
   - apps/*
 allowBuilds:
   esbuild: true
+# pnpm 11 đọc cấu hình mạng ở file này, không đọc các khóa tương ứng trong .npmrc.
+networkConcurrency: 4
+fetchRetries: 5
+fetchTimeout: 300000

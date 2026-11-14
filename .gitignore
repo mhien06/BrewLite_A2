@@ -3,3 +3,14 @@ node_modules/
 dist/
 .env
 .env.local
+.env.*
+!.env.example
+!.env.local.example
+
+# Dự án dùng pnpm; không đưa lockfile do npm tạo vào commit.
+/package-lock.json
+
+# Test outputs
+test-results/
+playwright-report/
+*.log
