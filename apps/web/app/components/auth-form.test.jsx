@@ -87,6 +87,8 @@ describe('AuthForm registration validation', () => {
   it.each([
     ["CUSTOMER", "/login?next=%2Fcheckout", "/checkout"],
     ["CUSTOMER", "/login?next=%2Fstaff%2Forders", "/"],
+    ["CUSTOMER", "/login?next=%2F%5Cevil.example", "/"],
+    ["CUSTOMER", "/login?next=%2F%2Fevil.example", "/"],
     ["STAFF", "/login?next=%2Fcheckout", "/staff/orders"],
     ["MANAGER", "/login?next=%2Forders", "/staff/orders"],
   ])("redirects %s from %s to %s", async (role, location, expected) => {

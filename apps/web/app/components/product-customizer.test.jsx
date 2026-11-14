@@ -5,10 +5,16 @@ import ProductCustomizer from './product-customizer';
 
 const mocks = vi.hoisted(() => ({
   addToCart: vi.fn(),
+  session: null,
+  hydrated: true,
 }));
 
 vi.mock('./store', () => ({
-  useStore: () => ({ addToCart: mocks.addToCart }),
+  useStore: () => ({
+    addToCart: mocks.addToCart,
+    session: mocks.session,
+    hydrated: mocks.hydrated,
+  }),
 }));
 
 vi.mock('next/link', () => ({
@@ -33,7 +39,14 @@ const toppings = [
 ];
 
 describe('ProductCustomizer', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mocks.session = {
+      accessToken: 'customer-token',
+      account: { role: 'CUSTOMER' },
+    };
+    mocks.hydrated = true;
+  });
   afterEach(() => cleanup());
 
   it('calculates selected options and adds the configured item to cart', () => {
@@ -80,4 +93,37 @@ describe('ProductCustomizer', () => {
     expect(screen.getByRole('button', { name: /Thêm.*giỏ hàng/ })).toBeDisabled();
     expect(mocks.addToCart).not.toHaveBeenCalled();
   });
+
+  it.each(['STAFF', 'MANAGER'])(
+    'prevents %s from adding an item to cart',
+    (role) => {
+      mocks.session = {
+        accessToken: `${role.toLowerCase()}-token`,
+        account: { role },
+      };
+
+      render(
+        <ProductCustomizer
+          product={product}
+          sizes={sizes}
+          toppings={toppings}
+        />,
+      );
+
+      const addButton = screen.getByRole('button', {
+        name: /Thêm.*giỏ hàng/,
+      });
+
+      expect(addButton).toBeDisabled();
+      fireEvent.click(addButton);
+
+      expect(mocks.addToCart).not.toHaveBeenCalled();
+      expect(screen.getByRole('status')).toHaveTextContent(
+        'Tài khoản Nhân viên hoặc Quản lý chỉ có thể xem thực đơn.',
+      );
+      expect(
+        screen.queryByRole('link', { name: /Xem giỏ hàng/ }),
+      ).not.toBeInTheDocument();
+    },
+  );
 });
