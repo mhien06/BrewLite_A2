@@ -91,6 +91,24 @@ test('staff order API enforces roles, payment verification, safe detail, ordered
   assert.equal(unauthenticated.status, 401);
   assert.equal((await request('/staff/orders', customerToken)).status, 403);
 
+  for (const token of [undefined, 'invalid-jwt']) {
+    assert.equal((await request('/orders', token)).status, 401);
+    assert.equal((await request('/orders', token, { method: 'POST', body: JSON.stringify({ items: [] }) })).status, 401);
+    assert.equal((await request('/orders/1/payments', token, { method: 'POST', body: '{}' })).status, 401);
+    assert.equal((await request('/orders/1/payment-status', token)).status, 401);
+    assert.equal((await request('/staff/orders', token)).status, 401);
+  }
+
+  for (const token of [staffToken, managerToken]) {
+    assert.equal((await request('/orders', token)).status, 403);
+    assert.equal((await request('/orders/1', token)).status, 403);
+    const orderCreate = await request('/orders', token, { method: 'POST', body: JSON.stringify({ items: [] }) });
+    assert.equal(orderCreate.status, 403);
+    const paymentCreate = await request('/orders/1/payments', token, { method: 'POST', body: '{}' });
+    assert.equal(paymentCreate.status, 403);
+    assert.equal((await request('/orders/1/payment-status', token)).status, 403);
+  }
+
   const unpaidId = await createOrder('PENDING_PAYMENT', 'PENDING');
   const unpaidStart = await request(`/staff/orders/${unpaidId}/status`, staffToken, { method: 'PATCH', body: JSON.stringify({ status: 'PREPARING' }) });
   assert.equal(unpaidStart.status, 409);
