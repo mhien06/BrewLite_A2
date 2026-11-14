@@ -2,6 +2,7 @@ import { Body, Controller, Get, Header, Inject, Param, ParseIntPipe, Post, Query
 import { IsOptional, IsUUID } from 'class-validator';
 import { AuthUser } from '../auth/auth.types';
 import { CurrentUser } from '../common/current-user.decorator';
+import { Roles } from '../common/roles.decorator';
 import { Public } from '../common/public.decorator';
 import { PAYMENT_GATEWAY, PaymentGateway } from './payment-gateway';
 import { PaymentsService } from './payments.service';
@@ -20,6 +21,7 @@ export class PaymentsController {
   ) {}
 
   @Post('orders/:id/payments')
+  @Roles('CUSTOMER')
   create(
     @CurrentUser() user: AuthUser,
     @Param('id', ParseIntPipe) id: number,
@@ -32,6 +34,7 @@ export class PaymentsController {
   }
 
   @Get('orders/:id/payment-status')
+  @Roles('CUSTOMER')
   @Header('Cache-Control', 'no-store')
   status(@CurrentUser() user: AuthUser, @Param('id', ParseIntPipe) id: number) {
     return this.payments.status(user.sub, id);

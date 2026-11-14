@@ -1,10 +1,12 @@
 import { Body, Controller, Get, Inject, Param, ParseIntPipe, Post, ValidationPipe } from '@nestjs/common';
 import { CurrentUser } from '../common/current-user.decorator';
+import { Roles } from '../common/roles.decorator';
 import { AuthUser } from '../auth/auth.types';
 import { CreateOrderDto } from './orders.dto';
 import { OrdersService } from './orders.service';
 
 @Controller('orders')
+@Roles('CUSTOMER')
 export class OrdersController {
   constructor(@Inject(OrdersService) private readonly orders: OrdersService) {}
 
