@@ -69,9 +69,23 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Start services and run Automated E2E Tests
+        env:
+          CI: true
+          WEB_URL: http://localhost:3002
+          API_URL: http://localhost:3003
+          DATABASE_URL: postgresql://brewlite:brewlite_test@localhost:5432/brewlite_test
+          JWT_SECRET: brewlite_jwt_secret_dev_32_characters_long
+          # CI sử dụng dummy merchant code và dummy secret để tạo và ký URL thanh toán cục bộ (offline HMAC-SHA512),
+          # không thực hiện giao dịch hoặc gửi request tới server VNPay trong automated test.
+          VNPAY_TMN_CODE: BREWA201
+          VNPAY_HASH_SECRET: sandbox_secret_key_32_characters
+          VNPAY_PAYMENT_URL: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+          VNPAY_QUERY_URL: https://sandbox.vnpayment.vn/merchant_webapi/api/transaction
+          VNPAY_RETURN_URL: http://localhost:3002/payment/return
+          FRONTEND_URL: http://localhost:3002
         run: |
           echo "Starting NestJS API..."
-          (cd apps/api && PORT=3003 DATABASE_URL=postgresql://brewlite:brewlite_test@localhost:5432/brewlite_test JWT_SECRET=brewlite_jwt_secret_dev_32_characters_long VNPAY_TMN_CODE=BREWA201 VNPAY_HASH_SECRET=sandbox_secret_key_32_characters FRONTEND_URL=http://localhost:3002 node dist/main.js) > api.log 2>&1 &
+          (cd apps/api && PORT=3003 node dist/main.js) > api.log 2>&1 &
           API_PID=$!
 
           echo "Starting Next.js Web..."
@@ -119,11 +133,6 @@ jobs:
           pnpm exec playwright test
 
           kill $API_PID $WEB_PID 2>/dev/null || true
-        env:
-          CI: true
-          WEB_URL: http://localhost:3002
-          API_URL: http://localhost:3003
-          DATABASE_URL: postgresql://brewlite:brewlite_test@localhost:5432/brewlite_test
 
       - name: Print service logs on failure
         if: failure()
