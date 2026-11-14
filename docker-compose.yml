@@ -31,8 +31,8 @@ services:
       JWT_SECRET: ${JWT_SECRET:-brewlite_jwt_secret_dev_32_characters_long}
       JWT_EXPIRES_IN_SECONDS: ${JWT_EXPIRES_IN_SECONDS:-3600}
       FRONTEND_URL: http://localhost:${WEB_PORT:-3002}
-      VNPAY_TMN_CODE: ${VNPAY_TMN_CODE:-}
-      VNPAY_HASH_SECRET: ${VNPAY_HASH_SECRET:-}
+      VNPAY_TMN_CODE: ${VNPAY_TMN_CODE:-BREWA201}
+      VNPAY_HASH_SECRET: ${VNPAY_HASH_SECRET:-sandbox_secret_key_32_characters}
       VNPAY_PAYMENT_URL: ${VNPAY_PAYMENT_URL:-https://sandbox.vnpayment.vn/paymentv2/vpcpay.html}
       VNPAY_QUERY_URL: ${VNPAY_QUERY_URL:-https://sandbox.vnpayment.vn/merchant_webapi/api/transaction}
       VNPAY_RETURN_URL: ${VNPAY_RETURN_URL:-http://localhost:3002/payment/return}

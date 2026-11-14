@@ -59,8 +59,47 @@ jobs:
       - name: Lint API and web
         run: pnpm lint
 
-      - name: Run unit tests
+      - name: Run unit and integration tests
         run: pnpm test
 
       - name: Build API and web
         run: pnpm build
+
+      - name: Install Playwright Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Start API and Web services for E2E
+        run: |
+          pnpm -C apps/api start &
+          pnpm -C apps/web start &
+        env:
+          PORT: 3003
+          DATABASE_URL: postgresql://brewlite:brewlite_test@localhost:5432/brewlite_test
+          JWT_SECRET: brewlite_jwt_secret_dev_32_characters_long
+          VNPAY_TMN_CODE: BREWA201
+          VNPAY_HASH_SECRET: sandbox_secret_key_32_characters
+          FRONTEND_URL: http://localhost:3002
+          NEXT_PUBLIC_API_URL: http://localhost:3003
+
+      - name: Wait for services to be ready
+        run: |
+          for i in $(seq 1 30); do
+            if curl -s http://localhost:3003/health | grep -q '"status":"ok"' && curl -s http://localhost:3002 > /dev/null; then
+              echo "Both API and Web are healthy!"
+              exit 0
+            fi
+            echo "Waiting for services... ($i/30)"
+            sleep 2
+          done
+          echo "Services failed to become healthy in time."
+          exit 1
+
+      - name: Run Automated E2E Tests
+        run: |
+          pnpm test:e2e
+          pnpm exec playwright test
+        env:
+          CI: true
+          WEB_URL: http://localhost:3002
+          API_URL: http://localhost:3003
+          DATABASE_URL: postgresql://brewlite:brewlite_test@localhost:5432/brewlite_test

@@ -9,3 +9,7 @@ dist/
 
 # Dự án dùng pnpm; không đưa lockfile do npm tạo vào commit.
 /package-lock.json
+
+# Test outputs
+test-results/
+playwright-report/

@@ -39,11 +39,20 @@ Các container sẽ khởi chạy theo thứ tự phụ thuộc (`depends_on: co
 
 ### 2. Migration và Seed dữ liệu
 
-Khi `brewlite-api` khởi động, TypeORM tự động khởi tạo kết nối và thực thi các migration kèm seed dữ liệu mẫu (`dataSource.runMigrations({ transaction: 'all' })`):
-- Bảng `categories`, `products` và `product_options`: Tạo cấu trúc danh mục và sản phẩm kèm các tùy chọn Size, Topping và số lượng tồn kho.
-- Bảng `users`: Quản lý tài khoản và phân quyền RBAC (`CUSTOMER`, `STAFF`, `MANAGER`), seed sẵn tài khoản quản trị và nhân viên mẫu.
-- Bảng `orders` và `order_items`: Lưu trữ đơn hàng, snapshot chi tiết món, giá server-side và trạng thái xử lý đơn.
-- Bảng `payments` và `payment_reviews`: Quản lý giao dịch thanh toán VNPay Sandbox, idempotency key và bảng đối soát thủ công khi có sai lệch.
+Hệ thống sử dụng TypeORM migrations để tự động kiến tạo toàn bộ schema và seed danh mục đồ uống từ database trống.
+
+**Lệnh tái tạo toàn bộ schema và seed dữ liệu từ database trống:**
+```powershell
+$env:DATABASE_URL="postgresql://postgres:brewlite_local@localhost:5434/brewlite_a2"
+pnpm db:migrate
+```
+*(Trong môi trường Docker Compose, lệnh migration & seed được tự động thực thi khi container `brewlite-api` khởi động thông qua `dataSource.runMigrations({ transaction: 'all' })`).*
+
+Cấu trúc dữ liệu được khởi tạo:
+- Bảng `products`, `product_options`: 4 sản phẩm chính kèm 6 tùy chọn Size (S/M/L) và Topping (Trân châu/Kem sữa/Thạch cà phê) cùng tồn kho ban đầu và đường dẫn ảnh.
+- Bảng `users`: Quản lý tài khoản người dùng và phân quyền RBAC (`CUSTOMER`, `STAFF`, `MANAGER`).
+- Bảng `orders`, `order_items`: Lưu trữ đơn hàng, snapshot chi tiết món, giá server-side và trạng thái đơn.
+- Bảng `payments`, `payment_reviews`: Quản lý giao dịch thanh toán VNPay Sandbox, idempotency key, audit event và bảng đối soát sai lệch.
 
 ### 3. Kiểm tra Healthcheck (`GET /health`)
 
@@ -85,10 +94,23 @@ $env:TEST_DATABASE_URL="postgresql://postgres:brewlite_local@localhost:5434/brew
 pnpm --filter @brewlite/api test
 ```
 
-### 5. Trạng thái tích hợp Sprint 2 và E2E Flow
+### 5. Kiểm thử Tự động Toàn trình (Automated E2E Tests)
 
-- **Auth, Orders, Inventory & VNPay Sandbox:** Đã hoàn thành tích hợp từ `feat/task-5.1` vào nhánh tích hợp `feat/sprint-2-integration`.
-- **E2E Flow (Menu → Đặt đơn → Xác nhận thanh toán):** Giao diện người dùng và API đã kết nối đầy đủ. Kịch bản automated E2E test đang được bổ sung trong Phase 3 để nghiệm thu toàn diện Issue #29.
+Hệ thống cung cấp hai bộ automated E2E test kiểm chứng luồng nghiệp vụ khách hàng:
+
+```powershell
+# 1. Automated E2E API & Database Verification (Menu -> Cart -> Register -> Create Order -> Payment Init -> DB Verification)
+# Yêu cầu hệ thống đang chạy (Docker hoặc dev server):
+pnpm test:e2e
+
+# 2. Automated E2E UI Test với Trình duyệt Chromium thực tế (Playwright)
+pnpm exec playwright test
+```
+
+> [!NOTE]
+> **Phạm vi kiểm thử E2E và Thanh toán VNPay:**
+> - Kiểm thử E2E UI (`playwright test`) kiểm chứng toàn bộ hành vi người dùng trên giao diện: Khám phá Menu, chọn sản phẩm, tùy biến Size/Topping, thêm giỏ hàng, đăng ký tài khoản mới, tạo đơn hàng và nhận màn hình Xác nhận đơn (`Order Received`). Bước redirect sang cổng thanh toán bên thứ ba được chặn (`intercept`) nhằm giữ trình duyệt tập trung xác minh màn hình xác nhận đơn hàng của BrewLite.
+> - Kiểm thử `pnpm test:e2e` và bộ Integration tests (`apps/api`) kiểm chứng trực tiếp API `POST /orders/:id/payments`, tạo giao dịch trong bảng `payments`, kiểm tra trạng thái `PENDING`, tính toàn vẹn dữ liệu trong PostgreSQL, hoàn trả kho khi hủy/hết hạn và chống trùng lặp (idempotency) mà không thực hiện giao dịch tài chính thật.
 
 ## Phát triển và review
 
