@@ -18,7 +18,7 @@ Ma trận truy vết `docs/traceability-matrix.md` được bổ sung ở Task 4
 - **Sprint 1 — Task 4:** Thiết lập repository, quản lý tài liệu, triển khai menu và API sản phẩm, thiết lập CI.
 - **Sprint 2 — Task 5:** Hoàn thiện luồng đặt và thanh toán, kiểm thử tích hợp, đóng gói và bàn giao.
 
-## Chạy trên máy và Kiểm thử (Task 5.2)
+## Chạy trên máy và Kiểm thử (Task 5.2 - Issue #29)
 
 Yêu cầu môi trường: Node.js 24, pnpm 11 và Docker Desktop.
 
@@ -33,24 +33,25 @@ docker compose ps
 ```
 
 Các container sẽ khởi chạy theo thứ tự phụ thuộc (`depends_on: condition: service_healthy`):
-1. `brewlite-db` (`postgres:16-alpine`): Khởi động và kiểm tra bằng `pg_isready`. Dữ liệu được lưu bền vững trên volume `pgdata`.
-2. `brewlite-api` (`apps/api/Dockerfile`): Khởi động sau khi database healthy, tự động chạy migration/seed và lắng nghe tại cổng `3001`.
-3. `brewlite-web` (`apps/web/Dockerfile`): Khởi động sau khi API healthy, phục vụ giao diện tại `http://localhost:3000`.
+1. `brewlite-db` (`postgres:16-alpine`): Khởi động cơ sở dữ liệu PostgreSQL tại cổng host `5434` (tránh xung đột với BrewLite A1). Dữ liệu được lưu trữ bền vững trên volume `brewlite_a2_pg`. Kiểm tra trạng thái bằng `pg_isready`.
+2. `brewlite-api` (`apps/api/Dockerfile`): Khởi động sau khi database healthy, tự động chạy migration & seed và lắng nghe tại cổng `3003`.
+3. `brewlite-web` (`apps/web/Dockerfile`): Khởi động sau khi API healthy, phục vụ giao diện tại `http://localhost:3002`.
 
 ### 2. Migration và Seed dữ liệu
 
-Khi `brewlite-api` khởi động, TypeORM tự động khởi tạo kết nối và thực thi các migration kèm seed dữ liệu mẫu:
-- Bảng `products` và `product_options` được tạo lập.
-- Tự động seed 4 sản phẩm đồ uống mẫu (`Cà phê sữa`, `Bạc xỉu`, `Trà đào`, `Matcha latte`) cùng các tùy chọn Size (S, M, L) và Topping (Trân châu, Kem sữa, Thạch cà phê).
-- Cập nhật ảnh sản phẩm tương ứng trong thư mục `public/products/`.
+Khi `brewlite-api` khởi động, TypeORM tự động khởi tạo kết nối và thực thi các migration kèm seed dữ liệu mẫu (`dataSource.runMigrations({ transaction: 'all' })`):
+- Bảng `categories`, `products` và `product_options`: Tạo cấu trúc danh mục và sản phẩm kèm các tùy chọn Size, Topping và số lượng tồn kho.
+- Bảng `users`: Quản lý tài khoản và phân quyền RBAC (`CUSTOMER`, `STAFF`, `MANAGER`), seed sẵn tài khoản quản trị và nhân viên mẫu.
+- Bảng `orders` và `order_items`: Lưu trữ đơn hàng, snapshot chi tiết món, giá server-side và trạng thái xử lý đơn.
+- Bảng `payments` và `payment_reviews`: Quản lý giao dịch thanh toán VNPay Sandbox, idempotency key và bảng đối soát thủ công khi có sai lệch.
 
 ### 3. Kiểm tra Healthcheck (`GET /health`)
 
-Endpoint `GET /health` tại `http://localhost:3001/health` kiểm tra đồng thời trạng thái API và kết nối database thực tế (`SELECT 1`):
+Endpoint `GET /health` tại `http://localhost:3003/health` kiểm tra đồng thời trạng thái API và kết nối database thực tế (`SELECT 1`):
 
 - **Khi PostgreSQL hoạt động bình thường:**
   ```powershell
-  curl.exe -i http://localhost:3001/health
+  curl.exe -i http://localhost:3003/health
   # Kết quả trả về: HTTP/1.1 200 OK
   # Body: {"status":"ok"}
   ```
@@ -58,44 +59,38 @@ Endpoint `GET /health` tại `http://localhost:3001/health` kiểm tra đồng t
 - **Khi PostgreSQL bị dừng hoặc mất kết nối:**
   ```powershell
   docker compose stop db
-  curl.exe -i http://localhost:3001/health
+  curl.exe -i http://localhost:3003/health
   # Kết quả trả về: HTTP/1.1 503 Service Unavailable
-  # Body: {"message":"Không kết nối được cơ sở dữ liệu.","error":"Service Unavailable","statusCode":503}
+  # Body: {"statusCode":503,"message":"Database unavailable."}
   docker compose start db
   ```
 
-### 4. Chạy Unit Tests và Integration Tests hiện có
+### 4. Chạy Unit Tests và Integration Tests
 
-Các bài kiểm tra độc lập của Sprint 1 và Task 5.2 có thể chạy trực tiếp bằng Node.js test runner:
+Hệ thống cung cấp đầy đủ các bộ kiểm thử cho toàn bộ các module của Sprint 2:
 
 ```powershell
-# Unit test logic tính toán chi tiết món và tùy chọn (API)
-node --test apps/api/src/catalog-domain.test.mjs
+# Chạy toàn bộ Unit test trong repo (không cần kết nối Database)
+pnpm test
 
-# Unit test định dạng tiền tệ và hiển thị tồn kho (Web)
-node --test apps/web/app/catalog.test.mjs
+# Chạy Unit test riêng cho API (JWT, Roles Guard, Order calculations, VNPay Gateway)
+pnpm --filter @brewlite/api test
 
-# Integration test API Catalog với database PostgreSQL đang chạy (yêu cầu Docker Compose up)
-node --test tests/catalog-api.test.mjs
+# Chạy Unit test cho Web components (Payment panel, Store, Auth form, Checkout)
+pnpm --filter @brewlite/web test
+
+# Chạy Integration test cho Orders, Inventory concurrency và VNPay payment settlement
+# Yêu cầu database PostgreSQL đang chạy (qua Docker hoặc cục bộ):
+$env:TEST_DATABASE_URL="postgresql://postgres:brewlite_local@localhost:5434/brewlite_a2"
+pnpm --filter @brewlite/api test
 ```
 
-### 5. Các bài kiểm thử đang tạm thời BLOCKED (chờ tích hợp)
+### 5. Trạng thái tích hợp Sprint 2 và E2E Flow
 
-Các hạng mục sau thuộc phạm vi của các thành viên khác và đang được chặn (BLOCKED) tích hợp trên nhánh `develop`:
-
-1. **Unit tests & Integration tests Auth & Đơn hàng (Khoa - Task 5.1):**
-   - Đã được triển khai trên nhánh `feat/task-5.1` (`order-calculations.test.ts`, `jwt.service.test.ts`, `roles.guard.test.ts`, `orders.integration.test.ts`).
-   - *Trạng thái:* Chờ hoàn tất review và merge PR từ `feat/task-5.1` vào nhánh `develop`.
-2. **Unit tests & Integration tests Thanh toán & VNPay (Thành):**
-   - Kiểm tra chuyển đổi trạng thái thanh toán (`PENDING_PAYMENT` -> `PAID`, `FAILED`, `EXPIRED`, `UNKNOWN`), xử lý IPN, Return URL và đối soát giao dịch (QueryDR).
-   - *Trạng thái:* Nhánh `feature/task-5.1-vnpay` chưa hoàn thành mã nguồn module thanh toán.
-3. **E2E Test toàn trình (Menu → Đặt đơn → Xác nhận) (Hiển / Frontend Team):**
-   - Giao diện người dùng hiện tại chỉ bao gồm trang Menu và Chi tiết món (Sprint 1), chưa có giao diện Giỏ hàng (Cart) và Đặt hàng (Checkout).
-   - *Trạng thái:* Chờ hoàn thiện UI giỏ hàng/đặt đơn và kịch bản Playwright/Cypress tương ứng.
+- **Auth, Orders, Inventory & VNPay Sandbox:** Đã hoàn thành tích hợp từ `feat/task-5.1` vào nhánh tích hợp `feat/sprint-2-integration`.
+- **E2E Flow (Menu → Đặt đơn → Xác nhận thanh toán):** Giao diện người dùng và API đã kết nối đầy đủ. Kịch bản automated E2E test đang được bổ sung trong Phase 3 để nghiệm thu toàn diện Issue #29.
 
 ## Phát triển và review
 
-Mở PR về `develop` và ghi số issue trong mô tả. Thành review phần Hiển thực hiện. Hiển review phần các thành viên khác thực hiện. Ghi cách chạy, kết quả kiểm thử và phần còn vướng trước khi bàn giao.
-
-Bổ sung kết quả CI, hướng dẫn deploy/rollback và URL production khi hoàn tất các phần tương ứng. Lưu thông tin bí mật trong biến môi trường của từng máy hoặc môi trường triển khai.
-
+Mở PR về `develop` và ghi số issue trong mô tả. Reviewer: Hiển (`mhien06`). Ghi cách chạy, kết quả kiểm thử và phần còn vướng trước khi bàn giao.
+Lưu thông tin bí mật trong biến môi trường của từng máy hoặc môi trường triển khai, không commit secret vào source code.

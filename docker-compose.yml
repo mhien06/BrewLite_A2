@@ -1,20 +1,21 @@
+# A2 local development and deployment. All host ports are different from BrewLite A1.
 services:
   db:
     image: postgres:16-alpine
     container_name: brewlite-db
     environment:
+      POSTGRES_DB: brewlite_a2
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: brewlite
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-brewlite_local}
     ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+      - "${POSTGRES_PORT:-5434}:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d brewlite"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d brewlite_a2"]
       interval: 5s
-      timeout: 5s
-      retries: 5
+      timeout: 3s
+      retries: 20
+    volumes:
+      - brewlite_a2_pg:/var/lib/postgresql/data
     restart: unless-stopped
 
   api:
@@ -24,16 +25,27 @@ services:
     container_name: brewlite-api
     environment:
       NODE_ENV: production
-      PORT: 3001
-      DATABASE_URL: postgres://postgres:postgres@db:5432/brewlite
-      FRONTEND_URL: http://localhost:3000
+      PORT: 3003
+      API_PORT: 3003
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-brewlite_local}@db:5432/brewlite_a2
+      JWT_SECRET: ${JWT_SECRET:-brewlite_jwt_secret_dev_32_characters_long}
+      JWT_EXPIRES_IN_SECONDS: ${JWT_EXPIRES_IN_SECONDS:-3600}
+      FRONTEND_URL: http://localhost:${WEB_PORT:-3002}
+      VNPAY_TMN_CODE: ${VNPAY_TMN_CODE:-}
+      VNPAY_HASH_SECRET: ${VNPAY_HASH_SECRET:-}
+      VNPAY_PAYMENT_URL: ${VNPAY_PAYMENT_URL:-https://sandbox.vnpayment.vn/paymentv2/vpcpay.html}
+      VNPAY_QUERY_URL: ${VNPAY_QUERY_URL:-https://sandbox.vnpayment.vn/merchant_webapi/api/transaction}
+      VNPAY_RETURN_URL: ${VNPAY_RETURN_URL:-http://localhost:3002/payment/return}
+      VNPAY_QUERY_IP: ${VNPAY_QUERY_IP:-127.0.0.1}
+      VNPAY_IPN_URL: ${VNPAY_IPN_URL:-}
+      PAYMENT_RECONCILIATION_ENABLED: ${PAYMENT_RECONCILIATION_ENABLED:-true}
     ports:
-      - "3001:3001"
+      - "${API_PORT:-3003}:3003"
     depends_on:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3001/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\""]
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3003/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\""]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -45,20 +57,21 @@ services:
       context: .
       dockerfile: apps/web/Dockerfile
       args:
-        NEXT_PUBLIC_API_URL: http://localhost:3001
+        NEXT_PUBLIC_API_URL: http://localhost:3003
     container_name: brewlite-web
     environment:
       NODE_ENV: production
-      PORT: 3000
-      API_INTERNAL_URL: http://api:3001
-      NEXT_PUBLIC_API_URL: http://localhost:3001
+      PORT: 3002
+      API_INTERNAL_URL: http://api:3003
+      NEXT_PUBLIC_API_URL: http://localhost:${API_PORT:-3003}
+      NEXT_TELEMETRY_DISABLED: "1"
     ports:
-      - "3000:3000"
+      - "${WEB_PORT:-3002}:3002"
     depends_on:
       api:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3000/').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\""]
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3002/').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\""]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -66,5 +79,5 @@ services:
     restart: unless-stopped
 
 volumes:
-  pgdata:
-    name: brewlite_pgdata
+  brewlite_a2_pg:
+    name: brewlite_a2_pg

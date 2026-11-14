@@ -6,7 +6,7 @@ RUN pnpm config set fetch-timeout 600000 && pnpm config set fetch-retries 5
 WORKDIR /app
 
 FROM base AS builder
-ARG NEXT_PUBLIC_API_URL=http://localhost:3001
+ARG NEXT_PUBLIC_API_URL=http://localhost:3003
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 COPY apps/web/package.json ./
 RUN pnpm install --prod --no-frozen-lockfile --ignore-scripts
@@ -17,12 +17,12 @@ RUN pnpm run build
 FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
-ENV PORT=3000
+ENV PORT=3002
 
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 
-EXPOSE 3000
-CMD ["node_modules/.bin/next", "start", "-p", "3000"]
+EXPOSE 3002
+CMD ["node_modules/.bin/next", "start", "-p", "3002", "-H", "0.0.0.0"]
