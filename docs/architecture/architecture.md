@@ -40,7 +40,7 @@ Kiến trúc chọn là **modular monolith**: một Web App, một API (chia mod
 | :--- | :--- | :--- | :-: |
 | Web App | Next.js, React, PWA | Giao diện mobile-first, trang kết quả thanh toán (Return URL), màn hình quầy. Không chứa nghiệp vụ. | 007 |
 | API Application | NestJS, TypeScript | Toàn bộ nghiệp vụ: xác thực/phân quyền, tính giá, tồn kho, thanh toán, IPN, đối soát, health check, logging. | 002, 005, 006, 008–010 |
-| Database | PostgreSQL | Lưu User, Product, ProductOption, Cart, **CartItem**, Order, OrderItem, Payment; transaction và khóa dòng; lược đồ do migration quản lý. | 003 |
+| Database | PostgreSQL | Lưu các thực thể nghiệp vụ theo Domain Class: User/Cart, Product–Recipe–Ingredient, Order/Payment, xuất–hoàn nguyên liệu, hủy đơn và sổ điểm; transaction và khóa dòng; lược đồ do migration quản lý. | 003 |
 
 Luồng giao tiếp chính:
 1. Người dùng ↔ Web App qua HTTPS.
@@ -59,12 +59,13 @@ Triển khai chi tiết (Docker Compose, HTTPS, database không public) thuộc 
 | :--- | :--- | :--- | :--- |
 | `AuthModule` | Đăng ký, đăng nhập, cấp JWT | `UsersService` | UC-04, UC-05, UC-06; FR-04, FR-05 |
 | `UsersModule` | Tài khoản, vai trò | — | FR-04, FR-06 |
-| `CatalogModule` | Menu, chi tiết Product, ProductOption, giá | — | UC-01, UC-02; FR-01, FR-02 |
+| `CatalogModule` | Menu, Product, ProductOption và giá; Product không lưu tồn kho | `InventoryReader` (đủ nguyên liệu theo Recipe) | UC-01, UC-02; FR-01, FR-02 |
 | `CartModule` | Giỏ hàng, giá tạm tính | `ProductReader` | UC-03; FR-03 |
-| `OrdersModule` | Tạo đơn, tính lại giá từ dữ liệu hiện hành, snapshot `OrderItem`, lịch sử đơn, xử lý trạng thái `Order.status` | `ProductReader`, `InventoryModule` (trừ/hoàn `Product.inventoryQuantity`) | UC-07, UC-09 đến UC-12; FR-07, FR-12 đến FR-15 |
-| `InventoryModule` | Kiểm tra, trừ, hoàn `Product.inventoryQuantity`; khóa dòng; hoàn đúng một lần. **Không phải entity riêng** — tồn kho chỉ lưu tại `Product.inventoryQuantity` trong `ProductModule`/`CatalogModule` | — | FR-08, FR-11 |
-| `PaymentsModule` | Khởi tạo thanh toán, idempotency, IPN, thanh toán lại, đọc `Payment.status` | `OrderPaymentPort`, `InventoryModule` (hoàn `Product.inventoryQuantity`), `PaymentGateway` | UC-08; FR-09, FR-10 |
-| `SchedulerModule` | `ReconciliationJob`: xử lý hết hạn (15 phút) và đối soát `Payment` ở trạng thái `PENDING`/`UNKNOWN` | `PaymentGateway`, `InventoryModule` (hoàn `Product.inventoryQuantity`) | FR-11; NFR-09 |
+| `OrdersModule` | Tạo đơn `PENDING` không trừ nguyên liệu; snapshot `OrderItem`; state machine; hủy trước pha và ghi `OrderCancellation` | `ProductReader`, `InventoryService` (hoàn kho khi hủy), `LoyaltyService` | FR-05–FR-07, FR-15–FR-17 |
+| `InventoryModule` | Quản lý `Ingredient.quantityOnHand` (đơn vị `MeasurementUnit`), `Recipe`/`RecipeIngredient`; trừ/hoàn theo `OrderIngredientUsage`, khóa dòng và chống lặp | — | FR-10, FR-17, FR-21 |
+| `PaymentsModule` | Tạo Payment attempt, idempotency, IPN/QueryDR, thanh toán lại; điều phối transaction xử lý kết quả | `OrderPaymentPort`, `InventoryService` (trừ kho), `LoyaltyService`, `PaymentGateway` | FR-08–FR-14, FR-19, FR-20 |
+| `LoyaltyModule` | Sổ cái `LoyaltyTransaction`: dùng/tích/trả/đảo/bù điểm; kiểm tra `VNPayRefundRecord` để chống quyền lợi trùng | — | FR-10, FR-18–FR-20, FR-22 |
+| `SchedulerModule` | Đối soát Payment `PENDING`/`UNKNOWN`; tự hủy Order `PENDING`/`PAYMENT_FAILED` quá 15 phút tính từ `Order.createdAt` sau khi xác nhận không có thanh toán thành công | `PaymentGateway` (QueryDR), `PaymentService` (xử lý kết quả, tự hủy) | FR-11, FR-13; NFR-09 |
 | `VnpayGatewayModule` | Adapter VNPay: ký URL, xác minh chữ ký IPN, QueryDR | VNPay Sandbox (HTTPS) | FR-09; NFR-04 |
 | `SecurityKit` | `JwtAuthGuard`, `RolesGuard`, `ValidationPipe`, `ExceptionFilter` (toàn cục) | — | FR-06; NFR-02, NFR-03 |
 | `ConfigModule` | Biến môi trường, kiểm tra khi khởi động | — | NFR-04, NFR-07 |
@@ -72,20 +73,20 @@ Triển khai chi tiết (Docker Compose, HTTPS, database không public) thuộc 
 | `HealthModule` | `GET /health` (API + database) | `DatabaseModule` | NFR-07, NFR-09 |
 | `DatabaseModule` | TypeORM, transaction, migration, seed | PostgreSQL | NFR-07, NFR-09 |
 
-`SchedulerModule` tách riêng khỏi `PaymentsModule` để thể hiện rõ đây là một tiến trình chạy định kỳ, độc lập với vòng đời của một request HTTP, dù cùng thao tác trên entity `Payment`/`Order` qua `DatabaseModule`.
+`SchedulerModule` tách riêng khỏi `PaymentsModule` để thể hiện rõ tiến trình định kỳ độc lập với request HTTP, nhưng gọi cùng hàm xử lý kết quả thanh toán của `PaymentService` với IPN; việc tự hủy đi qua `OrderPaymentPort` để `OrdersModule` ghi `OrderCancellation` và trả điểm đã dùng.
 
-Quy tắc phụ thuộc (kiểm tra khi review): hướng một chiều và không vòng `Payments → Orders → Inventory/Catalog`, `Cart → Catalog`, `Auth → Users`, `Scheduler → VnpayGateway/Inventory/Database`. Trạng thái thanh toán được đọc qua `GET /orders/{id}/payment-status` của `PaymentsModule` nên `OrdersModule` không phụ thuộc ngược vào `PaymentsModule`.
+Quy tắc phụ thuộc: hướng một chiều và không vòng `Scheduler → Payments → Orders → Catalog/Inventory/Loyalty`, `Payments → Inventory/Loyalty/VnpayGateway`, `Catalog → Inventory`, `Cart → Catalog`, `Auth → Users`; transaction do `OrdersModule` hoặc `PaymentsModule` điều phối qua interface của Inventory/Loyalty. Trạng thái thanh toán được đọc qua API của `PaymentsModule`, nên `OrdersModule` không truy cập repository Payment.
 
 ## 5. Quyết định kiến trúc, ưu điểm, hạn chế và đánh đổi
 
 | ADR | Quyết định | Ưu điểm | Hạn chế / đánh đổi |
 | :-: | :--- | :--- | :--- |
 | [001](adr/001-monorepo.md) | Monorepo pnpm workspaces | Một PR sửa được API, UI, tài liệu; kiểu dùng chung giảm lệch hợp đồng | Cần path filter trong CI, quy ước thư mục rõ |
-| [002](adr/002-modular-monolith.md) | NestJS modular monolith | Transaction ACID cho đơn–tồn kho–thanh toán; triển khai đơn giản | Scale theo cả khối; cần kỷ luật ranh giới module |
-| [003](adr/003-postgresql-transaction-migration.md) | PostgreSQL + TypeORM, transaction nguyên tử khi trừ/hoàn tồn, migration | Chống bán vượt tồn, chống ghi trùng; lược đồ tái tạo được | Đơn cùng Product xử lý tuần tự |
+| [002](adr/002-modular-monolith.md) | NestJS modular monolith theo domain | Transaction ACID xuyên Order–Inventory–Loyalty; triển khai đơn giản | Scale theo cả khối; cần kỷ luật ranh giới module |
+| [003](adr/003-postgresql-transaction-migration.md) | PostgreSQL + TypeORM, migration và transaction nguyên tử | Chống trừ/hoàn nguyên liệu, ghi điểm và Payment trùng | Các giao dịch cùng Ingredient xử lý tuần tự |
 | [004](adr/004-vnpay-sandbox-integration.md) | VNPay Sandbox là hệ thống ngoài ranh giới BrewLite *(mở rộng – nhóm chọn tích hợp thực thay vì mock nội bộ)* | Ranh giới tin cậy rõ ràng; dễ kiểm thử bảo mật | Luồng thanh toán phụ thuộc tính sẵn sàng của VNPay |
-| [005](adr/005-return-url-ipn-idempotency.md) | Return URL chỉ hiển thị; IPN là căn cứ; idempotency theo `orderId`+`idempotencyKey` | Chống giả mạo qua trình duyệt; xử lý đúng IPN trễ/lặp/mất | Khách có thể thấy "Đang xác minh" vài phút |
-| [006](adr/006-payment-expiry-refund-stock-retry.md) | Hạn 15 phút mỗi yêu cầu, job hết hạn/đối soát `@nestjs/schedule`, hoàn tồn đúng một lần, thanh toán lại bằng yêu cầu mới | Không thêm hạ tầng; an toàn khi chạy đồng thời | Trễ tối đa một chu kỳ; phụ thuộc tiến trình API |
+| [005](adr/005-return-url-ipn-idempotency.md) | Return URL chỉ hiển thị; IPN/QueryDR xác minh; idempotency nhiều lớp | Chống giả mạo và hiệu ứng kho/điểm lặp | Khách có thể thấy "Đang xác minh" |
+| [006](adr/006-payment-expiry-refund-stock-retry.md) | Order chờ 15 phút; đối soát trước tự hủy; retry không gia hạn | Không thêm hạ tầng; xử lý an toàn kết quả đến muộn | Trễ tối đa một chu kỳ; phụ thuộc tiến trình API |
 | [007](adr/007-nextjs-pwa-frontend.md) | Next.js PWA chỉ làm giao diện | Một nơi quyết định nghiệp vụ; PWA cài được | Mỗi thao tác cần gọi API; không offline cho đặt/thanh toán |
 | [008](adr/008-vnpay-payment-gateway-adapter.md) | `PaymentGateway` port/adapter, tách khỏi `PaymentsModule` *(mở rộng – nhóm chọn tích hợp thực VNPay Sandbox)* | Dễ kiểm thử; nghiệp vụ tách khỏi giao thức VNPay | Thêm một lớp trừu tượng; IPN cần endpoint HTTPS truy cập được |
 | [009](adr/009-jwt-rbac.md) | JWT + RBAC + quyền sở hữu | Stateless; quy tắc quyền tập trung | Không thu hồi được token sớm; rủi ro XSS phía client |
@@ -135,25 +136,28 @@ Actor và use case trong tài liệu này khớp hoàn toàn với `srs.md` §3:
 
 ### 8.2. Mô hình dữ liệu (đối chiếu `domain-class.md` Task 2.3)
 
-Kiến trúc này căn theo `domain-class.md` (Task 2.3) — nguồn sự thật duy nhất cho mô hình dữ liệu:
-- **Trạng thái thanh toán** theo `PaymentStatus` của `Payment.status`: `PENDING` / `SUCCESS` / `FAILED` / `UNKNOWN` / `EXPIRED`. `Order.status` thể hiện tiến trình xử lý đơn: `PENDING_PAYMENT` / `PAID` / `PREPARING` / `READY_FOR_PICKUP` / `COMPLETED`. Hai trạng thái này **độc lập** và không lẫn nhau.
-- **Số tiền thanh toán** lưu tại `Payment.amount`. Tổng đơn lưu tại `Order.totalAmount`.
-- **Tồn kho** quản lý duy nhất qua `Product.inventoryQuantity`; size và topping (`ProductOption`) không có tồn riêng. Không có entity `Inventory` độc lập — `InventoryModule` trong kiến trúc chỉ là module chứa logic nghiệp vụ kiểm tra/trừ/hoàn `Product.inventoryQuantity`, không phải một entity riêng trong database.
-- **Không có `OrderStatus.CANCELLED`** trong domain model MVP: kiến trúc không có endpoint hay job hủy đơn. Thanh toán thất bại hoặc hết hạn được thể hiện ở `Payment.status` (`FAILED` / `EXPIRED`) kèm hoàn tồn đúng một lần (ADR-003, ADR-006); khách có thể thanh toán lại theo ADR-006.
-- **Database container** lưu đúng 8 class MVP: `User`, `Product`, `ProductOption`, `Cart`, `CartItem`, `Order`, `OrderItem`, `Payment`. `Promotion` và `LoyaltyTransaction` là `«future»`, không thuộc MVP.
+Kiến trúc căn theo Domain Class đã duyệt:
+
+- `Order.status`: `PENDING`, `PAYMENT_FAILED`, `PAYMENT_EXCEPTION`, `PAID`, `PREPARING`, `READY_FOR_PICKUP`, `COMPLETED`, `CANCELLED`.
+- `Payment.status`: `PENDING`, `SUCCEEDED`, `FAILED`, `UNKNOWN`, `EXPIRED`. Hai vòng đời độc lập; các trường kết quả Payment có thể rỗng trước khi được xác minh.
+- Order chờ tối đa 15 phút: `Order.expiresAt = Order.createdAt + 15 phút`. `Payment.expiresAt ≤ Order.expiresAt`; tạo Payment mới không kéo dài hạn Order. `PAID`/`PAYMENT_EXCEPTION` không tự hủy theo hạn.
+- Tồn kho chỉ nằm tại `Ingredient.quantityOnHand`; `Product` không lưu tồn kho. `Recipe`/`RecipeIngredient` định lượng nguyên liệu theo `MeasurementUnit`. Tạo Order không trừ kho; chỉ Payment `SUCCEEDED` đã xác minh và đủ nguyên liệu mới trừ kho và ghi `OrderIngredientUsage`.
+- Hủy trước `PREPARING` ghi `OrderCancellation`; Order `PAID` hoàn đúng lượng thực trừ. Điểm dùng/tích/trả/đảo/bù được lưu bằng `LoyaltyTransaction`; `VNPayRefundRecord` ngăn refund cũ và điểm bù trùng nhau.
+- VNPay thành công nhưng thiếu nguyên liệu: `Payment.status = SUCCEEDED`, `Order.status = PAYMENT_EXCEPTION`; không trừ kho, không `EARN`; bù `LoyaltyTransaction(VNPAY_COMPENSATION)` sau khi kiểm tra `VNPayRefundRecord`. Payment `SUCCEEDED` đến muộn sau `CANCELLED` không mở lại Order, không trừ kho, không `EARN`, chỉ bù điểm đúng một lần.
+- `Promotion` vẫn là `«future»`; `Ingredient`, `Recipe`, `RecipeIngredient`, `OrderIngredientUsage`, `OrderCancellation`, `LoyaltyTransaction` và `VNPayRefundRecord` thuộc mô hình MVP.
 
 ### 8.3. Luồng thanh toán và sơ đồ C4
 
 Các luồng sau phải thể hiện nhất quán trên cả C4 Context, C4 Container và Component diagram:
 
 1. **Return URL:** VNPay Sandbox chuyển hướng trình duyệt về `Web App` — đây **chỉ là bước hiển thị**. `Web App` lập tức gọi `GET /orders/{id}/payment-status` vào `API Application` để lấy trạng thái đã được backend xác minh. Return URL **không** quyết định trạng thái thanh toán.
-2. **IPN:** VNPay Sandbox gọi **trực tiếp** vào `API Application` (không qua `Web App`). `API Application` xác minh chữ ký, đối chiếu `transactionRef` và số tiền, cập nhật `Payment.status` và `Order.status` trong một transaction nguyên tử, rồi trả `RspCode` theo quy ước VNPay.
+2. **IPN/QueryDR:** API xác minh chữ ký, `transactionRef`, số tiền và mã kết quả, rồi gọi chung một hàm transaction. Nhánh hợp lệ đủ nguyên liệu ghi Payment `SUCCEEDED`, trừ `Ingredient.quantityOnHand`, ghi `OrderIngredientUsage`/`EARN` và Order `PAID`; thiếu nguyên liệu ghi Payment `SUCCEEDED` và Order `PAYMENT_EXCEPTION`, không trừ kho; Order đã `CANCELLED` giữ nguyên và chỉ được bù `VNPAY_COMPENSATION` đúng một lần.
 3. **VNPay Sandbox** tiếp tục nằm **ngoài ranh giới BrewLite** trên mọi sơ đồ C4.
 
 > **Ghi chú đồng bộ sơ đồ:** Tệp `.drawio` trong `docs/diagrams/sources/` là nguồn để chỉnh sửa. Sau mỗi lần cập nhật, xuất lại SVG/PNG từ Draw.io và thay thế file tương ứng trong `docs/diagrams/exports/`. Ba cặp `.drawio`/`.svg` (`c4-context`, `c4-container`, `component-api`) phải luôn mô tả cùng một kiến trúc, nhất quán với tài liệu này.
 
 ### 8.4. Đối chiếu với `sequence-checkout.md` (Task 2)
-`sequence-checkout.md` (Task 2.2) đã khớp với domain model: trạng thái thanh toán dùng `PaymentStatus` (`PENDING`, `SUCCESS`, `FAILED`, `EXPIRED`, `UNKNOWN`), không có `Order.paymentStatus` và không có nhánh chuyển đơn sang `CANCELLED`.
+Sequence Task 2.2 phải giữ tách biệt `OrderStatus` và `PaymentStatus`, dùng `SUCCEEDED`, thể hiện `PAYMENT_EXCEPTION`, kết quả đến muộn, hủy trước pha và hiệu ứng kho/điểm đúng một lần. Không dùng `Order.paymentStatus`.
 
 ### 8.5. Thông số kỹ thuật (không ảnh hưởng kiến trúc)
 

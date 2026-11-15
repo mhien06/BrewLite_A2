@@ -1,24 +1,31 @@
-# ADR-006: Xử lý hết hạn thanh toán và đối soát bằng job định kỳ trong tiến trình API (@nestjs/schedule)
+# ADR-006: Hết hạn Order, đối soát Payment và thanh toán lại bằng job định kỳ
 
 - **Trạng thái:** Đã chấp nhận
-- **Ngày:** 2026-11-08
-- **Liên quan:** FR-11; NFR-09; RR-05
+- **Ngày:** 2026-11-15
+- **Liên quan:** FR-07, FR-11, FR-13, FR-17; BR-03, BR-11, BR-12; NFR-09
 
 ## Bối cảnh
-Mỗi yêu cầu thanh toán hết hạn sau 15 phút. Khi hết hạn phải kiểm tra kết quả giao dịch trước khi đổi trạng thái hoặc hoàn tồn; kết quả chưa xác định không được tự hủy hay hoàn tồn. Không có sẵn hạ tầng hàng đợi.
+
+Order ở trạng thái chờ tối đa 15 phút từ `Order.createdAt` (`Order.expiresAt = createdAt + 15 phút`). Mỗi Payment attempt có `expiresAt` riêng nhưng không vượt `Order.expiresAt`; thanh toán lại không gia hạn Order. Kết quả `PENDING`/`UNKNOWN` phải được đối soát trước khi tự hủy.
 
 ## Quyết định
-- `ReconciliationJob` (`@nestjs/schedule`, chạy mỗi phút) tìm `Payment` ở trạng thái `PENDING`/`UNKNOWN` đã quá `expiresAt`, gọi QueryDR rồi chuyển trạng thái: `SUCCESS`, `FAILED`/`EXPIRED` (hoàn tồn đúng một lần), hoặc giữ `UNKNOWN` để đối soát thủ công.
-- Kiểm tra hết hạn cũng chạy theo yêu cầu khi khách xem trạng thái hoặc bấm thanh toán lại, nên kết quả đúng ngay cả khi job chưa chạy.
-- **Hạn 15 phút cho từng yêu cầu:** mỗi `Payment` có `expiresAt` riêng, tính từ lúc tạo yêu cầu thanh toán đó.
-- **Thanh toán lại:** khi yêu cầu trước đã kết thúc không thành công (`FAILED`/`EXPIRED`) và đơn chưa có `Payment` `SUCCESS`, khách được tạo yêu cầu mới: `Payment` mới với `transactionRef`, `idempotencyKey` mới và hạn 15 phút mới; tồn kho được kiểm tra và trừ lại trong cùng transaction nếu đã hoàn trước đó (thiếu tồn thì từ chối). Không cho thanh toán lại khi yêu cầu trước còn `PENDING`/`UNKNOWN` chưa xác định, để tránh thanh toán đôi.
-- Mỗi lần xử lý khóa dòng `Payment`/`Order` (`FOR UPDATE SKIP LOCKED`) và chỉ cập nhật khi trạng thái hiện tại còn là `PENDING`/`UNKNOWN`, nên chạy trùng giữa job và yêu cầu người dùng, hoặc giữa hai instance, không gây xử lý đôi.
+
+- `ReconciliationJob` (`@nestjs/schedule`, chạy theo chu kỳ) tìm Payment `PENDING`/`UNKNOWN` cần đối soát và Order `PENDING`/`PAYMENT_FAILED` đã quá hạn.
+- Job gọi QueryDR qua `PaymentGateway`, khóa lại Order/Payment và xử lý bằng cùng hàm của `PaymentService` với IPN.
+- Chỉ tự hủy khi không có Payment `SUCCEEDED` và không còn Payment `PENDING`/`UNKNOWN`: ghi `OrderCancellation(isAutomatic = true)`, trả điểm đã dùng bằng `LoyaltyTransaction(RETURN_REDEEMED)` nếu có; không hoàn kho vì Order chưa thanh toán chưa từng trừ nguyên liệu.
+- Không tự hủy Order `PAID` hoặc `PAYMENT_EXCEPTION` theo mốc 15 phút.
+- Có thể tạo Payment mới khi attempt trước đã `FAILED`/`EXPIRED`, Order chưa hết hạn và chưa có `SUCCEEDED`; attempt mới không kéo dài hạn Order.
+- Kết quả `SUCCEEDED` xác minh được sau hạn vẫn phải xử lý theo trạng thái Order hiện tại: Order còn chờ → `PAID` hoặc `PAYMENT_EXCEPTION`; Order đã `CANCELLED` → giữ `CANCELLED`, không trừ kho, không `EARN`, bù `LoyaltyTransaction(VNPAY_COMPENSATION)` đúng một lần sau khi kiểm tra `VNPayRefundRecord`.
+- Mỗi lượt xử lý dùng khóa dòng (`FOR UPDATE`/`SKIP LOCKED`) và idempotency để job, IPN, QueryDR và thao tác người dùng không tạo hiệu ứng trùng.
 
 ## Phương án đã cân nhắc
-- **BullMQ + Redis:** có retry, trì hoãn theo từng job, nhưng thêm một dịch vụ phải vận hành.
-- **pg_cron/cron của hệ điều hành:** tách khỏi ứng dụng nhưng khó đưa vào Docker Compose và khó kiểm thử.
+
+- BullMQ + Redis: có retry/delay tốt nhưng thêm hạ tầng ngoài phạm vi.
+- Hủy ngay khi hết 15 phút mà không QueryDR: bị loại vì có thể hủy đơn đã thu tiền.
+- Chỉ dựa vào IPN: bị loại vì IPN có thể mất.
 
 ## Hệ quả
-- **Ưu điểm:** không thêm hạ tầng; logic nằm cùng code và test; an toàn khi chạy đồng thời nhờ khóa dòng và điều kiện trạng thái.
-- **Hạn chế:** độ trễ tối đa khoảng một chu kỳ job; job dừng khi API dừng (được bù bằng kiểm tra theo yêu cầu và khi khởi động lại); mở rộng nhiều instance cần giữ nguyên cơ chế khóa.
-- **Đánh đổi:** chấp nhận độ trễ tối đa một chu kỳ job (được bù bằng kiểm tra theo yêu cầu) thay vì thêm hạ tầng hàng đợi (BullMQ/Redis).
+
+- **Ưu điểm:** không thêm hạ tầng; Order hết hạn an toàn; thanh toán lại không kéo dài thời gian giữ đơn.
+- **Hạn chế:** job dừng khi API dừng; kết quả có thể trễ tối đa một chu kỳ.
+- **Đánh đổi:** chấp nhận độ trễ nhỏ để đổi lấy đối soát an toàn và tránh thu tiền/hủy sai.

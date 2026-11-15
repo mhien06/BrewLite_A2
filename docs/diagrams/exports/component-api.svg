@@ -66,24 +66,33 @@
 <text x="194.0" y="505.3" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" fill="#000000">UsersModule</text>
 <text x="194.0" y="520.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">UsersService, UserRepository</text>
 <text x="194.0" y="535.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">tài khoản, vai trò</text>
+<rect x="412" y="455" width="220" height="108" fill="#FFFFFF" stroke="#000000" stroke-width="1.5"/>
+<rect x="403" y="485.0" width="18" height="9" fill="#FFFFFF" stroke="#000000" stroke-width="1.2"/>
+<rect x="403" y="524.0" width="18" height="9" fill="#FFFFFF" stroke="#000000" stroke-width="1.2"/>
+<text x="526.0" y="474.9" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">«component»</text>
+<text x="526.0" y="490.1" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" fill="#000000">SchedulerModule</text>
+<text x="526.0" y="505.3" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">ReconciliationJob</text>
+<text x="526.0" y="520.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">(@nestjs/schedule): hết hạn 15'</text>
+<text x="526.0" y="535.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">và đối soát Payment</text>
+<text x="526.0" y="550.8" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">PENDING/UNKNOWN</text>
 <rect x="744" y="455" width="220" height="108" fill="#FFFFFF" stroke="#000000" stroke-width="1.5"/>
 <rect x="735" y="485.0" width="18" height="9" fill="#FFFFFF" stroke="#000000" stroke-width="1.2"/>
 <rect x="735" y="524.0" width="18" height="9" fill="#FFFFFF" stroke="#000000" stroke-width="1.2"/>
 <text x="858.0" y="474.9" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">«component»</text>
-<text x="858.0" y="490.1" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" fill="#000000">SchedulerModule</text>
-<text x="858.0" y="505.3" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">ReconciliationJob</text>
-<text x="858.0" y="520.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">(@nestjs/schedule): hết hạn 15'</text>
-<text x="858.0" y="535.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">và đối soát Payment</text>
-<text x="858.0" y="550.8" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">PENDING/UNKNOWN</text>
+<text x="858.0" y="490.1" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" fill="#000000">InventoryModule</text>
+<text x="858.0" y="505.3" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">Ingredient.quantityOnHand,</text>
+<text x="858.0" y="520.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">Recipe, RecipeIngredient,</text>
+<text x="858.0" y="535.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">OrderIngredientUsage: trừ/hoàn</text>
+<text x="858.0" y="550.8" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">đúng một lần (khóa dòng)</text>
 <rect x="1076" y="455" width="220" height="108" fill="#FFFFFF" stroke="#000000" stroke-width="1.5"/>
 <rect x="1067" y="485.0" width="18" height="9" fill="#FFFFFF" stroke="#000000" stroke-width="1.2"/>
 <rect x="1067" y="524.0" width="18" height="9" fill="#FFFFFF" stroke="#000000" stroke-width="1.2"/>
 <text x="1190.0" y="474.9" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">«component»</text>
-<text x="1190.0" y="490.1" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" fill="#000000">InventoryModule</text>
-<text x="1190.0" y="505.3" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">InventoryService: kiểm tra,</text>
-<text x="1190.0" y="520.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">trừ/hoàn Product.</text>
-<text x="1190.0" y="535.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">inventoryQuantity (khóa dòng,</text>
-<text x="1190.0" y="550.8" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">đúng một lần)</text>
+<text x="1190.0" y="490.1" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" font-weight="bold" fill="#000000">LoyaltyModule</text>
+<text x="1190.0" y="505.3" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">LoyaltyService</text>
+<text x="1190.0" y="520.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">sổ điểm LoyaltyTransaction:</text>
+<text x="1190.0" y="535.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">dùng/tích/trả/thu hồi/bù điểm</text>
+<text x="1190.0" y="550.8" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="11" fill="#000000">(đối chiếu VNPayRefundRecord)</text>
 <rect x="1408" y="455" width="220" height="108" fill="#FFFFFF" stroke="#000000" stroke-width="1.5"/>
 <rect x="1399" y="485.0" width="18" height="9" fill="#FFFFFF" stroke="#000000" stroke-width="1.2"/>
 <rect x="1399" y="524.0" width="18" height="9" fill="#FFFFFF" stroke="#000000" stroke-width="1.2"/>
@@ -136,7 +145,7 @@
 <text x="50.0" y="970.4" text-anchor="start" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" font-weight="bold" fill="#000000">Chú thích (UML Component)</text>
 <text x="50.0" y="984.2" text-anchor="start" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">«component»: module NestJS;  «package»: nhóm module;  «subsystem»: API Application</text>
 <text x="50.0" y="998.0" text-anchor="start" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">Mũi tên nét đứt, đầu mở: phụ thuộc (dependency); nhãn là interface/giao thức được dùng</text>
-<text x="50.0" y="1011.8" text-anchor="start" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">Hướng phụ thuộc: Payments → Orders → Inventory/Catalog (một chiều, không vòng)</text>
+<text x="50.0" y="1011.8" text-anchor="start" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">Hướng phụ thuộc: Scheduler → Payments → Orders → Catalog/Inventory/Loyalty (một chiều, không vòng)</text>
 <text x="50.0" y="1025.6" text-anchor="start" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">SecurityKit, ConfigModule, LoggerModule dùng toàn cục, không vẽ từng mũi tên</text>
 <polyline points="190,120 190,245" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="7 5"/>
 <polyline points="185.0,234.0 190.0,245.0 195.0,234.0" fill="none" stroke="#000000" stroke-width="1.4"/>
@@ -164,12 +173,18 @@
 <polyline points="1246.0,444.0 1251.0,455.0 1256.0,444.0" fill="none" stroke="#000000" stroke-width="1.4"/>
 <polyline points="1558,353 1558,455" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="7 5"/>
 <polyline points="1553.0,444.0 1558.0,455.0 1563.0,444.0" fill="none" stroke="#000000" stroke-width="1.4"/>
-<polyline points="964,509 1076,509" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="7 5"/>
-<polyline points="1065.0,514.0 1076.0,509.0 1065.0,504.0" fill="none" stroke="#000000" stroke-width="1.4"/>
-<polyline points="854,563 854,600 1558,600 1558,563" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="7 5"/>
+<polyline points="1076,335 1020,335 1020,509 964,509" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="7 5"/>
+<polyline points="975.0,504.0 964.0,509.0 975.0,514.0" fill="none" stroke="#000000" stroke-width="1.4"/>
+<polyline points="522,563 522,600 1558,600 1558,563" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="7 5"/>
 <polyline points="1563.0,574.0 1558.0,563.0 1553.0,574.0" fill="none" stroke="#000000" stroke-width="1.4"/>
 <polyline points="1628,509 1668,509 1668,120" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="7 5"/>
 <polyline points="1673.0,131.0 1668.0,120.0 1663.0,131.0" fill="none" stroke="#000000" stroke-width="1.4"/>
+<polyline points="854,353 854,455" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="7 5"/>
+<polyline points="849.0,444.0 854.0,455.0 859.0,444.0" fill="none" stroke="#000000" stroke-width="1.4"/>
+<polyline points="1418,353 1418,375 920,375 920,455" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="7 5"/>
+<polyline points="915.0,444.0 920.0,455.0 925.0,444.0" fill="none" stroke="#000000" stroke-width="1.4"/>
+<polyline points="480,563 480,620 1690,620 1690,300 1628,300" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="7 5"/>
+<polyline points="1639.0,295.0 1628.0,300.0 1639.0,305.0" fill="none" stroke="#000000" stroke-width="1.4"/>
 <polyline points="1518,645 1518,735" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="7 5"/>
 <polyline points="1513.0,724.0 1518.0,735.0 1523.0,724.0" fill="none" stroke="#000000" stroke-width="1.4"/>
 <polyline points="1296,789 1408,789" fill="none" stroke="#000000" stroke-width="1.4" stroke-dasharray="7 5"/>
@@ -195,23 +210,23 @@
 <text x="688.0" y="302.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">ProductReader</text>
 <rect x="979.3" y="290.1" width="81.4" height="17.8" fill="#FFFFFF" stroke="none"/>
 <text x="1020.0" y="302.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">ProductReader</text>
-<rect x="1079.6" y="395.1" width="92.7" height="17.8" fill="#FFFFFF" stroke="none"/>
-<text x="1126.0" y="407.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">InventoryService</text>
+<rect x="1085.5" y="395.1" width="81.1" height="17.8" fill="#FFFFFF" stroke="none"/>
+<text x="1126.0" y="407.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">LoyaltyService</text>
 <rect x="1302.0" y="290.1" width="100.0" height="17.8" fill="#FFFFFF" stroke="none"/>
 <text x="1352.0" y="302.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">OrderPaymentPort</text>
-<rect x="1325.6" y="383.1" width="92.7" height="17.8" fill="#FFFFFF" stroke="none"/>
-<text x="1372.0" y="395.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">InventoryService</text>
+<rect x="1331.5" y="383.1" width="81.1" height="17.8" fill="#FFFFFF" stroke="none"/>
+<text x="1372.0" y="395.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">LoyaltyService</text>
 <rect x="1494.3" y="415.1" width="127.4" height="17.8" fill="#FFFFFF" stroke="none"/>
 <text x="1558.0" y="427.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">PaymentGateway (port)</text>
-<rect x="973.6" y="493.2" width="92.7" height="31.6" fill="#FFFFFF" stroke="none"/>
-<text x="1020.0" y="505.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">InventoryService</text>
-<text x="1020.0" y="519.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">(hoàn tồn)</text>
-<rect x="1130.0" y="591.1" width="152.0" height="17.8" fill="#FFFFFF" stroke="none"/>
-<text x="1206.0" y="603.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">PaymentGateway (QueryDR)</text>
-<rect x="1641.5" y="377.3" width="53.0" height="45.4" fill="#FFFFFF" stroke="none"/>
-<text x="1668.0" y="389.7" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">Ký URL,</text>
-<text x="1668.0" y="403.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">QueryDR</text>
-<text x="1668.0" y="417.3" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">[HTTPS]</text>
+<rect x="967.9" y="444.2" width="104.3" height="31.6" fill="#FFFFFF" stroke="none"/>
+<text x="1020.0" y="456.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">InventoryService</text>
+<text x="1020.0" y="470.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">(hoàn kho khi hủy)</text>
+<rect x="964.0" y="591.1" width="152.0" height="17.8" fill="#FFFFFF" stroke="none"/>
+<text x="1040.0" y="603.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">PaymentGateway (QueryDR)</text>
+<rect x="1641.5" y="177.3" width="53.0" height="45.4" fill="#FFFFFF" stroke="none"/>
+<text x="1668.0" y="189.7" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">Ký URL,</text>
+<text x="1668.0" y="203.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">QueryDR</text>
+<text x="1668.0" y="217.3" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">[HTTPS]</text>
 <rect x="1456.0" y="654.2" width="124.0" height="31.6" fill="#FFFFFF" stroke="none"/>
 <text x="1518.0" y="666.6" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">Repository, transaction</text>
 <text x="1518.0" y="680.4" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">(mọi feature module)</text>
@@ -219,4 +234,10 @@
 <text x="1352.0" y="792.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">ping</text>
 <rect x="1489.3" y="926.1" width="57.3" height="17.8" fill="#FFFFFF" stroke="none"/>
 <text x="1518.0" y="938.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">SQL [TCP]</text>
+<rect x="810.5" y="395.1" width="86.9" height="17.8" fill="#FFFFFF" stroke="none"/>
+<text x="854.0" y="407.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">InventoryReader</text>
+<rect x="1117.5" y="366.1" width="145.0" height="17.8" fill="#FFFFFF" stroke="none"/>
+<text x="1190.0" y="378.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">InventoryService (trừ kho)</text>
+<rect x="664.5" y="611.1" width="191.0" height="17.8" fill="#FFFFFF" stroke="none"/>
+<text x="760.0" y="623.5" text-anchor="middle" font-family="DejaVu Sans, Arial, Helvetica, sans-serif" font-size="10" fill="#000000">PaymentService (đối soát, tự hủy)</text>
 </svg>

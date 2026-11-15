@@ -1,25 +1,39 @@
 # ADR-002: Backend NestJS theo kiến trúc modular monolith, chia module theo domain
 
 - **Trạng thái:** Đã chấp nhận
-- **Ngày:** 2026-11-08
-- **Liên quan:** FR-07, FR-08, FR-10, FR-11; NFR-09
+- **Ngày:** 2026-11-15
+- **Liên quan:** FR-05 đến FR-22; NFR-04, NFR-09
 
 ## Bối cảnh
-Luồng cốt lõi (tạo đơn, trừ tồn, ghi nhận thanh toán, hoàn tồn) phải **nguyên tử**: đơn, snapshot, tồn kho và trạng thái thanh toán hoặc cùng thành công hoặc cùng rollback. BrewLite chỉ phục vụ một cửa hàng, quy mô MVP khoảng 20 người dùng đồng thời (NFR-01), nhóm phát triển nhỏ.
+
+Các giao dịch tạo đơn, xử lý kết quả thanh toán, trừ/hoàn nguyên liệu và ghi sổ điểm phải nhất quán trong cùng PostgreSQL. BrewLite chỉ phục vụ một cửa hàng, nhóm phát triển nhỏ; tách microservice sẽ làm tăng độ phức tạp của transaction phân tán mà không đem lại lợi ích tương xứng.
 
 ## Quyết định
-Một ứng dụng NestJS (một process, một database) chia thành module theo domain: `Auth`, `Users`, `Catalog`, `Cart`, `Orders`, `Inventory`, `Payments`, `VnpayGateway`, cùng các module hạ tầng (`Config`, `Logger`, `Health`, `Database`).
+
+Một ứng dụng NestJS (một process, một database) được chia theo domain:
+
+- `Auth`, `Users`, `Catalog`, `Cart`, `Orders`;
+- `Inventory` quản lý `Ingredient.quantityOnHand` (nơi duy nhất lưu tồn kho), `Recipe`, `RecipeIngredient` (đơn vị `MeasurementUnit`) và `OrderIngredientUsage`;
+- `Payments` và `VnpayGateway`;
+- `Loyalty` quản lý `LoyaltyTransaction` và bù điểm;
+- `Scheduler` kích hoạt đối soát và hết hạn qua `PaymentService`;
+- các module hạ tầng `Config`, `Logger`, `Health`, `Database`.
 
 Quy tắc:
-1. Mỗi module có controller – service – repository của riêng nó; module khác chỉ gọi qua service/interface được export, không truy cập repository của nhau.
-2. Hướng phụ thuộc một chiều, không vòng: `Payments → Orders → Inventory/Catalog`; `Cart → Catalog`; `Auth → Users`.
-3. Transaction nghiệp vụ nằm trong service điều phối (`OrderService`, `PaymentService`) và dùng chung một `EntityManager`.
+
+1. Module khác chỉ gọi qua service/interface được export, không truy cập repository nội bộ.
+2. `OrderService` điều phối tạo/hủy đơn; `PaymentService` điều phối xử lý kết quả thanh toán. Các service dùng chung một TypeORM `EntityManager` khi tham gia cùng transaction.
+3. Tạo Order chỉ snapshot sản phẩm, lựa chọn và giá; **không trừ hoặc giữ nguyên liệu**.
+4. Chỉ Payment `SUCCEEDED` đã xác minh mới được phép kích hoạt transaction trừ `Ingredient.quantityOnHand`, ghi `OrderIngredientUsage`, ghi điểm `EARN` và chuyển Order sang `PAID`. Nếu thiếu nguyên liệu, Payment vẫn `SUCCEEDED` và Order chuyển `PAYMENT_EXCEPTION`.
+5. `PromotionModule` vẫn là `«future»`; không đưa vào MVP.
 
 ## Phương án đã cân nhắc
-- **Microservices (Order, Payment, Inventory riêng):** cần giao dịch phân tán/saga cho thao tác trừ và hoàn tồn, quá phức tạp so với phạm vi MVP.
-- **Phân lớp theo kỹ thuật (controllers/, services/, repositories/):** dễ bắt đầu nhưng các domain lẫn vào nhau, khó thấy ranh giới và khó tách sau này.
+
+- **Microservices:** cần saga/outbox cho Order–Inventory–Loyalty, quá phức tạp cho MVP.
+- **Phân lớp thuần kỹ thuật:** dễ tạo import vòng và làm mờ ranh giới nghiệp vụ.
 
 ## Hệ quả
-- **Ưu điểm:** transaction ACID trong một database; triển khai đơn giản (một image API); ranh giới module rõ nên sau MVP có thể tách riêng nếu cần.
-- **Hạn chế:** scale theo cả khối chứ không theo module; kỷ luật phụ thuộc giữa module phải được kiểm tra khi review (có thể thêm lint rule chặn import vòng).
-- **Đánh đổi:** nhường khả năng scale và triển khai độc lập từng module để có transaction ACID đơn giản; ranh giới module được giữ bằng quy ước và review thay vì bằng ranh giới mạng.
+
+- **Ưu điểm:** transaction ACID đơn giản, triển khai một API image, test luồng nghiệp vụ thuận lợi.
+- **Hạn chế:** scale theo cả khối; ranh giới module phải được giữ bằng review/lint.
+- **Đánh đổi:** không triển khai độc lập từng module để đổi lấy tính nhất quán mạnh và vận hành đơn giản.
