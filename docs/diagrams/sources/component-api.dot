@@ -21,7 +21,8 @@ digraph ComponentApi {
       catalog [label=<«component»<BR/><B>CatalogModule</B><BR/>MenuController, ProductService<BR/>Product, ProductOption, giá>];
       cart [label=<«component»<BR/><B>CartModule</B><BR/>CartController, CartService<BR/>Cart, CartItem (giá tạm tính)>];
       orders [label=<«component»<BR/><B>OrdersModule</B><BR/>OrdersController, OrderService<BR/>tạo đơn, tính lại giá, snapshot,<BR/>lịch sử, xử lý trạng thái đơn>];
-      inventory [label=<«component»<BR/><B>InventoryModule</B><BR/>InventoryService<BR/>kiểm tra, trừ, hoàn tồn<BR/>(khóa bản ghi, đúng một lần)>];
+      inventory [label=<«component»<BR/><B>InventoryModule</B><BR/>Ingredient.quantityOnHand,<BR/>Recipe, RecipeIngredient,<BR/>OrderIngredientUsage: trừ/hoàn<BR/>đúng một lần (khóa dòng)>];
+      loyalty [label=<«component»<BR/><B>LoyaltyModule</B><BR/>LoyaltyService<BR/>sổ điểm LoyaltyTransaction:<BR/>dùng/tích/trả/thu hồi/bù điểm<BR/>(đối chiếu VNPayRefundRecord)>];
       payments [label=<«component»<BR/><B>PaymentsModule</B><BR/>PaymentsController, IpnController,<BR/>PaymentService<BR/>idempotency, trạng thái, thanh toán lại>];
       scheduler [label=<«component»<BR/><B>SchedulerModule</B><BR/>ReconciliationJob (@nestjs/schedule)<BR/>xử lý hết hạn (15') và đối soát<BR/>Payment PENDING/UNKNOWN>];
       vnpaygw [label=<«component»<BR/><B>VnpayGatewayModule</B><BR/>VnpayGateway (adapter)<BR/>ký URL, xác minh chữ ký IPN, QueryDR>];
@@ -50,12 +51,15 @@ digraph ComponentApi {
   auth     -> users     [label="UsersService"];
   cart     -> catalog   [label="ProductReader"];
   orders   -> catalog   [label="ProductReader"];
-  orders   -> inventory [label="InventoryService"];
+  catalog  -> inventory [label="InventoryReader"];
+  orders   -> inventory [label="InventoryService (hoàn kho khi hủy)"];
+  orders   -> loyalty   [label="LoyaltyService"];
   payments -> orders    [label="OrderPaymentPort"];
-  payments -> inventory [label="InventoryService"];
+  payments -> inventory [label="InventoryService (trừ kho)"];
+  payments -> loyalty   [label="LoyaltyService"];
   payments -> vnpaygw   [label="PaymentGateway (port)"];
   scheduler -> vnpaygw   [label="PaymentGateway (QueryDR)"];
-  scheduler -> inventory [label="InventoryService (hoàn tồn)"];
+  scheduler -> payments  [label="PaymentService (đối soát, tự hủy)"];
   vnpaygw  -> vnpay     [label="URL có chữ ký, QueryDR\l[HTTPS]", constraint=false];
 
   // ---- hạ tầng ----
@@ -76,7 +80,7 @@ digraph ComponentApi {
       <TR><TD ALIGN="LEFT"><B>Chú thích</B></TD></TR>
       <TR><TD ALIGN="LEFT">Biểu tượng «component»: một module NestJS</TD></TR>
       <TR><TD ALIGN="LEFT">Mũi tên nét đứt: phụ thuộc, nhãn là interface được dùng</TD></TR>
-      <TR><TD ALIGN="LEFT">Hướng phụ thuộc: Payments → Orders → Inventory/Catalog (không vòng)</TD></TR>
+      <TR><TD ALIGN="LEFT">Hướng phụ thuộc: Scheduler → Payments → Orders → Catalog/Inventory/Loyalty (không vòng)</TD></TR>
       <TR><TD ALIGN="LEFT">Mọi feature module dùng DatabaseModule; mũi tên gộp thể hiện cho toàn nhóm</TD></TR>
     </TABLE>>];
 }

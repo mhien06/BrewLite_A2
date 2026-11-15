@@ -1,22 +1,30 @@
-# ADR-005: Return URL chỉ dùng để hiển thị; IPN đã xác minh là căn cứ duy nhất; idempotency theo `orderId` + `idempotencyKey`
+# ADR-005: Return URL chỉ hiển thị; IPN/QueryDR được xác minh; idempotency nhiều lớp
 
 - **Trạng thái:** Đã chấp nhận
-- **Ngày:** 2026-11-08
-- **Liên quan:** FR-09 đến FR-11; NFR-04, NFR-09; QD-02, QD-03; RR-04
+- **Ngày:** 2026-11-15
+- **Liên quan:** FR-08 đến FR-13, FR-19, FR-20; NFR-04, NFR-09
 
 ## Bối cảnh
-Khách được chuyển hướng về Web App qua Return URL sau khi thao tác trên VNPay Sandbox, nhưng tham số trên Return URL đi qua trình duyệt của khách nên có thể bị sửa hoặc giả mạo. VNPay cũng có thể gửi IPN chậm, gửi lặp lại, hoặc không gửi được tới API.
+
+Return URL đi qua trình duyệt nên có thể bị sửa. IPN có thể chậm, mất hoặc gửi lặp; IPN và QueryDR cũng có thể xử lý đồng thời. Một Order có thể có nhiều Payment attempt nhưng chỉ một kết quả thành công hợp lệ.
 
 ## Quyết định
-- **Return URL chỉ để điều hướng/hiển thị**: khi khách quay về, trang Return URL của Web App gọi `GET /orders/{id}/payment-status` để lấy trạng thái đã được backend xác minh; không đọc tham số trên chính URL làm bằng chứng thanh toán (xem thêm ADR-007).
-- **IPN hợp lệ (đã xác minh chữ ký) là căn cứ chính** để cập nhật trạng thái `Payment`; khi IPN chậm hoặc chưa tới, hệ thống chủ động dùng QueryDR để đối soát (ADR-004, ADR-008).
-- **Idempotency**: mỗi yêu cầu thanh toán có `transactionRef` và `idempotencyKey` riêng, gắn với cặp (`orderId`, `idempotencyKey`). IPN đến trùng, hoặc đến sau khi `Payment` đã ở trạng thái cuối (`SUCCESS`/`FAILED`/`EXPIRED`), sẽ không được cập nhật lần hai. Ràng buộc `UNIQUE` ở tầng database cho `idempotencyKey` và `transactionRef` (ADR-003) ngăn ghi trùng ngay cả khi logic ứng dụng có sai sót.
+
+- Return URL chỉ điều hướng/hiển thị; Web App đọc trạng thái đã lưu từ API, không dùng tham số Return URL để ghi `PAID`.
+- Backend chỉ chấp nhận kết quả sau khi xác minh chữ ký, `transactionRef`, số tiền và response/status code. IPN và QueryDR gọi chung một hàm xử lý kết quả.
+- Cùng `Idempotency-Key` và cùng payload trả lại Payment trước; cùng key nhưng khác payload trả conflict. `idempotencyKey` và `transactionRef` được bảo vệ bằng unique constraint.
+- IPN/QueryDR lặp hoặc đồng thời không được trừ nguyên liệu, ghi `OrderIngredientUsage`, ghi điểm hoặc bù điểm lần hai.
+- `PENDING`/`UNKNOWN` không được suy diễn thành thất bại và chặn tạo Payment mới cho đến khi đối soát.
+- Payment `SUCCEEDED` hợp lệ nhưng thiếu nguyên liệu: Payment giữ `SUCCEEDED`, Order chuyển `PAYMENT_EXCEPTION`, không trừ kho, không `EARN`.
+- Payment `SUCCEEDED` đến khi Order đã `CANCELLED`: Payment ghi `SUCCEEDED` nhưng không mở lại đơn, không trừ kho, không `EARN`; bù `LoyaltyTransaction(VNPAY_COMPENSATION)` đúng một lần sau khi kiểm tra `VNPayRefundRecord`.
 
 ## Phương án đã cân nhắc
-- **Tin tưởng tham số trên Return URL để quyết định trạng thái đơn:** nhanh, ít việc, nhưng giả mạo được qua trình duyệt, vi phạm trực tiếp QD-03.
-- **Chỉ dựa vào IPN, không dùng QueryDR đối soát:** nếu IPN không bao giờ tới, đơn hàng kẹt vĩnh viễn ở trạng thái "đang xác minh".
-- **Idempotency theo khoảng thời gian (time window) thay vì khóa duy nhất:** vẫn có thể xử lý trùng khi xảy ra race condition giữa IPN và QueryDR.
+
+- Tin Return URL: bị loại vì có thể giả mạo.
+- Chỉ dựa vào IPN: bị loại vì mất IPN làm đơn kẹt.
+- Idempotency theo time window: không chống được race condition.
 
 ## Hệ quả
-- **Ưu điểm:** Chống giả mạo kết quả thanh toán qua thao tác ở trình duyệt; xử lý đúng khi IPN đến trễ, lặp hoặc mất; kịch bản kiểm thử rõ ràng (gửi IPN trùng, gửi IPN sau khi đã hết hạn, gửi IPN với chữ ký sai).
-- **Hạn chế / đánh đổi:** Khách có thể thấy trạng thái "Đang xác minh" trong vài giây đến vài phút nếu IPN chậm; cần thiết kế UI/UX rõ cho trạng thái chờ này (NFR-06).
+
+- **Ưu điểm:** an toàn với callback trùng/mất/đến muộn; hiệu ứng kho và điểm đúng một lần.
+- **Hạn chế:** khách có thể thấy trạng thái đang xác minh; cần QueryDR và UI phân biệt `PENDING`/`UNKNOWN`.
